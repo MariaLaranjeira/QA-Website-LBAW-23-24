@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;;
 // Added to define Eloquent relationships.
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Admin extends Model {
+class   Admin extends Model {
     use HasApiTokens, HasFactory, Notifiable;
 
     // Don't add create and update timestamps in database.
