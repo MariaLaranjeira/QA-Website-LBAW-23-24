@@ -24,6 +24,8 @@ function addEventListeners() {
       cardCreator.addEventListener('submit', sendCreateCardRequest);
 
 
+    //let questionDeleters = document.querySelectorAll()
+
   }
   
   function encodeForAjax(data) {

@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,10 @@ use App\Http\Controllers\Auth\RegisterController;
 */
 
 // Home
-Route::redirect('/', '/login');
+Route::controller(HomeController::class)->group(function () {
+    Route::redirect('/', '/login');
+    Route::get('/home', 'index');
+});
 
 // Cards
 Route::controller(CardController::class)->group(function () {
