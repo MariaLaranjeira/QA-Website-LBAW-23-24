@@ -28,11 +28,22 @@ Route::controller(CardController::class)->group(function () {
     Route::get('/cards/{id}', 'show');
 });
 
+//Questions
+Route::controller(QuestionController::class)->group(function () {
+    Route::get('/question','list')->name('question');
+    Route::get('/question/{id}','show');
+});
+
 
 // API
 Route::controller(CardController::class)->group(function () {
     Route::put('/api/cards', 'create');
     Route::delete('/api/cards/{card_id}', 'delete');
+});
+
+Route::controller(QuestionController::class)->group(function () {
+    Route::put('/api/question', 'create');
+    Route::delete('/api/question/{question_id}', 'delete');
 });
 
 Route::controller(ItemController::class)->group(function () {
