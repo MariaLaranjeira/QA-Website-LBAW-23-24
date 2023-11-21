@@ -23,12 +23,13 @@ class UserController extends Controller {
 
     public function editUser()
     {
-        $this->authorize('editUser', Auth::user());
+        //$this->authorize('editUser', Auth::user());
         return view('pages.editUser', ['user' => Auth::user(),
             'old' => ['name' => Auth::user()->name,
                 'username' => Auth::user()->username,
                 'email' => Auth::user()->email ] ]);
     }
+
 
     public function profile(){
         if (!Auth::check()) return redirect('/login');
@@ -40,17 +41,12 @@ class UserController extends Controller {
 
     public function updateUser(Request $request)
     {
-        $this->authorize('editUser', Auth::user());
-        $request->validate([
-            'name' => 'required|string|max:250',
-            'username' => 'required|string|max:250|unique:users,username,'.Auth::user()->id,
-            'email' => 'required|email|max:250|unique:users,email,'.Auth::user()->id,
-            'password' => 'nullable|min:8|confirmed'
-        ]);
-        $user = Auth::user();
-        $user->name = $request->input('name');
-        $user->username = $request->input('username');
-        $user->email = $request->input('email');
+        $user= Auth::user();
+        if($request->input('name')!=NULL){$user->name = $request->input('name');}
+        if($request->input('username')!=NULL){$user->username = $request->input('username');}
+        if($request->input('email')!=NULL){$user->email = $request->input('email');}
+        if($request->input('password')!=NULL){$user->password = bcrypt($request->input('password'));}
+
         $user->save();
         return redirect('/home')->withSuccess('You have successfully updated your profile!');
     }

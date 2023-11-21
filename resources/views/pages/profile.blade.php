@@ -8,7 +8,7 @@
 
     <h2 id="title_display">
         <div>
-           User Profile
+           Your Profile
         </div>
     </h2>
 
@@ -21,6 +21,10 @@
     <p>email: {{ $user->email }}</p><br>
 
   </div>
+
+  <a class="button" href="{{ url('/edit_user') }}"> Edit Profile </a>
+
+
 
 </section>
 @endsection

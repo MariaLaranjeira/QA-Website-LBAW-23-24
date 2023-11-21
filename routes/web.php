@@ -38,6 +38,8 @@ Route::controller(CardController::class)->group(function () {
 //Profile
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile', 'profile');
+    Route::get('/edit_user', 'editUser')->name('edit_user');
+    Route::post('/update_user','updateUser')->name('update_user');
 });
 
 //Questions
