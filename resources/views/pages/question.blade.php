@@ -18,7 +18,7 @@
     </div>
 
     <h2>Post your answer</h2>
-        <form action="{{ route('newanswer', ['question_id' => $question->question_id]) }}" method="POST">
+        <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
             {{ csrf_field() }}
             <input type="text">
             <button type="submit">

@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\AnswerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +45,7 @@ Route::controller(QuestionController::class)->group(function () {
 
 //Asnwers
 Route::controller(AnswerController::class)->group(function () {
-    Route::post('/newanswer','create')->name('newanswer');
+    Route::post('/question/{id}','create')->name('newanswer');
 });
 
 

@@ -50,7 +50,9 @@ class QuestionController extends Controller {
 
         $question->save();
 
-        return redirect('/home')->withSuccess('Created a question successfully.');
+        $id = $question->question_id;
+
+        return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Created a question successfully.');
     }
 
     public function edit(Request $request) {

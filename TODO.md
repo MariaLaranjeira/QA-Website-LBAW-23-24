@@ -11,7 +11,7 @@ As a User, I want to search with any text, so that I can find any posts that inc
 
 
 US103
-**View Top Questions**
+**View Top Questions** **Done**
 High
 As a User, I want to be able to view the top questions, so that I can easily see the most popular questions on the platform.
 
@@ -22,7 +22,7 @@ High
 As a User, I want to be able to browse questions, so that I can check the questions available on the platform
 
 US201
-**Logout**
+**Logout** **Done**
 High
 As an Artist, I want to be able to logout, so that I can keep my account secure when I'm not using it.
 
@@ -46,7 +46,7 @@ As an Artist, I want to be able to view my personal feed, so that I can easily c
 
 
 US205
-**Post Question**
+**Post Question** **Done**
 High
 As an Artist, I want to be able to post a question, so that I can receive answers and feedback from other users on the platform.
 
@@ -58,7 +58,7 @@ As an Artist, I want to be able to answer a question, so that I can give feedbac
 
 
 US207
-**View My Questions**
+**View My Questions** **Done**
 High
 As an Artist, I want to be able to view questions I have posted, so that I can easily browse through them.
 
@@ -75,13 +75,13 @@ As a Guest, I want to be able to view the platform's content even though i can't
 
 
 US302
-**Login**
+**Login** **Done**
 High
 As a Guest, I want to be able to sign in, so that I can access all of the features on the platform.
 
 
 US303
-**Registration**
+**Registration** **Done**
 High
 As a Guest, I want to be able to register, so that I can start using all the features of the platform.
 
