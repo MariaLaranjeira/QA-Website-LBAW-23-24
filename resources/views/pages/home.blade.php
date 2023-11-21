@@ -5,7 +5,6 @@
 @section('content')
 
 <section id="home">
-    @each('partials.question', $questions, 'question')
     <form action="{{ route('newquestion') }}">
         <button type="submit">
 
@@ -13,6 +12,8 @@
 
         </button>
     </form>
+
+    @each('partials.question', $questions, 'question')
 </section>
 
 @endsection
