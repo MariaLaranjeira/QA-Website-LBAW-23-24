@@ -7,6 +7,13 @@
 @section('content')
 <section id="question">
 
+    @if (Auth::user()->getAuthIdentifier() == $question->id_user)
+        <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
+            {{ csrf_field() }}
+            <button type="submit" class="delete">&#10761;</button>
+        </form>
+    @endif
+
     <h2 id="title_display">
         <div>
             {{ $question->title }}
@@ -19,14 +26,15 @@
 
     <div id="post_info">
         <div id="author">
-            {{ $question->username }}
+            Implementar isto
         </div>
         <div id="date">
-            {{ $question->creation_date }}
+            Posted on: {{ $question->creation_date }}
         </div>
 </section>
 
 <section id="question_answers">
+    @if (Auth::user()->getAuthIdentifier() != $question->id_user)
     <h2>Post your answer</h2>
         <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
             {{ csrf_field() }}
@@ -35,6 +43,7 @@
                 Post New Answer
             </button>
         </form>
+    @endif
     <h2>Answers</h2>
     @each('partials.answer', $answers, 'answer')
 </section>

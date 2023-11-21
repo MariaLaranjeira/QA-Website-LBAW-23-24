@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $questions = Question::query()->orderBy('rating')->get();
+        $questions = Question::query()->orderBy('rating')->limit(100)->get();
         return view('pages/home', [
             'questions' => $questions
         ]);

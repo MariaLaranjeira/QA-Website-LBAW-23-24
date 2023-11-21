@@ -30,12 +30,14 @@
 }
 
 #question form button {
+    display: grid;
     background-color: #4caf50;
     color: white;
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    align-content: center;
 }
 
 #question form button:hover {

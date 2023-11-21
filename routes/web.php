@@ -52,9 +52,10 @@ Route::controller(QuestionController::class)->group(function () {
     Route::get('/question/{id}','show');
     Route::get('/newquestion', 'showNewQuestionForm')->name('newquestion');
     Route::post('/newquestion', 'create')->name('createnewquestion');
+    Route::post('/delete/{id}', 'delete')->name('deletequestion');
 });
 
-//Asnwers
+//Answers
 Route::controller(AnswerController::class)->group(function () {
     Route::post('/question/{id}','create')->name('newanswer');
 });
