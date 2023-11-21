@@ -103,6 +103,6 @@ As a Post Owner, I want to be able to edit any question I have made, so that I c
 
 
 US503
-**Delete Question**
+**Delete Question** **Done**
 High
 As a Post Owner, I want to be able to delete any question I have made, so that I can remove it from the platform and prevent other users from seeing it.

@@ -66,6 +66,17 @@ class QuestionController extends Controller {
 
     }
 
+    public function showEditForm($id) {
+
+        $question = Question::findOrFail($id);
+        $answers = Answer::query()->where('id_question', '=', $id)->orderBy('rating')->get();
+
+        return view('pages/editquestion', [
+            'question' => $question,
+            'answers' => $answers
+        ]);
+    }
+
     public function show($id) {
 
         $question = Question::findOrFail($id);
@@ -77,11 +88,12 @@ class QuestionController extends Controller {
         ]);
     }
 
-    public function delete(Request $request) {
-        $question = Question::find($request->id);
-        $this->authorize('delete', $question);
+    public function delete($id) {
+        $question = Question::find($id);
+        //$this->authorize('delete', $question);
 
         $question->delete();
+        return redirect('/home', 302)->withSuccess('Deleted a question successfully.');
     }
 
     public function upvote() {
