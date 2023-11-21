@@ -6,6 +6,7 @@
 
 <section id="home">
     @each('partials.question', $questions, 'question')
+    @auth
     <form action="{{ route('newquestion') }}">
         <button type="submit">
 
@@ -13,6 +14,7 @@
 
         </button>
     </form>
+    @endauth
 </section>
 
 @endsection

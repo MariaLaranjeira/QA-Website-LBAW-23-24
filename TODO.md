@@ -28,13 +28,13 @@ As an Artist, I want to be able to logout, so that I can keep my account secure 
 
 
 US202
-**View Profile**
+**View Profile** **Done**
 High
 As an Artist, I want to view my profile page, so that I can verify that my information is correct.
 
 
 US203
-**Edit Profile**
+**Edit Profile** **Done**
 High
 As an Artist, I want to edit my profile , so that I can change my information.
 
@@ -52,7 +52,7 @@ As an Artist, I want to be able to post a question, so that I can receive answer
 
 
 US206
-**Post Answer**
+**Post Answer** **Done**
 High
 As an Artist, I want to be able to answer a question, so that I can give feedback and help other users on the platform.
 
@@ -64,7 +64,7 @@ As an Artist, I want to be able to view questions I have posted, so that I can e
 
 
 US208
-**View My Answers**
+**View My Answers** **Done**
 High
 As an Artist, I want to be able to view answers I have posted, so that I can easily browse through them.
 

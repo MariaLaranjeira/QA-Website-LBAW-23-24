@@ -20,12 +20,12 @@
     <h2>Post your answer</h2>
         <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
             {{ csrf_field() }}
-            <input type="text">
+            <input type="text" name="answer_body" id="answer_body">
             <button type="submit">
                 Post New Answer
             </button>
         </form>
     <h2>Answers</h2>
-        @each('partials.answer', $answers, 'answer')
+    @each('partials.answer', $answers, 'answer')
 </section>
 @endsection

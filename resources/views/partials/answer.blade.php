@@ -1,7 +1,7 @@
-@section('answer_body', $answer->answer_body)
+@section('body', $answer->text_body)
 
 <article class="answer" data-id="{{ $answer->answer_id }}">
-    <div>
-        {{ $answer->answer_body }}
-    </div>
-<\article>
+    <header>
+        <h2>{{ $answer->text_body }}</h2>
+    </header>
+</article>

@@ -33,7 +33,7 @@ class QuestionController extends Controller {
 
 
     public function create(Request $request) {
-        //$this->authorize('create', Question::class);
+        $this->authorize('create', Question::class);
 
         $request->validate([
             'title' => 'required|string|max:100|unique:question',
@@ -62,11 +62,8 @@ class QuestionController extends Controller {
         $question->title = $request->title;
         $question->text_body = $request->text_body;
 
-        DB::beginTransaction();
-        
         $question->save();
-        
-        DB::commit();
+
     }
 
     public function show($id) {
@@ -74,12 +71,17 @@ class QuestionController extends Controller {
         $question = Question::findOrFail($id);
         $answers = Answer::query()->where('id_question', '=', $id)->orderBy('rating')->get();
 
-        //$this->authorize('show', $question);
-
         return view('pages/question', [
             'question' => $question,
             'answers' => $answers
         ]);
+    }
+
+    public function delete(Request $request) {
+        $question = Question::find($request->id);
+        $this->authorize('delete', $question);
+
+        $question->delete();
     }
 
     public function upvote() {

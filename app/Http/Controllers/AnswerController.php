@@ -13,7 +13,7 @@ class AnswerController extends Controller
         //$this->authorize('create', Question::class);
 
         $request->validate([
-            'text_body' => 'required|string|max:4000',
+            'answer_body' => 'required|string|max:4000',
         ]);
 
         $answer = new Answer();
@@ -21,7 +21,7 @@ class AnswerController extends Controller
         $answer->id_question = $id;
         $answer->rating = 0;
         $answer->creation_date = now();
-        $answer->text_body = $request->input('text_body');
+        $answer->text_body = $request->input('answer_body');
         //$question->media_address = 0; Colocar funcionalidade depois
 
         $answer->save();
