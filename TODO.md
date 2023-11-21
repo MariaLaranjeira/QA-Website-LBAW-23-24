@@ -69,7 +69,7 @@ High
 As an Artist, I want to be able to view answers I have posted, so that I can easily browse through them.
 
 US301
-**View**
+**View** **Done**
 High
 As a Guest, I want to be able to view the platform's content even though i can't interact with it.
 
