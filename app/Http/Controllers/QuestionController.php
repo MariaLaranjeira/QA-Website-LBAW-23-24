@@ -59,7 +59,7 @@ class QuestionController extends Controller {
         $question = Question::find($request->id);
         $this->authorize('edit', $question);
 
-        $question->title = $request->title;
+        $question->title = $request->input('title');
         $question->text_body = $request->text_body;
 
         $question->save();
