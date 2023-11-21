@@ -22,10 +22,21 @@ use App\Http\Controllers\AnswerController;
 |
 */
 
+
+// routes/web.php
+
+
+Route::middleware(['web', 'guest'])->group(function () {
+    // Routes accessible to guest users without redirection.
+    Route::redirect('/', '/home')->name('home');
+    Route::get('/home', 'HomeController@index');
+    // Add more routes as needed.
+});
+
 // Home
 Route::controller(HomeController::class)->group(function () {
-    Route::redirect('/', '/login');
-    Route::get('/home', 'index');
+    Route::redirect('/', '/home')->name('home');
+    Route::get('/home', 'index')->name('displayhome');
     //Route::get('/newquestion', 'QuestionController@showNewQuestionForm')->name('newquestion');
 });
 
@@ -47,7 +58,6 @@ Route::controller(QuestionController::class)->group(function () {
 Route::controller(AnswerController::class)->group(function () {
     Route::post('/question/{id}','create')->name('newanswer');
 });
-
 
 // API
 Route::controller(CardController::class)->group(function () {
