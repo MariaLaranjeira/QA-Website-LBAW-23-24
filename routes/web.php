@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ use App\Http\Controllers\HomeController;
 Route::controller(HomeController::class)->group(function () {
     Route::redirect('/', '/login');
     Route::get('/home', 'index');
+    //Route::get('/newquestion', 'QuestionController@showNewQuestionForm')->name('newquestion');
 });
 
 // Cards
@@ -36,6 +38,7 @@ Route::controller(CardController::class)->group(function () {
 Route::controller(QuestionController::class)->group(function () {
     Route::get('/question','list')->name('question');
     Route::get('/question/{id}','show');
+    Route::get('/newquestion', 'showNewQuestionForm')->name('newquestion');
 });
 
 

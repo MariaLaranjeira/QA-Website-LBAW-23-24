@@ -23,9 +23,17 @@ function addEventListeners() {
     if (cardCreator != null)
       cardCreator.addEventListener('submit', sendCreateCardRequest);
 
+    /*
+    let questionCreators = document.querySelector('button.question form.new_question');
+    if (questionCreators != null)
+      questionCreators.addEventListener('submit', sendCreateQuestionRequest);
 
-    //let questionDeleters = document.querySelectorAll()
 
+    let questionDeleters = document.querySelectorAll();
+    [].forEach.call(questionDeleters, function(deleter) {
+      deleter.addEventListener('click', sendDeleteQuestionRequest);
+    });
+    */
   }
   
   function encodeForAjax(data) {

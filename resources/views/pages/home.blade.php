@@ -5,9 +5,13 @@
 @section('content')
 
 <section id="home">
+    <form method="GET" action="{{ route('newquestion') }}">
+        <button type="submit">
 
+            Post New Question
+
+        </button>
+    </form>
 </section>
-<button type="submit"> href
-    Post a Question
-</button>
+
 @endsection
