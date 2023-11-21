@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Question;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pages/home');
+        $questions = Question::query()->orderBy('rating')->get();
+        return view('pages/home', [
+            'questions' => $questions
+        ]);
     }
 }

@@ -34,6 +34,11 @@ function addEventListeners() {
       deleter.addEventListener('click', sendDeleteQuestionRequest);
     });
     */
+
+    let answerCreators = document.querySelectorAll('article.card form.new_answer');
+    [].forEach.call(answerCreators, function(creator) {
+      creator.addEventListener('submit', sendCreateAnswerRequest);
+    });
   }
   
   function encodeForAjax(data) {
@@ -188,6 +193,24 @@ function addEventListeners() {
   
     return new_item;
   }
+
+  /*
+  function createAnswer(answer) {
+    let new_answer = document.createElement('li');
+    new_answer.classList.add('answer');
+    new_answer.setAttribute('data-id', answer.id);
+    new_answer.innerHTML = `
+    <label>
+       <span>${answer.description}</span><a href="#" class="delete">&#10761;</a>
+    </label>
+    `;
+
+    //new_answer.querySelector('input').addEventListener('change', sendAnswerUpdateRequest);
+    //new_answer.querySelector('a.delete').addEventListener('click', sendDeleteAnswerRequest);
+
+    return new_answer;
+  }
+  */
   
   addEventListeners();
   

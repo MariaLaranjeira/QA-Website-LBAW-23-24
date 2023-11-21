@@ -5,7 +5,8 @@
 @section('content')
 
 <section id="home">
-    <form method="GET" action="{{ route('newquestion') }}">
+    @each('partials.question', $questions, 'question')
+    <form action="{{ route('newquestion') }}">
         <button type="submit">
 
             Post New Question

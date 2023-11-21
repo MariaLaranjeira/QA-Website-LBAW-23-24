@@ -39,6 +39,12 @@ Route::controller(QuestionController::class)->group(function () {
     Route::get('/question','list')->name('question');
     Route::get('/question/{id}','show');
     Route::get('/newquestion', 'showNewQuestionForm')->name('newquestion');
+    Route::post('/newquestion', 'create')->name('createnewquestion');
+});
+
+//Asnwers
+Route::controller(AnswerController::class)->group(function () {
+    Route::post('/newanswer','create')->name('newanswer');
 });
 
 
