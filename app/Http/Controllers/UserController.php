@@ -30,6 +30,14 @@ class UserController extends Controller {
                 'email' => Auth::user()->email ] ]);
     }
 
+    public function profile(){
+        if (!Auth::check()) return redirect('/login');
+        $user_id=Auth::user()->user_id;
+        $user = User::find($user_id);
+        //$this->authorize('profile', $user);
+        return view('pages.profile', ['user' => $user]);
+    }
+
     public function updateUser(Request $request)
     {
         $this->authorize('editUser', Auth::user());
