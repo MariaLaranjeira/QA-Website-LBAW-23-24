@@ -100,13 +100,20 @@ class QuestionController extends Controller {
 
     public function search(Request $request) {
 
-        $input = $request->get('search') ? $request->get('search').':*' : "*";
+        $input = $request->get('search') ? $request->get('search') : "*";
+        $upper = strtolower($input);
+        $lower = strtoupper($input);
 
-        $questions = Question::where('title', 'like', '%' . $input . '%')
-            ->orWhere('text_body', 'like', '%' . $input . '%')
+        /*
+        $test = new Question();
+        $test->title = 'test';
+        $test->text_body = 'test';
+        */
+
+        $questions = Question::whereRaw("(lower(title) like ? or upper(title) like ?)", ["%$input%", "%$input%"])
             ->get();
 
-        return view('partials.searchquestion', compact('questions'))->render();
+        return view('pages.searchquestion',['questions' => $questions])->render();
     }
 
     public function upvote() {

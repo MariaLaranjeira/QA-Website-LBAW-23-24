@@ -28,6 +28,10 @@
         <main>
             <header>
                 <h1><a href="{{ url('/home') }}">CreativeHub</a></h1>
+                <form method="POST" action="{{ route('search') }}">
+                    {{ csrf_field() }}
+                    <input type="text" name="search" placeholder="Search..">
+                </form>
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> 
                     <a class="button" href="{{ url('/profile') }}"> {{ Auth::user()->username }} </a>

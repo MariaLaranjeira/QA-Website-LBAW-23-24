@@ -60,7 +60,7 @@ Route::controller(QuestionController::class)->group(function () {
     Route::post('/delete/{id}', 'delete')->name('deletequestion');
     Route::post('/edit/{id}', 'edit')->name('editingquestion');
     Route::get('/edit/{id}','showEditForm')->name('editquestion');
-
+    Route::post('/search','search')->name('search');
 });
 
 //Answers
