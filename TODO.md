@@ -86,7 +86,7 @@ High
 As a Guest, I want to be able to register, so that I can start using all the features of the platform.
 
 US402
-**Administer User Accounts**
+**Administer User Accounts** **Done**
 High
 As an Administrator, I want to be able to search, view, edit and create user accounts, so that I can perform my administrative role.
 
@@ -97,7 +97,7 @@ As a Post Owner, i want to be able to post a photo or a video along with my ques
 
 
 US502
-**Edit Question**
+**Edit Question** **Done**
 High
 As a Post Owner, I want to be able to edit any question I have made, so that I can correct or add any information I need.
 

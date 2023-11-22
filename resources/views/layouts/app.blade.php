@@ -31,6 +31,9 @@
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->username }}</span>
                 @endif
+                @if (!Auth::check())
+                    <a class="button" href="{{ url('/login') }}"> Login </a>
+                @endif
             </header>
             <section id="content">
                 @yield('content')

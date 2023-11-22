@@ -97,6 +97,18 @@ class QuestionController extends Controller {
         return redirect('/home', 302)->withSuccess('Deleted a question successfully.');
     }
 
+
+    public function search(Request $request) {
+
+        $input = $request->get('search') ? $request->get('search').':*' : "*";
+
+        $questions = Question::where('title', 'like', '%' . $input . '%')
+            ->orWhere('text_body', 'like', '%' . $input . '%')
+            ->get();
+
+        return view('partials.searchquestion', compact('questions'))->render();
+    }
+
     public function upvote() {
         //TODO
     }
