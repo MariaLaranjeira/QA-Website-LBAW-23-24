@@ -13,7 +13,6 @@
                 <button type="submit" class="delete">&#10761;</button>
             </form>
 
-
             <form action ="{{ route('editquestion', ['id' => $question->question_id]) }}" method = "GET">
                 {{ csrf_field() }}
                 <button type="submit" class="edit">&#9998;</button>

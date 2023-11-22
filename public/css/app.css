@@ -160,4 +160,26 @@ body {
   input[type=password]:focus {
     border-color: #9b4dca;
   }
+
+  #home > form{
+    padding: 16px;
+    margin: 16px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+  }
+
+  #home > h2 {
+    padding: 16px;
+    margin: 16px;
+    margin-left: 0px;
+  }
+
+  #home .question {
+    font-weight: bold;
+    font-size: 1.2em;
+    background-color: white;
+    padding: 16px;
+    margin: 16px;
+    border-radius: 5px;
+  }
   
