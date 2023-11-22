@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'EditProfile')
+@section('title', 'Profile')
 
 
 @section('content')
 <section id="profileEdit">
 
-
+  <div>
     <h2>Edit Your Profile</h2>
     <form action="{{ route('update_user')}}" method="POST">
             {{ csrf_field() }}

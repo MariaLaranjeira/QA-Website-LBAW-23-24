@@ -8,13 +8,11 @@
 
     <h2 id="title_display">
         <div>
-           Your Profile
+           Profile
         </div>
     </h2>
 
   </div>
-  <div class="d-flex justify-content-center">
-  <div class="card" style="width: 18rem;">
   <div id="info">
     <p>Name: {{ $user->name }}</p><br>
     <p>Username: {{ $user->username }}</p><br>
@@ -23,6 +21,11 @@
   </div>
 
   <a class="button" href="{{ url('/edit_user') }}"> Edit Profile </a>
+
+  @if (Auth::user()->is_admin)
+  <a class="button" href="{{ url('/users') }}"> Administration Page </a>
+
+  @endif
 
 
 

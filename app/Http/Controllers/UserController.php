@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 //use App\Http\Controllers\ImageController;
 //use App\Http\Controllers\TagController;
 
@@ -30,7 +31,9 @@ class UserController extends Controller {
                 'email' => Auth::user()->email ] ]);
     }
 
-
+    /**
+     * Shows the profile for authenticated user.
+     */
     public function profile(){
         if (!Auth::check()) return redirect('/login');
         $user_id=Auth::user()->user_id;
@@ -50,5 +53,52 @@ class UserController extends Controller {
         $user->save();
         return redirect('/home')->withSuccess('You have successfully updated your profile!');
     }
+
+    /**
+     * List all users
+     */
+
+    public function list()
+    {
+      if (!Auth::check()) return redirect('/login');
+
+      $users = User::all();
+      //$this->authorize('list', User::Class);
+      return view('pages.users', ['users' => $users]);
+    }
+
+    /**
+     * Delete user account
+     */
+
+    public function deleteProfile(Request $request){
+        if (!Auth::check()) return redirect('/login');
+
+        $user = User::find($request->input('user_id'));
+        //$this->authorize('deleteProfile', $user);
+
+        $deleted_account=DB::transaction(function() use ($request)
+        {
+        $user = User::find($request->input('user_id'));
+        $dnumber=rand(1,1000000); //create random number to replace private information
+        $randpass= Str::random(24); //generate random password so account can't be accessed again by same user
+
+        //replace all emlements with deleted user + our generated random number
+        $user->name ="deleteduser".$dnumber;
+        $user->username = "deleteduser".$dnumber;
+        $user->email = "deleteduser".$dnumber."@deleted.com";
+        $user->password = bcrypt($randpass);
+
+        $user->save();
+
+        return $user;
+
+      });
+
+      return redirect()->route('users');
+
+      }
+
+
 
 }

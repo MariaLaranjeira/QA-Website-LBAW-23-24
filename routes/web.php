@@ -40,6 +40,8 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/profile', 'profile');
     Route::get('/edit_user', 'editUser')->name('edit_user');
     Route::post('/update_user','updateUser')->name('update_user');
+    Route::get('/users','list')->name('users');
+    Route::post('delete_profile', 'deleteProfile')->name('delete_profile');
 });
 
 //Questions

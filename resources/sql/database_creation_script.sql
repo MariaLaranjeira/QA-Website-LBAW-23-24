@@ -53,6 +53,7 @@ CREATE TABLE users (
   username TEXT UNIQUE NOT NULL,
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
+  is_admin BOOLEAN DEFAULT False,
   profileURL TEXT
 );
 
@@ -269,6 +270,13 @@ INSERT INTO users (name, username, email, password, profileURL) VALUES
 ('Bob Johnson', 'bobjohnson', 'bob@example.com', 'bobpassword', 'https://example.com/bobjohnson'),
 ('Eva Johnson', 'evaj', 'eva@example.com', 'evapass', 'https://example.com/evajohnson'),
 ('Michael White', 'michaelw', 'michael@example.com', 'michaelpass', 'https://example.com/michaelwhite');
+
+--ADMIN
+INSERT INTO users (name, username, email, password, is_admin, profileURL) VALUES
+('John Admin', 'Admin', 'admin@example.com', '$2y$10$w7tQcOPURHIL3OaRyGRy1OUHAlPcjr.P1AyQr2L9n3hJ5wITbbifi','True', 'https://example.com/admin'); 
+--pass is 12345678
+
+
 
 INSERT INTO moderator (mod_id) VALUES (1);
 
