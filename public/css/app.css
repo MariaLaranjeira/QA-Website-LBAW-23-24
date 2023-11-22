@@ -16,8 +16,22 @@ body {
   }
   main > header a.button {
     margin: 1em;
-    justify-self: center;
+    justify-self: right;
   }
+
+  main > header > form {
+    margin-bottom: 0px;
+    display: grid;
+    margin-right: 11px;
+  }
+
+  main > header > form > input {
+    justify-self: center;
+    margin-bottom: 0px;
+    min-height: 36px;
+    max-height: 36px;
+  }
+
   main > header span {
     margin: 1em;
     justify-self: center;
@@ -161,20 +175,20 @@ body {
     border-color: #9b4dca;
   }
 
-  #home > form{
+  #content form{
     padding: 16px;
     margin: 16px;
     margin-left: 0px;
     margin-bottom: 0px;
   }
 
-  #home > h2 {
+  #content h2 {
     padding: 16px;
     margin: 16px;
     margin-left: 0px;
   }
 
-  #home .question {
+  #content .question {
     font-weight: bold;
     font-size: 1.2em;
     background-color: white;

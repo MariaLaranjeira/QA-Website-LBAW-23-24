@@ -32,13 +32,15 @@
                     {{ csrf_field() }}
                     <input type="text" name="search" placeholder="Search..">
                 </form>
-                @if (Auth::check())
-                    <a class="button" href="{{ url('/logout') }}"> Logout </a> 
+                <section id="user_buttons">
+                    @if (Auth::check())
+                    <a class="button" href="{{ url('/logout') }}"> Logout </a>
                     <a class="button" href="{{ url('/profile') }}"> {{ Auth::user()->username }} </a>
-                @endif
-                @if (!Auth::check())
+                    @endif
+                    @if (!Auth::check())
                     <a class="button" href="{{ url('/login') }}"> Login </a>
-                @endif
+                    @endif
+                </section>
             </header>
             <section id="content">
                 @yield('content')
