@@ -6,13 +6,19 @@
 
 @section('content')
 <section id="question">
+    @auth
+        @if (Auth::user()->getAuthIdentifier() == $question->id_user)
+            <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
+                {{ csrf_field() }}
+                <button type="submit" class="delete">&#10761;</button>
+            </form>
 
-    @if (Auth::user()->getAuthIdentifier() == $question->id_user)
-        <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
-            {{ csrf_field() }}
-            <button type="submit" class="delete">Delete this question</button>
-        </form>
-    @endif
+            <form action ="{{ route('editquestion', ['id' => $question->question_id]) }}" method = "GET">
+                {{ csrf_field() }}
+                <button type="submit" class="edit">&#9998;</button>
+            </form>
+        @endif
+    @endauth
 
     <h2 id="title_display">
         <div>
@@ -26,7 +32,7 @@
 
     <div id="post_info">
         <div id="author">
-            Author: Implementar isto
+            {{ \App\Models\User::where('user_id', $question->id_user)->first()->username }}
         </div>
         <div id="date">
             Posted on: {{ $question->creation_date }}
@@ -34,16 +40,18 @@
 </section>
 
 <section id="question_answers">
-    @if (Auth::user()->getAuthIdentifier() != $question->id_user)
-    <h2>Post your answer</h2>
-        <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
-            {{ csrf_field() }}
-            <textarea type="text" name="answer_body" id="answer_body" placeholder="Write your answer here (Be respectful)"></textarea>
-            <button type="submit">
-                Post New Answer
-            </button>
-        </form>
-    @endif
+    @auth
+        @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+        <h2>Post your answer</h2>
+            <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
+                {{ csrf_field() }}
+                <textarea type="text" name="answer_body" id="answer_body" placeholder="Write your answer here (Be respectful)"></textarea>
+                <button type="submit">
+                    Post New Answer
+                </button>
+            </form>
+        @endif
+    @endauth
     <h2>Answers</h2>
     @each('partials.answer', $answers, 'answer')
 </section>

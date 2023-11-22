@@ -6,15 +6,16 @@
 
 <section id="home">
     @auth
-    <form action="{{ route('newquestion') }}">
-        <button type="submit">
+        <form action="{{ route('newquestion') }}">
+            <button type="submit">
 
-            Post New Question
+                Post New Question
 
-        </button>
-    </form>
+            </button>
+        </form>
     @endauth
     <h2>Recent Questions</h2>
+
     @each('partials.question', $questions, 'question')
 </section>
 

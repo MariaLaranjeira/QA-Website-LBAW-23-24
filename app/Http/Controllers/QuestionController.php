@@ -55,14 +55,15 @@ class QuestionController extends Controller {
         return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Created a question successfully.');
     }
 
-    public function edit(Request $request) {
-        $question = Question::find($request->id);
+    public function edit(Request $request,$id) {
+        $question = Question::findOrFail($id);
         $this->authorize('edit', $question);
 
-        $question->title = $request->title;
-        $question->text_body = $request->text_body;
+        $question->title = $request->input('title');
+        $question->text_body = $request->input('text_body');
 
         $question->save();
+        return redirect('/question/'.$id, 302,['id' => $id])->withSuccess('Edited a question successfully.');
 
     }
 
