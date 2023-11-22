@@ -12,6 +12,12 @@
                 {{ csrf_field() }}
                 <button type="submit" class="delete">&#10761;</button>
             </form>
+
+
+            <form action ="{{ route('editquestion', ['id' => $question->question_id]) }}" method = "GET">
+                {{ csrf_field() }}
+                <button type="submit" class="edit">&#9998;</button>
+            </form>
         @endif
     @endauth
 
@@ -24,16 +30,27 @@
     <div id="text_body_display">
         {{ $question->text_body }}
     </div>
+
+    <div id="post_info">
+        <div id="author">
+            {{ \App\Models\User::where('user_id', $question->id_user)->first()->username }}
+        </div>
+        <div id="date">
+            Posted on: {{ $question->creation_date }}
+        </div>
+</section>
+
+<section id="question_answers">
     @auth
         @if (Auth::user()->getAuthIdentifier() != $question->id_user)
-            <h2>Post your answer</h2>
-                <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
-                    {{ csrf_field() }}
-                    <input type="text" name="answer_body" id="answer_body">
-                    <button type="submit">
-                        Post New Answer
-                    </button>
-                </form>
+        <h2>Post your answer</h2>
+            <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
+                {{ csrf_field() }}
+                <textarea type="text" name="answer_body" id="answer_body" placeholder="Write your answer here (Be respectful)"></textarea>
+                <button type="submit">
+                    Post New Answer
+                </button>
+            </form>
         @endif
     @endauth
     <h2>Answers</h2>
