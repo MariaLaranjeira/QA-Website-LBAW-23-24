@@ -13,7 +13,7 @@ class AnswerController extends Controller
         //$this->authorize('create', Question::class);
 
         $request->validate([
-            'answer_body' => 'required|string|max:4000',
+            'answer_body' => 'required|string|max:4000|min:1',
         ]);
 
         $answer = new Answer();

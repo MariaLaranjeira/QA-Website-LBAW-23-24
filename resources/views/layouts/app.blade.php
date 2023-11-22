@@ -15,6 +15,7 @@
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
         <link href="{{ url('css/question.css') }}" rel="stylesheet">
         <link href="{{ url('css/new.question.css') }}" rel="stylesheet">
+        <link href="{{ url('css/profile.css') }}" rel="stylesheet">
 
 
         <script type="text/javascript">
@@ -28,13 +29,19 @@
         <main>
             <header>
                 <h1><a href="{{ url('/home') }}">CreativeHub</a></h1>
-                @if (Auth::check())
-                    <a class="button" href="{{ url('/logout') }}"> Logout </a> 
+                <form method="POST" action="{{ route('search') }}">
+                    {{ csrf_field() }}
+                    <input type="text" name="search" id="search" value="{{ old('search') }}" placeholder="Search..">
+                </form>
+                <section id="user_buttons">
+                    @if (Auth::check())
+                    <a class="button" href="{{ url('/logout') }}"> Logout </a>
                     <a class="button" href="{{ url('/profile') }}"> {{ Auth::user()->username }} </a>
-                @endif
-                @if (!Auth::check())
+                    @endif
+                    @if (!Auth::check())
                     <a class="button" href="{{ url('/login') }}"> Login </a>
-                @endif
+                    @endif
+                </section>
             </header>
             <section id="content">
                 @yield('content')

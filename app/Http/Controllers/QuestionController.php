@@ -36,8 +36,8 @@ class QuestionController extends Controller {
         $this->authorize('create', Question::class);
 
         $request->validate([
-            'title' => 'required|string|max:100|unique:question',
-            'text_body' => 'required|string|max:4000',
+            'title' => 'required|string|min:5|max:100|unique:question',
+            'text_body' => 'required|string|min:5|max:4000',
         ]);
 
         $question = new Question();
@@ -56,8 +56,21 @@ class QuestionController extends Controller {
     }
 
     public function edit(Request $request,$id) {
+
         $question = Question::findOrFail($id);
         $this->authorize('edit', $question);
+
+        if ($question->title == $request->input('title')) {
+            $request->validate([
+                'text_body' => 'required|string|min:5|max:4000',
+            ]);
+        }
+        else {
+            $request->validate([
+                'title' => 'required|string|min:5|max:100',
+                'text_body' => 'required|string|min:5|max:4000',
+            ]);
+        }
 
         $question->title = $request->input('title');
         $question->text_body = $request->input('text_body');
@@ -81,7 +94,7 @@ class QuestionController extends Controller {
     public function show($id) {
 
         $question = Question::findOrFail($id);
-        $answers = Answer::query()->where('id_question', '=', $id)->orderBy('rating')->get();
+        $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
 
         return view('pages/question', [
             'question' => $question,
@@ -100,13 +113,20 @@ class QuestionController extends Controller {
 
     public function search(Request $request) {
 
-        $input = $request->get('search') ? $request->get('search').':*' : "*";
+        //$this->authorize('search', Question::class);
 
-        $questions = Question::where('title', 'like', '%' . $input . '%')
-            ->orWhere('text_body', 'like', '%' . $input . '%')
+        $request->validate([
+            'search' => 'required|string|min:1',
+        ]);
+
+        $input = $request->get('search') ? $request->get('search') : "*";
+        $lower = strtolower($input);
+        $upper = strtoupper($input);
+
+        $questions = Question::whereRaw("(lower(title) like ? or upper(title) like ?)", ["%$lower%", "%$upper%"])
             ->get();
 
-        return view('partials.searchquestion', compact('questions'))->render();
+        return view('pages.searchquestion',['questions' => $questions, 'search' => $input])->render();
     }
 
     public function upvote() {

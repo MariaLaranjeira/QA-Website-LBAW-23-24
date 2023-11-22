@@ -10,9 +10,16 @@
     <h2>Edit Your Profile</h2>
     <form action="{{ route('update_user')}}" method="POST">
             {{ csrf_field() }}
+            New Name:
             <input id="name" type="text" name="name" value="{{ $user->name }}">
+
+            New Username:
             <input id="username" type="text" name="username" value="{{ $user->username }}">
+
+            New Email:
             <input id="email" type="email" name="email" value="{{ $user->email }}">
+
+            New Password:
             <input id="password" type="password" name="password" value="Password">
             <button type="submit">
                 Edit Profile
