@@ -7,7 +7,7 @@ info:
 
 servers:
 - url: http://lbaw.fe.up.pt
- description: Production server
+description: Production server
 
 tags:
  - name: 'M01: Authentication and Individual Profile'
@@ -17,8 +17,7 @@ tags:
  - name: 'M05: Dynamic Pages'
 
 paths:
-# ----------------------------------------  M01 ---------------------------------------- #
-# ---------------- Login ---------------- #
+
   /login:
     get:
       opperationId: 'R101'
@@ -49,8 +48,8 @@ paths:
                   type: string
                   format: password
               required:
-                  - email
-                  - password          
+                - email
+                - password          
       responses:
         '302':
           description: 'Redirect after processing the login credentials.'
@@ -66,184 +65,178 @@ paths:
                   description: 'Failed authentication. Redirect to login form.'
                   value: '/login'
 
-# ---------------- Logout ---------------- #                  
   /logout:
-  
-     post:
-       operationId: R103
-       summary: 'R103: Logout Redirect'
-       description: 'Logout the current authenticated user. Access: USR, ADM'
-       tags:
-         - 'M01: Authentication and Individual Profile'
-       responses:
-         '302':
-           description: 'Redirect after processing logout.'
-           headers:
-             Location:
-               schema:
-                 type: string
-               examples:
-                 302Success:
-                   description: 'Successful logout. Redirect to login form.'
-                   value: '/login'
+    post:
+      operationId: R103
+      summary: 'R103: Logout Redirect'
+      description: 'Logout the current authenticated user. Access: USR, ADM'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '302':
+          description: 'Redirect after processing logout.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful logout. Redirect to login form.'
+                  value: '/login'
 
-# ---------------- Recover Password ---------------- #
-   /recover_password:
-        get:
-          operationId: R104
-          summary: 'R104: Recover Password Form'
-          description: 'Provide form to recover password. Access: GST'
-          tags:
-              - 'M01: Authentication and Individual Profile'
-          responses:
-              '200':
-              description: 'Ok. Show Recover Password UI'
-      
-        post:
-          operationId: R105
-          summary: 'R105: Recover Password Action'
-          description: 'Processes the recover password form submission. Access: GST'
-          tags:
-              - 'M01: Authentication and Individual Profile'
-      
-          requestBody:
-              required: true
-              content:
-              application/x-www-form-urlencoded:
-                  schema:
-                  type: object
-                  properties:
-                      email:
-                        type: string
-                        format: email
-                  required:
-                      - email
-          responses:
-            '200':
-              description: 'Valid email. Wait for email with instructions.'
-            '404':  
-              description: 'Invalid email. Insert an existing user's email.'
+  /recover_password:
+    get:
+      operationId: R104
+      summary: 'R104: Recover Password Form'
+      description: 'Provide form to recover password. Access: GST'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+          '200':
+          description: 'Ok. Show Recover Password UI'
+  
+    post:
+      operationId: R105
+      summary: 'R105: Recover Password Action'
+      description: 'Processes the recover password form submission. Access: GST'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+  
+      requestBody:
+          required: true
+          content:
+          application/x-www-form-urlencoded:
+              schema:
+              type: object
+              properties:
+                  email:
+                    type: string
+                    format: email
+              required:
+                - email
+      responses:
+        '200':
+          description: 'Valid email. Wait for email with instructions.'
+        '404':  
+          description: 'Invalid email. Insert an existing user email.'
 
+  /rever_change_password:
+    get:
+      operationId: R106
+      summary: 'R106: Change Password Form'
+      description: 'Provide form to change password. Access: GST'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+          '200':
+          description: 'Ok. Show Change Password UI'
+  
+    post:
+      operationId: R107
+      summary: 'R107: Change Password Action'
+      description: 'Processes the change password form submission. Access: GST'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+  
+      requestBody:
+          required: true
+          content:
+          application/x-www-form-urlencoded:
+              schema:
+              type: object
+              properties:
+                  old_password:
+                    type: string
+                    format: password
+                  new_password:
+                    type: string
+                    format: password
+                  confirm_password:
+                    type: string
+                    format: password
+              required:
+                - old_password
+                - new_password
+                - confirm_password
+      responses:
+        '200':
+          description: 'Password changed successfuly'
+        '404':  
+          description: 'Passwords do not match. Please try again.'
 
-# ---------------- Change Password to Recover ---------------- #
-   /recover_change_password:
-        get:
-          operationId: R106
-          summary: 'R106: Change Password Form'
-          description: 'Provide form to change password. Access: GST'
-          tags:
-              - 'M01: Authentication and Individual Profile'
-          responses:
-              '200':
-              description: 'Ok. Show Change Password UI'
-      
-        post:
-          operationId: R107
-          summary: 'R107: Change Password Action'
-          description: 'Processes the change password form submission. Access: GST'
-          tags:
-              - 'M01: Authentication and Individual Profile'
-      
-          requestBody:
-              required: true
-              content:
-              application/x-www-form-urlencoded:
-                  schema:
-                  type: object
-                  properties:
-                      old_password:
-                        type: string
-                        format: password
-                      new_password:
-                        type: string
-                        format: password
-                      confirm_password:
-                        type: string
-                        format: password
-                  required:
-                      - old_password
-                      - new_password
-                      - confirm_password
-          responses:
-            '200':
-              description: 'Password changed successfuly'
-            '404':  
-              description: 'Passwords do not match. Please try again.'
+  /register:
+    get:
+      operationId: R108
+      summary: 'R108: Register Form'
+      description: 'Provide new user registration form. Access: GST'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'Ok. Show Sign-Up UI'
 
-# ---------------- Register ---------------- #
-   /register:
-     get:
-       operationId: R108
-       summary: 'R108: Register Form'
-       description: 'Provide new user registration form. Access: GST'
-       tags:
-         - 'M01: Authentication and Individual Profile'
-       responses:
-         '200':
-           description: 'Ok. Show Sign-Up UI'
+    post:
+      operationId: R109
+      summary: 'R109: Register Post'
+      description: 'Processes the new user registration form submission. Access: GST'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                picture:
+                  type: string
+                  format: binary
+              required:
+                - email
+                - password
+
+      responses:
+        '302':
+          description: 'Redirect after processing the new user information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful authentication. Redirect to user profile.'
+                  value: '/users/{id}'
+                302Failure:
+                  description: 'Failed authentication. Redirect to login form.'
+                  value: '/login'
   
-     post:
-       operationId: R109
-       summary: 'R109: Register Post'
-       description: 'Processes the new user registration form submission. Access: GST'
-       tags:
-         - 'M01: Authentication and Individual Profile'
-  
-       requestBody:
-         required: true
-         content:
-           application/x-www-form-urlencoded:
-             schema:
-               type: object
-               properties:
-                 name:
-                   type: string
-                 email:
-                   type: string
-                 picture:
-                   type: string
-                   format: binary
-               required:
-                  - email
-                  - password
-  
-       responses:
-         '302':
-           description: 'Redirect after processing the new user information.'
-           headers:
-             Location:
-               schema:
-                 type: string
-               examples:
-                 302Success:
-                   description: 'Successful authentication. Redirect to user profile.'
-                   value: '/users/{id}'
-                 302Failure:
-                   description: 'Failed authentication. Redirect to login form.'
-                   value: '/login'
-  
-   /profile:
-     get:
-       operationId: R110
-       summary: 'R110: Profile View'
-       description: 'Show the individual user profile. Access: USR'
-       tags:
-         - 'M01: Authentication and Individual Profile'
-  
-       parameters:
-         - in: path
-           name: id
-           schema:
-             type: integer
-           required: true
-  
-       responses:
-         '200':
-           description: 'Ok. Show User Profile UI'
-         '404':
-           description: 'User not found.' 
+  /profile:
+    get:
+      operationId: R110
+      summary: 'R110: Profile View'
+      description: 'Show the individual user profile. Access: USR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: 'Ok. Show User Profile UI'
+        '404':
+          description: 'User not found.' 
    
-   /edit_user:
+  /edit_user:
      get:
        operationId: R111
        summary: 'R111: Profile Edit Form'
@@ -281,994 +274,888 @@ paths:
                   - password
   
        responses:
-         '200':
-           description: 'User edited successfuly'
-         '403':
+          '200':
+            description: 'User edited successfuly'
+          '403':
+            description: 'No permission.'
+
+  /newquestion:
+    get:
+      operationId: R201
+      summary: 'R201: New Question Form'
+      description: 'Provide form to create a new question. Access: USR'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+  
+    responses:
+      '200':
+        description: 'Ok. Show Create Question UI'
+  
+    post:
+      operationId: R202
+      summary: 'R202: New Question Post'
+      description: 'Processes the new question form submission. Access: USR'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+  
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+                id:
+                  type: integer
+                title:
+                  type: string
+                content:
+                  type: string
+                media_url:
+                  type: string
+                  format: binary
+            required:
+              - title
+              - content
+  
+      responses:
+        '302':
+          description: 'Redirect after processing the new question information.'
+          headers:
+            Location:
+            schema:
+              type: string
+            examples:
+              302Success:
+                description: 'Successful question creation. Redirect to question page.'
+                value: '/question/{id}'
+              302Failure:
+                description: 'Failed question creation. Redirect to create question form.'
+                value: '/question/create'
+
+  /question/{id}: 
+    get:
+      operationId: R203
+      summary: 'R203: Question View'
+      description: 'Show the individual question. Access: GST, USR, ADM'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+  
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+  
+      responses:
+        '200':
+          description: 'Ok. Show Question UI'
+        '404':
+          description: 'Question not found.'
+        
+    post:
+      operationId: R207
+      summary: 'R207: Create Answer Action'
+      description: 'Processes the new answer form submission. Access: USR'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+  
+      requestBody:
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                content:
+                  type: string
+              required:
+                - content
+  
+      responses:
+        '302':
+          description: 'Redirect after processing the new answer information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful answer creation. Redirect to question page.'
+                  value: '/question/{id}'
+                302Failure:
+                  description: 'Failed answer creation. Redirect to question page.'
+                  value: '/question/{id}'      
+
+  /edit/{id}:
+    get:
+    operationId: R204
+    summary: 'R204:Question Edit Form'
+    description: 'Provide form to edit a question. Access: OWN, MOD, ADM'
+    tags:
+      - 'M02: Questions, Answers and Comments'
+  
+    responses:
+      '200':
+        description: 'Ok. Show Edit Question UI'
+  
+    post:
+      operationId: R205
+      summary: 'R205: Question Edit Post'
+      description: 'Processes the edit question form submission. Access: OWN, MOD, ADM'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+  
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              title:
+                type: string
+              content:
+                type: string
+              media_url:
+                type: string
+                format: binary
+            required:
+              - title
+              - content
+    
+      responses:
+        '200':
+          description: 'Edited question successfuly'
+        '403':
+          description: 'No permission'   
+
+
+  /delete/{id}:
+    post:
+      operationId: R206
+      summary: 'R206: Question Delete Post'
+      description: 'Processes the delete question form submission. Access: OWN, MOD, ADM'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+  
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      responses:
+        '200':
+          description: 'Question deleted successfuly'
+        '403':
+          description: 'No permission.'        
+
+
+  /answer/edit:
+    post:
+      operationId: R208
+      summary: 'R208: Edit Answer Action'
+      description: 'Processes the edit answer form submission. Access: OWN, MOD, ADM'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              content:
+                type: string
+            required:
+              - id
+              - content
+    
+      responses:
+        '200':
+          description: 'Redirect after processing the edit answer information.'
+        '403':
+          description: 'No permission.'  
+
+  /answer/delete:
+    post:
+      operationId: R209
+      summary: 'R209: Delete Answer Action'
+      description: 'Processes the delete answer form submission. Access: OWN, MOD, ADM'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+    
+      responses:
+        '200':
+          description: 'Answer deleted successfuly'
+        '403':
+          description: 'No permission.'
+
+  /comment/create:
+    post:
+      operationId: R210
+      summary: 'R210: Create Comment Action'
+      description: 'Processes the new comment form submission. Access: USR'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              content:
+                type: string
+            required:
+              - content
+      responses:
+        '302':
+          description: 'Redirect after processing the new comment information.'
+          headers:
+            Location:
+              schema:
+              type: string
+              examples:
+                302Success:
+                  description: 'Successful comment creation. Redirect to question page.'
+                  value: '/question/{id}'
+                302Failure:
+                  description: 'Failed comment creation. Redirect to question page.'
+                  value: '/question/{id}'
+
+  /comment/delete:
+    post:
+      operationId: R211
+      summary: 'R211: Delete Comment Action'
+      description: 'Processes the delete comment form submission. Access: OWN, MOD,ADM'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+    
+      responses:
+        '200':
+          description: 'Comment deleted successfuly'
+        '403':
+          description: 'No permission.'
+ 
+  /comment/edit:
+    post:
+      operationId: R212
+      summary: 'R212: Edit Comment Action'
+      description: 'Processes the edit comment form submission. Access: OWN, MOD, ADM'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              content:
+                type: string
+            required:
+              - id
+              - content
+    
+      responses:
+        '200':
+          description: 'Comment edited successfuly'
+        '403':
+          description: 'No permission.'
+
+  /tag/{id}:
+    get:
+      operationId: R213
+      summary: 'R213: View Tag'
+      description: 'Show the individual tag. Access: USR, GST'
+      tags:
+        - 'M02: Questions, Answers and Comments'
+    
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+    
+      responses:
+        '200':
+          description: 'Ok. Show Tag UI'
+        '404':
+          description: 'Tag not found.'
+
+  /answer/downvote:
+    post:
+      operationId: R301
+      summary: 'R301: Downvote Answer Action'
+      description: 'Processes the downvote answer form submission. Access: USR, ADM'
+      tags:
+        - 'M03: Ratings and Follows'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      responses:
+        '200':
+          description: 'Answer downvoted successfuly'
+        '403':
+          description: 'No permission.' 
+
+  /answer/upvote:
+    post:
+      operationId: R302
+      summary: 'R302: Upvote Answer Action'
+      description: 'Processes the upvote answer form submission. Access: USR, ADM'
+      tags:
+        - 'M03: Ratings and Follows'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      responses:
+        '200':
+          description: 'Answer upvoted successfuly'
+        '403':
+          description: 'No permission.'  
+                   
+  /question/follow:
+    post:
+      operationId: R303
+      summary: 'R303: Follow Question Action'
+      description: 'Processes the follow question form submission. Access: USR, ADM'
+      tags:
+        - 'M03: Ratings and Follows'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      responses:
+        '200':
+          description: 'Question followed successfuly'
+        '403':
+          description: 'No permission.'  
+                 
+  /question/upvote:
+    post:
+      operationId: R304
+      summary: 'R304: Upvote Question Action'
+      description: 'Processes the upvote question form submission. Access: USR, ADM'
+      tags:
+        - 'M03: Ratings and Follows'
+  
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      responses:
+        '200':
+           description: 'Question upvoted successfuly'
+        '403':
            description: 'No permission.'
    
-
-
-
-# -------------------------------------- M02 ----------------------------------------------- # 
-
-# ---------------- Questions ---------------- #
-
-# ------- Create Question ------- #
-
-   /newquestion:
-        get:
-        operationId: R201
-        summary: 'R201: New Question Form'
-        description: 'Provide form to create a new question. Access: USR'
-        tags:
-          - 'M02: Questions, Answers and Comments'
-    
-        responses:
-          '200':
-          description: 'Ok. Show Create Question UI'
-    
-        post:
-          operationId: R202
-          summary: 'R202: New Question Post'
-          description: 'Processes the new question form submission. Access: USR'
-          tags:
-              - 'M02: Questions, Answers and Comments'
-    
-        requestBody:
-            required: true
-            content:
-            application/x-www-form-urlencoded:
-                schema:
-                type: object
-                properties:
-                    id:
-                      type: integer
-                    title:
-                      type: string
-                    content:
-                      type: string
-                    media_url:
-                      type: string
-                      format: binary
-                required:
-                    - title
-                    - content
-    
-        responses:
-            '302':
-            description: 'Redirect after processing the new question information.'
-            headers:
-                Location:
-                schema:
-                    type: string
-                examples:
-                    302Success:
-                    description: 'Successful question creation. Redirect to question page.'
-                    value: '/question/{id}'
-                    302Failure:
-                    description: 'Failed question creation. Redirect to create question form.'
-                    value: '/question/create'
-
-# ------- View Question ------- #
-
-   /question/{id}: 
-        get:
-          operationId: R203
-          summary: 'R203: Question View'
-          description: 'Show the individual question. Access: GST, USR, ADM'
-          tags:
-            - 'M02: Questions, Answers and Comments'
-    
-          parameters:
-            - in: path
-              name: id
-              schema:
+  /question/downvote:
+    post:
+      operationId: R305
+      summary: 'R305: Downvote Question Action'
+      description: 'Processes the downvote question form submission. Access: USR, ADM'
+      tags:
+        - 'M03: Ratings and Follows'
+   
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
                 type: integer
-              required: true
+            required:
+              - id
+      responses:
+        '200':
+          description: 'Question downvoted successfuly'
+        '403':
+          description: 'No permission.'
+              
+  /tag/follow:
+    post:
+      operationId: R306
+      summary: 'R306: Follow Tag Action'
+      description: 'Processes the follow tag form submission. Access: USR, ADM'
+      tags:
+        - 'M03: Ratings and Follows'
     
-          responses:
-            '200':
-              description: 'Ok. Show Question UI'
-            '404':
-              description: 'Question not found.'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      responses:
+        '200':
+          description: 'Tag followed successfuly'
+        '403':
+          description: 'No permission.' 
 
-  # ------- Create Answer ------- #
-            
-        post:
-          operationId: R207
-          summary: 'R207: Create Answer Action'
-          description: 'Processes the new answer form submission. Access: USR'
-          tags:
-              - 'M02: Questions, Answers and Comments'
-    
-          requestBody:
-              required: true
-              content:
-              application/x-www-form-urlencoded:
-                  schema:
-                  type: object
-                  properties:
-                      id:
-                        type: integer
-                      content:
-                        type: string
-                  required:
-                      - content
-    
-          responses:
-            '302':
-              description: 'Redirect after processing the new answer information.'
-              headers:
-                Location:
-                  schema:
-                    type: string
-                  examples:
-                    302Success:
-                      description: 'Successful answer creation. Redirect to question page.'
-                      value: '/question/{id}'
-                    302Failure:
-                      description: 'Failed answer creation. Redirect to question page.'
-                      value: '/question/{id}'      
-
-# ------- Edit Question ------- #
-
-   /edit/{id}:
-        get:
-        operationId: R204
-        summary: 'R204:Question Edit Form'
-        description: 'Provide form to edit a question. Access: OWN, MOD, ADM'
+  /tag/unfollow:
+    post:
+        operationId: R307
+        summary: 'R307: Unfollow Tag Action'
+        description: 'Processes the unfollow tag form submission. Access: USR, ADM'
         tags:
-          - 'M02: Questions, Answers and Comments'
-    
-        responses:
-          '200':
-          description: 'Ok. Show Edit Question UI'
-    
-        post:
-          operationId: R205
-          summary: 'R205: Question Edit Post'
-          description: 'Processes the edit question form submission. Access: OWN, MOD, ADM'
-          tags:
-              - 'M02: Questions, Answers and Comments'
+          - 'M03: Ratings and Follows'
     
         requestBody:
-            required: true
-            content:
+          required: true
+          content:
             application/x-www-form-urlencoded:
-                schema:
-                type: object
-                properties:
-                    title:
-                      type: string
-                    content:
-                      type: string
-                    media_url:
-                      type: string
-                      format: binary
-                required:
-                    - title
-                    - content
-    
-        responses:
-            '200':
-                description: 'Edited question successfuly'
-            '403':
-                description: 'No permission'   
-
-# ------- Delete Question ------- #
-
-   /delete/{id}:
-        post:
-          operationId: R206
-          summary: 'R206: Question Delete Post'
-          description: 'Processes the delete question form submission. Access: OWN, MOD, ADM'
-          tags:
-              - 'M02: Questions, Answers and Comments'
-    
-          requestBody:
-              required: true
-              content:
-              application/x-www-form-urlencoded:
-                  schema:
-                  type: object
-                  properties:
-                      id:
-                        type: integer
-                  required:
-                      - id
-          responses:
-            '200':
-               description: 'Question deleted successfuly'
-            '403':
-               description: 'No permission.'        
-
-
-
-# ---------------- Answers ---------------- #
-
-
-# ------- Edit answer ------- #
-
-   /answer/edit:
-         post:
-             operationId: R208
-             summary: 'R208: Edit Answer Action'
-             description: 'Processes the edit answer form submission. Access: OWN, MOD, ADM'
-             tags:
-                  - 'M02: Questions, Answers and Comments'
-     
-             requestBody:
-                  required: true
-                  content:
-                  application/x-www-form-urlencoded:
-                    schema:
-                    type: object
-                    properties:
-                         id:
-                            type: integer
-                         content:
-                            type: string
-                    required:
-                         - id
-                         - content
-     
-             responses:
-                '200':
-                  description: 'Redirect after processing the edit answer information.'
-                '403':
-                  description: 'No permission.'  
-
-
-# ------- Delete Answer ------- #
-
-   /answer/delete:
-       post:
-           operationId: R209
-           summary: 'R209: Delete Answer Action'
-           description: 'Processes the delete answer form submission. Access: OWN, MOD, ADM'
-           tags:
-               - 'M02: Questions, Answers and Comments'
-       
-           requestBody:
-               required: true
-               content:
-               application/x-www-form-urlencoded:
-                   schema:
-                   type: object
-                   properties:
-                       id:
-                           type: integer
-                   required:
-                       - id
-       
-           responses:
-               '200':
-                   description: 'Answer deleted successfuly'
-               '403':
-                   description: 'No permission.'
-
-
-# ---------------- Comments ---------------- #
-
-# ------- Create Comment ------- #
-
-   /comment/create:
-      post:
-          operationId: R210
-          summary: 'R210: Create Comment Action'
-          description: 'Processes the new comment form submission. Access: USR'
-          tags:
-              - 'M02: Questions, Answers and Comments'
-      
-          requestBody:
-              required: true
-              content:
-              application/x-www-form-urlencoded:
-                  schema:
-                  type: object
-                  properties:
-                      id:
-                          type: integer
-                      content:
-                          type: string
-                  required:
-                      - content
-          responses:
-              '302':
-                  description: 'Redirect after processing the new comment information.'
-                  headers:
-                      Location:
-                          schema:
-                              type: string
-                          examples:
-                              302Success:
-                                  description: 'Successful comment creation. Redirect to question page.'
-                                  value: '/question/{id}'
-                              302Failure:
-                                  description: 'Failed comment creation. Redirect to question page.'
-                                  value: '/question/{id}'
-
-# ------- Delete Comment ------- #
-
-   /comment/delete:
-        post:
-            operationId: R211
-            summary: 'R211: Delete Comment Action'
-            description: 'Processes the delete comment form submission. Access: OWN, MOD,ADM'
-            tags:
-                - 'M02: Questions, Answers and Comments'
-        
-            requestBody:
-                required: true
-                content:
-                application/x-www-form-urlencoded:
-                    schema:
-                    type: object
-                    properties:
-                        id:
-                            type: integer
-                    required:
-                        - id
-        
-            responses:
-                '200':
-                    description: 'Comment deleted successfuly'
-                '403':
-                    description: 'No permission.'
- 
-
-# ------- Edit Comment ------- #
-
-   /comment/edit:
-       post:
-           operationId: R212
-           summary: 'R212: Edit Comment Action'
-           description: 'Processes the edit comment form submission. Access: OWN, MOD, ADM'
-           tags:
-               - 'M02: Questions, Answers and Comments'
-       
-           requestBody:
-               required: true
-               content:
-               application/x-www-form-urlencoded:
-                   schema:
-                   type: object
-                   properties:
-                       id:
-                           type: integer
-                       content:
-                           type: string
-                   required:
-                       - id
-                       - content
-       
-           responses:
-               '200':
-                   description: 'Comment edited successfuly'
-               '403':
-                   description: 'No permission.'
-
-# ---------------- Tags ---------------- #
-
-# ------- View Tag ------- #  
-
-   /tag/{id}:
-         get:
-              operationId: R213
-              summary: 'R213: View Tag'
-              description: 'Show the individual tag. Access: USR, GST'
-              tags:
-                - 'M02: Questions, Answers and Comments'
-         
-              parameters:
-                - in: path
-                  name: id
-                  schema:
-                        type: integer
-                  required: true
-         
-              responses:
-                '200':
-                     description: 'Ok. Show Tag UI'
-                '404':
-                     description: 'Tag not found.'
-
-
-
-# -------------------------------------- M03 ----------------------------------------------- # 
-
-# ------- Downvote Answer ------- #
-    /answer/downvote:
-        post:
-            operationId: R301
-            summary: 'R301: Downvote Answer Action'
-            description: 'Processes the downvote answer form submission. Access: USR, ADM'
-            tags:
-                - 'M03: Ratings and Follows'
-        
-            requestBody:
-                required: true
-                content:
-                application/x-www-form-urlencoded:
-                    schema:
-                    type: object
-                    properties:
-                        id:
-                            type: integer
-                    required:
-                        - id
-            responses:
-                '200':
-                    description: 'Answer downvoted successfuly'
-                '403':
-                    description: 'No permission.' 
-                    
-# ------- Upvote Answer ------- #
-
-    /answer/upvote:
-       post:
-           operationId: R302
-           summary: 'R302: Upvote Answer Action'
-           description: 'Processes the upvote answer form submission. Access: USR, ADM'
-           tags:
-               - 'M03: Ratings and Follows'
-       
-           requestBody:
-               required: true
-               content:
-               application/x-www-form-urlencoded:
-                   schema:
-                   type: object
-                   properties:
-                       id:
-                           type: integer
-                   required:
-                       - id
-           responses:
-               '200':
-                   description: 'Answer upvoted successfuly'
-               '403':
-                   description: 'No permission.'  
-                   
-# ------- Follow Question ------- #
-
-   /question/follow:
-        post:
-            operationId: R303
-            summary: 'R303: Follow Question Action'
-            description: 'Processes the follow question form submission. Access: USR, ADM'
-            tags:
-                - 'M03: Ratings and Follows'
-        
-            requestBody:
-                required: true
-                content:
-                application/x-www-form-urlencoded:
-                    schema:
-                    type: object
-                    properties:
-                        id:
-                            type: integer
-                    required:
-                        - id
-            responses:
-                '200':
-                 description: 'Question followed successfuly'
-                '403':
-                 description: 'No permission.'  
-                 
-
-# ------- Upvote Question ------- #
-
-   /question/upvote:
-        post:
-          operationId: R304
-          summary: 'R304: Upvote Question Action'
-          description: 'Processes the upvote question form submission. Access: USR, ADM'
-          tags:
-              - 'M03: Ratings and Follows'
-    
-          requestBody:
-              required: true
-              content:
-              application/x-www-form-urlencoded:
-                  schema:
-                  type: object
-                  properties:
-                      id:
-                        type: integer
-                  required:
-                      - id
-          responses:
-            '200':
-               description: 'Question upvoted successfuly'
-            '403':
-               description: 'No permission.'
-
-# ------- Downvote Question ------- #
-   
-   /question/downvote:
-       post:
-         operationId: R305
-         summary: 'R305: Downvote Question Action'
-         description: 'Processes the downvote question form submission. Access: USR, ADM'
-         tags:
-             - 'M03: Ratings and Follows'
-    
-         requestBody:
-             required: true
-             content:
-             application/x-www-form-urlencoded:
-                 schema:
-                 type: object
-                 properties:
-                     id:
-                       type: integer
-                 required:
-                     - id
-         responses:
-             '200':
-              description: 'Question downvoted successfuly'
-             '403':
-              description: 'No permission.'
-              
-# ------- Follow Tag ------- #
-
-   /tag/follow:
-       post:
-           operationId: R306
-           summary: 'R306: Follow Tag Action'
-           description: 'Processes the follow tag form submission. Access: USR, ADM'
-           tags:
-               - 'M03: Ratings and Follows'
-       
-           requestBody:
-               required: true
-               content:
-               application/x-www-form-urlencoded:
-                   schema:
-                   type: object
-                   properties:
-                       id:
-                           type: integer
-                   required:
-                       - id
-           responses:
-               '200':
-                description: 'Tag followed successfuly'
-               '403':
-                description: 'No permission.' 
-
-# ------- Unfollow Tag ------- #
-
-    /tag/unfollow:
-        post:
-            operationId: R307
-            summary: 'R307: Unfollow Tag Action'
-            description: 'Processes the unfollow tag form submission. Access: USR, ADM'
-            tags:
-                - 'M03: Ratings and Follows'
-        
-            requestBody:
-                required: true
-                content:
-                application/x-www-form-urlencoded:
-                    schema:
-                    type: object
-                    properties:
-                        id:
-                            type: integer
-                    required:
-                        - id
-            responses:
-                '200':
-                  description: 'Tag unfollowed successfuly'
-                '403':
-                  description: 'No permission.'
-
-
-# -------------------------------------- M04 ----------------------------------------------- #
-
-
-# ---------------- Tags ---------------- #
-
-# ------- Create Tag ------- #        
-
-   /tag/create:
-       post:
-           operationId: R401
-           summary: 'R401: Create Tag Action'
-           description: 'Processes the new tag form submission. Access: ADM'
-           tags:
-               - 'M04: User Administration and Static pages'
-       
-           requestBody:
-               required: true
-               content:
-               application/x-www-form-urlencoded:
-                   schema:
-                   type: object
-                   properties:
-                       id:
-                           type: integer
-                       name:
-                           type: string
-                   required:
-                       - name
-           responses:
-               '302':
-                   description: 'Redirect after processing the new tag information.'
-                   headers:
-                       Location:
-                           schema:
-                               type: string
-                           examples:
-                               302Success:
-                                   description: 'Successful tag creation. Redirect to tag page.'
-                                   value: '/tag/{id}'
-                               302Failure:
-                                   description: 'Failed tag creation. Redirect to home page.'
-                                   value: '/home'
-
-# ------- Delete Tag ------- # 
-
-   /tag/delete:
-       post:
-           operationId: R402
-           summary: 'R402: Delete Tag Action'
-           description: 'Processes the delete tag form submission. Access: ADM'
-           tags:
-               - 'M04: User Administration and Static pages'
-       
-           requestBody:
-               required: true
-               content:
-               application/x-www-form-urlencoded:
-                   schema:
-                   type: object
-                   properties:
-                       id:
-                           type: integer
-                   required:
-                       - id
-       
-           responses:
-               '200':
-                   description: 'Tag deleted successfuly'
-               '403':
-                   description: 'No permission.'       
-                
-# ------- Edit Tag ------- # 
-
-   /tag/edit:
-       post:
-         operationId: R403
-         summary: 'R403: Edit Tag Action'
-         description: 'Processes the edit tag form submission. Access: ADM, MOD'
-         tags:
-             - 'M04: User Administration and Static pages'
-       
-         requestBody:
-             required: true
-             content:
-             application/x-www-form-urlencoded:
-                 schema:
-                 type: object
-                 properties:
-                     id:
-                         type: integer
-                     name:
-                         type: string
-                 required:
-                     - id
-                     - name
-       
-         responses:
-             '200':
-                 description: 'Tag edited successfuly'
-             '403':
-                 description: 'No permission.'
-
-# -------------- Static Pages -------------- #
-
-# ------- FAQ Page ------- # 
-
-   /faq:
-       get:
-           operationId: R404
-           summary: 'R404: FAQ Page'
-           description: 'Show the FAQ page. Access: GST, USR, ADM'
-           tags:
-               - 'M04: User Administration and Static pages'
-       
-           responses:
-               '200':
-                   description: 'Ok. Show Home UI'
-
-# ------- About Page ------- #
-
-   /about:
-       get:
-           operationId: R405
-           summary: 'R405: About Page'
-           description: 'Show the About page. Access: GST, USR, ADM'
-           tags:
-               - 'M04: User Administration and Static pages'
-       
-           responses:
-               '200':
-                   description: 'Ok. Show Home UI'
-
-# ------- Contacts Page ------- #
-
-   /contacts:
-       get:
-           operationId: R406
-           summary: 'R406: Contacts Page'
-           description: 'Show the Contacts page. Access: GST, USR, ADM'
-           tags:
-               - 'M04: User Administration and Static pages'
-       
-           responses:
-               '200':
-                   description: 'Ok. Show Home UI'
-
-# --------------- Administration --------------- #
-
-# ------- Block User ------- #
-
-   /user/block:
-       post:
-           operationId: R407
-           summary: 'R407: Block User Action'
-           description: 'Processes the block user form submission. Access: ADM'
-           tags:
-               - 'M04: User Administration and Static pages'
-       
-           requestBody:
-               required: true
-               content:
-               application/x-www-form-urlencoded:
-                   schema:
-                   type: object
-                   properties:
-                       id:
-                           type: integer
-                   required:
-                       - id
-       
-           responses:
-               '200':
-                   description: 'User blocked successfuly'
-               '403':
-                   description: 'No permission.'
-
-# ------- Unblock User ------- #
-
-    /user/unblock:
-        post:
-            operationId: R408
-            summary: 'R408: Unblock User Action'
-            description: 'Processes the unblock user form submission. Access: ADM'
-            tags:
-                - 'M04: User Administration and Static pages'
-        
-            requestBody:
-                required: true
-                content:
-                application/x-www-form-urlencoded:
-                    schema:
-                    type: object
-                    properties:
-                        id:
-                            type: integer
-                    required:
-                        - id
-        
-            responses:
-                '200':
-                    description: 'User unblocked successfuly'
-                '403':
-                    description: 'No permission.'
-
-# ------- Delete User ------- #
-
-    /delete_profile:
-        post:
-            operationId: R409
-            summary: 'R409: Delete User Action'
-            description: 'Processes the delete user form submission. Access: ADM'
-            tags:
-                - 'M04: User Administration and Static pages'
-        
-            requestBody:
-                required: true
-                content:
-                application/x-www-form-urlencoded:
-                    schema:
-                    type: object
-                    properties:
-                        id:
-                            type: integer
-                    required:
-                        - id
-        
-            responses:
-                '200':
-                    description: 'User deleted successfuly'
-                '403':
-                    description: 'No permission.'
-    
-    /users:
-        get:
-            operationId: R410
-            summary: 'R410: List Users View'
-            description: 'Show the users list. Access: ADM'
-            tags:
-                - 'M04: User Administration and Static pages'
-        
-            responses:
-                '200':
-                    description: 'Ok. Show Users List UI'
-
-
-# -------------------------------------- M05 ----------------------------------------------- #
-
-# ------- Home Page ------- #
-
-   /home:
-       get:
-           operationId: R501
-           summary: 'R501: Home Page'
-           description: 'Show the Home page. Access: GST, USR, ADM'
-           tags:
-               - 'M05: Dynamic Pages'
-       
-           responses:
-               '200':
-                   description: 'Ok. Show Home UI'
-
-# --------------- Search --------------- #
-
-# ------- Search User ------- #
-
-   /api/users:
-     get:
-       operationId: R502
-       summary: 'R502: Search User'
-       description: 'Search for users. Access: ADM'
-       tags:
-         - 'M05: Dynamic Pages'
-   
-       parameters:
-         - in: query
-           name: q
-           schema:
-             type: string
-           required: true
-   
-       responses:
-         '200':
-           description: 'Ok. Show Search User UI'
-         '404':
-           description: 'No users found.'
-
-# ------- Search Question ------- #
-
-   /search:
-     get:
-       operationId: R503
-       summary: 'R503: Search Question Post'
-       description: 'Search for questions. Access: GST, USR, ADM'
-       tags:
-         - 'M05: Dynamic Pages'
-   
-       parameters:
-         - in: query
-           name: q
-           schema:
-             type: string
-           required: true
-   
-       responses:
-         '200':
-           description: 'Ok. Show Search Question UI'
-         '404':
-           description: 'No questions found.'
-
-# ------- Search Answer ------- #
-
-   /api/answer:
-     get:
-       operationId: R504
-       summary: 'R504: Search Answer'
-       description: 'Search for answers. Access: GST, USR, ADM'
-       tags:
-         - 'M05: Dynamic Pages'
-   
-       parameters:
-         - in: query
-           name: q
-           schema:
-             type: string
-           required: true
-   
-       responses:
-         '200':
-           description: 'Ok. Show Search Answer UI'
-         '404':
-           description: 'No answers found.'
-
-# ------- Search Comment ------- #
-
-    /api/comment:
-      get:
-        operationId: R505
-        summary: 'R505: Search Comment'
-        description: 'Search for comments. Access: GST, USR, ADM'
-        tags:
-          - 'M05: Dynamic Pages'
-    
-        parameters:
-          - in: query
-            name: q
-            schema:
-              type: string
-            required: true
-    
+              schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+              required:
+                - id
         responses:
           '200':
-            description: 'Ok. Show Search Comment UI'
-          '404':
-            description: 'No comments found.'
+            description: 'Tag unfollowed successfuly'
+          '403':
+            description: 'No permission.' 
 
-# ------- Search Tag ------- #
+  /tag/create:
+    post:
+      operationId: R401
+      summary: 'R401: Create Tag Action'
+      description: 'Processes the new tag form submission. Access: ADM'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            required:
+              - name
+      responses:
+        '302':
+          description: 'Redirect after processing the new tag information.'
+          headers:
+            Location:
+              schema:
+                  type: string
+              examples:
+                302Success:
+                  description: 'Successful tag creation. Redirect to tag page.'
+                  value: '/tag/{id}'
+                302Failure:
+                  description: 'Failed tag creation. Redirect to home page.'
+                  value: '/home' 
+
+  /tag/delete:
+    post:
+      operationId: R402
+      summary: 'R402: Delete Tag Action'
+      description: 'Processes the delete tag form submission. Access: ADM'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+    
+      responses:
+        '200':
+          description: 'Tag deleted successfuly'
+        '403':
+          description: 'No permission.'       
+
+  /tag/edit:
+    post:
+      operationId: R403
+      summary: 'R403: Edit Tag Action'
+      description: 'Processes the edit tag form submission. Access: ADM, MOD'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            required:
+              - id
+              - name
+    
+      responses:
+        '200':
+          description: 'Tag edited successfuly'
+        '403':
+          description: 'No permission.'
+
+  /faq:
+    get:
+      operationId: R404
+      summary: 'R404: FAQ Page'
+      description: 'Show the FAQ page. Access: GST, USR, ADM'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      responses:
+        '200':
+         description: 'Ok. Show Home UI'
+
+  /about:
+    get:
+      operationId: R405
+      summary: 'R405: About Page'
+      description: 'Show the About page. Access: GST, USR, ADM'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      responses:
+        '200':
+          description: 'Ok. Show Home UI'
+
+  /contacts:
+    get:
+      operationId: R406
+      summary: 'R406: Contacts Page'
+      description: 'Show the Contacts page. Access: GST, USR, ADM'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      responses:
+        '200':
+          description: 'Ok. Show Home UI'
+
+  /user/block:
+    post:
+      operationId: R407
+      summary: 'R407: Block User Action'
+      description: 'Processes the block user form submission. Access: ADM'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+    
+      responses:
+        '200':
+          description: 'User blocked successfuly'
+        '403':
+          description: 'No permission.'
+
+  /user/unblock:
+    post:
+      operationId: R408
+      summary: 'R408: Unblock User Action'
+      description: 'Processes the unblock user form submission. Access: ADM'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+    
+      responses:
+        '200':
+          description: 'User unblocked successfuly'
+        '403':
+          description: 'No permission.'
+
+  /delete_profile:
+    post:
+      operationId: R409
+      summary: 'R409: Delete User Action'
+      description: 'Processes the delete user form submission. Access: ADM'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+            type: object
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+    
+      responses:
+        '200':
+          description: 'User deleted successfuly'
+        '403':
+          description: 'No permission.'
   
-    /api/tag:
-      get:
-        operationId: R506
-        summary: 'R506: Search Tag'
-        description: 'Search for tags. Access: GST, USR, ADM'
+  /users:
+    get:
+      operationId: R410
+      summary: 'R410: List Users View'
+      description: 'Show the users list. Access: ADM'
+      tags:
+        - 'M04: User Administration and Static pages'
+    
+      responses:
+        '200':
+          description: 'Ok. Show Users List UI'
+
+  /home:
+    get:
+      operationId: R501
+      summary: 'R501: Home Page'
+      description: 'Show the Home page. Access: GST, USR, ADM'
+      tags:
+        - 'M05: Dynamic Pages'
+    
+      responses:
+        '200':
+          description: 'Ok. Show Home UI'
+
+  /api/users:
+    get:
+      operationId: R502
+      summary: 'R502: Search User'
+      description: 'Search for users. Access: ADM'
+      tags:
+        - 'M05: Dynamic Pages'
+  
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+  
+      responses:
+        '200':
+          description: 'Ok. Show Search User UI'
+        '404':
+          description: 'No users found.'
+
+  /search:
+    get:
+      operationId: R503
+      summary: 'R503: Search Question Post'
+      description: 'Search for questions. Access: GST, USR, ADM'
+      tags:
+        - 'M05: Dynamic Pages'
+  
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+  
+      responses:
+        '200':
+          description: 'Ok. Show Search Question UI'
+        '404':
+          description: 'No questions found.'
+
+  /api/answer:
+    get:
+      operationId: R504
+      summary: 'R504: Search Answer'
+      description: 'Search for answers. Access: GST, USR, ADM'
+      tags:
+        - 'M05: Dynamic Pages'
+  
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+  
+      responses:
+        '200':
+          description: 'Ok. Show Search Answer UI'
+        '404':
+          description: 'No answers found.'
+
+  /api/comment:
+    get:
+      operationId: R505
+      summary: 'R505: Search Comment'
+      description: 'Search for comments. Access: GST, USR, ADM'
+      tags:
+        - 'M05: Dynamic Pages'
+  
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+  
+      responses:
+        '200':
+          description: 'Ok. Show Search Comment UI'
+        '404':
+          description: 'No comments found.'
+
+  /api/tag:
+    get:
+      operationId: R506
+      summary: 'R506: Search Tag'
+      description: 'Search for tags. Access: GST, USR, ADM'
+      tags:
+        - 'M05: Dynamic Pages'
+  
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+  
+      responses:
+        '200':
+          description: 'Ok. Show Search Tag UI'
+        '404':
+          description: 'No tags found.'            
+
+  /home/notifications:
+    get:
+        operationId: R507
+        summary: 'R507: Notifications'
+        description: 'Show the notifications page. Access: USR, ADM'
         tags:
           - 'M05: Dynamic Pages'
     
-        parameters:
-          - in: query
-            name: q
-            schema:
-              type: string
-            required: true
-    
         responses:
           '200':
-            description: 'Ok. Show Search Tag UI'
-          '404':
-            description: 'No tags found.'            
+            description: 'Ok. Show Notifications UI'
 
-# ------- Notifications ------- #
-
-   /home/notifications:
-      get:
-          operationId: R507
-          summary: 'R507: Notifications'
-          description: 'Show the notifications page. Access: USR, ADM'
-          tags:
-              - 'M05: Dynamic Pages'
-      
-          responses:
-              '200':
-                  description: 'Ok. Show Notifications UI'
-
-# ------- Notification Context ------- #
-
-   /api/context:
+  /api/context:
     get:
       operationId: R508
       summary: 'R508 : Notification context'
       description: 'Get notification context. Access: USR, ADM'
       tags:
         - 'M05: Dynamic Pages'
-
+ 
       parameters:
         - in: query
           name: id
@@ -1276,7 +1163,7 @@ paths:
           schema:
             type: integer
           required: true
-
+ 
       responses:
         '200':
           description: 'Success. Returns some HTML text containing notification context (post, comment, subcomment) information'
