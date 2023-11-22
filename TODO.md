@@ -1,11 +1,11 @@
 US101
-**Exact Match Search**
+**Exact Match Search** **Done**
 High
 As a User, I want to search by exact text match, so that I can search the posts I want with better accuracy.
 
 
 US102
-**Full-Text Search**
+**Full-Text Search** **Done**
 High
 As a User, I want to search with any text, so that I can find any posts that include those words.
 
@@ -17,7 +17,7 @@ As a User, I want to be able to view the top questions, so that I can easily see
 
 
 US104
-**Browse Questions**
+**Browse Questions** **Done**
 High
 As a User, I want to be able to browse questions, so that I can check the questions available on the platform
 
