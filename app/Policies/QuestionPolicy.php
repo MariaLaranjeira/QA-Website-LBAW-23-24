@@ -36,13 +36,13 @@ class QuestionPolicy {
      */
     public function delete(User $user, Question $question): bool {
         // Only a question owner can delete it.
-        return $user->user_id === $question->id_user;
+        return $user->user_id === $question->id_user|| $user->is_admin;
     }
 
     public function edit(User $user, Question $question): bool
     {
         // User can only update items in cards they own.
-        return $user->user_id === $question->id_user;
+        return $user->user_id === $question->id_user || $user->is_admin;
     }
 
 

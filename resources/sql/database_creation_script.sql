@@ -265,7 +265,7 @@ EXECUTE PROCEDURE check_answer_rating();
 --Populate
 
 INSERT INTO users (name, username, email, password, profileURL) VALUES
-('John Doe', 'johndoe123', 'johndoe@example.com', 'password123', 'https://example.com/johndoe'),
+('John Doe', 'johndoe123', 'johndoe@example.com', '$2y$10$b5meAPjLa0.o2m.Jzf3Z1upaVTLytyL1Xy2aw/lotptbCNznMdmsS', 'https://example.com/johndoe'),
 ('Alice Smith', 'alicesmith', 'alice@example.com', 'alicepass', 'https://example.com/alicesmith'),
 ('Bob Johnson', 'bobjohnson', 'bob@example.com', 'bobpassword', 'https://example.com/bobjohnson'),
 ('Eva Johnson', 'evaj', 'eva@example.com', 'evapass', 'https://example.com/evajohnson'),

@@ -36,24 +36,17 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'index')->name('home');
 });
 
-// Cards
-Route::controller(CardController::class)->group(function () {
-    Route::get('/cards', 'list')->name('cards');
-    Route::get('/cards/{id}', 'show');
-});
-
 //Profile
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile', 'profile');
     Route::get('/edit_user', 'editUser')->name('edit_user');
     Route::post('/update_user','updateUser')->name('update_user');
     Route::get('/users','list')->name('users');
-    Route::post('delete_profile', 'deleteProfile')->name('delete_profile');
+    Route::post('/delete_profile', 'deleteProfile')->name('delete_profile');
 });
 
 //Questions
 Route::controller(QuestionController::class)->group(function () {
-    Route::get('/question','list')->name('question');
     Route::get('/question/{id}','show');
     Route::get('/newquestion', 'showNewQuestionForm')->name('newquestion');
     Route::post('/newquestion', 'create')->name('createnewquestion');
@@ -66,23 +59,6 @@ Route::controller(QuestionController::class)->group(function () {
 //Answers
 Route::controller(AnswerController::class)->group(function () {
     Route::post('/question/{id}','create')->name('newanswer');
-});
-
-// API
-Route::controller(CardController::class)->group(function () {
-    Route::put('/api/cards', 'create');
-    Route::delete('/api/cards/{card_id}', 'delete');
-});
-
-Route::controller(QuestionController::class)->group(function () {
-    Route::put('/api/question', 'create');
-    Route::delete('/api/question/{question_id}', 'delete');
-});
-
-Route::controller(ItemController::class)->group(function () {
-    Route::put('/api/cards/{card_id}', 'create');
-    Route::post('/api/item/{id}', 'update');
-    Route::delete('/api/item/{id}', 'delete');
 });
 
 

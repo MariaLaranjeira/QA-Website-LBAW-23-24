@@ -46,6 +46,12 @@
             <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
                 {{ csrf_field() }}
                 <textarea type="text" name="answer_body" id="answer_body" placeholder="Write your answer here (Be respectful)"></textarea>
+                    @if ($errors->has('answer_body'))
+                    <span class="error">
+                      Your answer's body must be between 1 and 4000 characters long.
+                    </span>
+                    <br>
+                    @endif
                 <button type="submit">
                     Post New Answer
                 </button>

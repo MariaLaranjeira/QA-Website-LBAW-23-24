@@ -56,8 +56,21 @@ class QuestionController extends Controller {
     }
 
     public function edit(Request $request,$id) {
+
         $question = Question::findOrFail($id);
         $this->authorize('edit', $question);
+
+        if ($question->title == $request->input('title')) {
+            $request->validate([
+                'text_body' => 'required|string|min:5|max:4000',
+            ]);
+        }
+        else {
+            $request->validate([
+                'title' => 'required|string|min:5|max:100',
+                'text_body' => 'required|string|min:5|max:4000',
+            ]);
+        }
 
         $question->title = $request->input('title');
         $question->text_body = $request->input('text_body');
@@ -81,7 +94,7 @@ class QuestionController extends Controller {
     public function show($id) {
 
         $question = Question::findOrFail($id);
-        $answers = Answer::query()->where('id_question', '=', $id)->orderBy('rating')->get();
+        $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
 
         return view('pages/question', [
             'question' => $question,
