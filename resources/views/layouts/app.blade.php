@@ -15,6 +15,7 @@
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
         <link href="{{ url('css/question.css') }}" rel="stylesheet">
         <link href="{{ url('css/new.question.css') }}" rel="stylesheet">
+        <link href="{{ url('css/profile.css') }}" rel="stylesheet">
 
 
         <script type="text/javascript">

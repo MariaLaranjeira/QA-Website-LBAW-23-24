@@ -25,11 +25,12 @@ body {
     margin-right: 11px;
   }
 
-  main > header > form > input {
-    justify-self: center;
+  main > header > form > #search {
+    justify-self: right;
     margin-bottom: 0px;
     min-height: 36px;
     max-height: 36px;
+    background-color: white;
   }
 
   main > header span {
