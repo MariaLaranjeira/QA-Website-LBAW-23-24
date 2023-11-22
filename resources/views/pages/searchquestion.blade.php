@@ -2,6 +2,7 @@
 
 @section('content')
 
+    <h2>Results the search </h2>
     @forelse($questions as $question)
             @include('partials.question', ['question' => $question])
         @empty

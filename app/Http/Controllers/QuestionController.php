@@ -113,7 +113,7 @@ class QuestionController extends Controller {
         $questions = Question::whereRaw("(lower(title) like ? or upper(title) like ?)", ["%$input%", "%$input%"])
             ->get();
 
-        return view('pages.searchquestion',['questions' => $questions])->render();
+        return view('pages.searchquestion',['questions' => $questions, 'search' => $input])->render();
     }
 
     public function upvote() {

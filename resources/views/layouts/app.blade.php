@@ -30,7 +30,7 @@
                 <h1><a href="{{ url('/home') }}">CreativeHub</a></h1>
                 <form method="POST" action="{{ route('search') }}">
                     {{ csrf_field() }}
-                    <input type="text" name="search" placeholder="Search..">
+                    <input type="text" name="search" id="search" value="{{ old('search') }}" placeholder="Search..">
                 </form>
                 <section id="user_buttons">
                     @if (Auth::check())
