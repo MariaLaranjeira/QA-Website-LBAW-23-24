@@ -7,7 +7,7 @@
 @section('content')
 <section id="question">
     @auth
-        @if (Auth::user()->getAuthIdentifier() == $question->id_user)
+        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin)
             <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
                 {{ csrf_field() }}
                 <button type="submit" class="delete">&#10761;</button>
