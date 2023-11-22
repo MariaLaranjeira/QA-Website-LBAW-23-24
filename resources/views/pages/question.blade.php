@@ -10,7 +10,7 @@
     @if (Auth::user()->getAuthIdentifier() == $question->id_user)
         <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
             {{ csrf_field() }}
-            <button type="submit" class="delete">&#10761;</button>
+            <button type="submit" class="delete">Delete this question</button>
         </form>
     @endif
 
@@ -26,7 +26,7 @@
 
     <div id="post_info">
         <div id="author">
-            Implementar isto
+            Author: Implementar isto
         </div>
         <div id="date">
             Posted on: {{ $question->creation_date }}

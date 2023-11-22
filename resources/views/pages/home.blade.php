@@ -13,9 +13,9 @@
 
         </button>
     </form>
-
-    @each('partials.question', $questions, 'question')
     @endauth
+    <h2>Recent Questions</h2>
+    @each('partials.question', $questions, 'question')
 </section>
 
 @endsection
