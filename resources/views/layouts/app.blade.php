@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+--------------<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8">
@@ -29,7 +29,8 @@
             <header>
                 <h1><a href="{{ url('/home') }}">CreativeHub</a></h1>
                 @if (Auth::check())
-                    <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->username }}</span>
+                    <a class="button" href="{{ url('/logout') }}"> Logout </a> 
+                    <a class="button" href="{{ url('/profile') }}"> {{ Auth::user()->username }} </a>
                 @endif
                 @if (!Auth::check())
                     <a class="button" href="{{ url('/login') }}"> Login </a>

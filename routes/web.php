@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnswerController;
@@ -39,6 +40,15 @@ Route::controller(HomeController::class)->group(function () {
 Route::controller(CardController::class)->group(function () {
     Route::get('/cards', 'list')->name('cards');
     Route::get('/cards/{id}', 'show');
+});
+
+//Profile
+Route::controller(UserController::class)->group(function () {
+    Route::get('/profile', 'profile');
+    Route::get('/edit_user', 'editUser')->name('edit_user');
+    Route::post('/update_user','updateUser')->name('update_user');
+    Route::get('/users','list')->name('users');
+    Route::post('delete_profile', 'deleteProfile')->name('delete_profile');
 });
 
 //Questions
