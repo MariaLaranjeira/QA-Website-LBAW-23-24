@@ -40,9 +40,12 @@ Route::controller(HomeController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile', 'profile');
     Route::get('/edit_user', 'editUser')->name('edit_user');
+    Route::get('/edit_profile_picture', 'editProfilePicture')->name('edit_profile_picture');
+    Route::get('/delete_picture', 'deletePic')->name('delete_picture');
     Route::post('/update_user','updateUser')->name('update_user');
     Route::get('/users','list')->name('users');
     Route::post('/delete_profile', 'deleteProfile')->name('delete_profile');
+    Route::post('/upload_picture', 'uploadPicture')->name('upload_picture');
 });
 
 //Questions

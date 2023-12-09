@@ -53,6 +53,7 @@ CREATE TABLE users (
   username TEXT UNIQUE NOT NULL,
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
+  picture TEXT DEFAULT 'default.jpg' NOT NULL,
   is_admin BOOLEAN DEFAULT False,
   profileURL TEXT
 );
