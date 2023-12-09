@@ -1,5 +1,3 @@
-@section('body', $answer->text_body)
-
 <article class="answer" data-id="{{ $answer->answer_id }}">
     <header>
         <h2>{{ $answer->text_body }}</h2>

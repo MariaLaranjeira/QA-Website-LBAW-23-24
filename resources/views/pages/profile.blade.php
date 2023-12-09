@@ -2,6 +2,9 @@
 
 @section('title', 'Profile')
 
+@section('styles')
+<link href="{{ url('css/profile.css') }}" rel="stylesheet">
+@endsection
 
 @section('content')
 <section id="profile">

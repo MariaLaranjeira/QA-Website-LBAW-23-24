@@ -2,6 +2,10 @@
 
 @section('title', 'Create Question')
 
+@section('styles')
+<link href="{{ url('css/new.question.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 
 <section id = "new_question">

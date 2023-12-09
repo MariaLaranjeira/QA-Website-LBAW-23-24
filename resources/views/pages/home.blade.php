@@ -2,6 +2,10 @@
 
 @section('title', 'CreativeHub Home')
 
+@section('styles')
+<link href="{{ url('css/question.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 
 <section id="home">

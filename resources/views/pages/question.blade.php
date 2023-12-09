@@ -3,6 +3,9 @@
 @section('title', $question->title)
 @section('text_body', $question->text_body)
 
+@section('styles')
+<link href="{{ url('css/question.css') }}" rel="stylesheet">
+@endsection
 
 @section('content')
 <section id="question">
