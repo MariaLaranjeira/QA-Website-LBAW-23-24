@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 //use App\Http\Controllers\ImageController;
 //use App\Http\Controllers\TagController;
 
@@ -26,6 +28,15 @@ class UserController extends Controller {
     {
         //$this->authorize('editUser', Auth::user());
         return view('pages.editUser', ['user' => Auth::user(),
+            'old' => ['name' => Auth::user()->name,
+                'username' => Auth::user()->username,
+                'email' => Auth::user()->email ] ]);
+    }
+
+    public function editProfilePicture()
+    {
+        //$this->authorize('editUser', Auth::user());
+        return view('pages.editProfilePicture', ['user' => Auth::user(),
             'old' => ['name' => Auth::user()->name,
                 'username' => Auth::user()->username,
                 'email' => Auth::user()->email ] ]);
@@ -99,6 +110,35 @@ class UserController extends Controller {
 
       }
 
+      public function uploadPicture(Request $request) {
+        $user = Auth::user();
+        if($request->file('avatar')){
+            if ($user->picture != 'default.jpg'){
+              $deletepath = public_path().'/images/profile/'.$user->picture;
+              File::delete($deletepath);
+            }
+            $filename = Str::slug(Carbon::now(), '_').'.jpg';
 
+            $request->file('avatar')->move(public_path('images/profile'), $filename);
+            $user->picture = $filename;
+            $user->save();
+        }
+
+        //$user->picture = 'melissa.jpg';
+        $user->save();
+        //return redirect()->back();
+        return view('pages.profile', ['user' => $user]);
+      }
+
+      public function deletePicture(){
+        $user = Auth::user();
+        if ($user->picture != 'default.jpg'){
+          $deletepath = public_path().'images/profile/'.$user->picture;
+          File::delete($deletepath);
+          $user->picture = 'default.jpg';
+          $user->save();
+        }
+        return redirect()->back();
+      }
 
 }
