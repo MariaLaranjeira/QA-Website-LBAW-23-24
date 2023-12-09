@@ -11,6 +11,8 @@ use Illuminate\View\View;
 
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Comment;
+use App\Models\UserAnswerRating;
 
 class QuestionController extends Controller {
 

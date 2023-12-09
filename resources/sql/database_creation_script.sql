@@ -88,7 +88,7 @@ CREATE TABLE answer (
   id_user INTEGER NOT NULL,
   id_question INTEGER NOT NULL,
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE,
-  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE
+  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE tag (
@@ -99,8 +99,8 @@ CREATE TABLE question_tag (
   id_question INTEGER NOT NULL,
   id_tag TEXT NOT NULL,
   PRIMARY KEY (id_question, id_tag),
-  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE,
-  FOREIGN KEY (id_tag) REFERENCES tag(name) ON UPDATE CASCADE
+  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (id_tag) REFERENCES tag(name) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE comment (
@@ -112,8 +112,8 @@ CREATE TABLE comment (
   id_answer INTEGER,
   comment_type comment_type NOT NULL,
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE,
-  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE,
-  FOREIGN KEY (id_answer) REFERENCES answer(answer_id) ON UPDATE CASCADE,
+  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (id_answer) REFERENCES answer(answer_id) ON UPDATE CASCADE ON DELETE CASCADE,
   CHECK (
     (comment_type = 'QuestionComment' AND id_question IS NOT NULL AND id_answer IS NULL) OR
     (comment_type = 'AnswerComment' AND id_question IS NULL AND id_answer IS NOT NULL)
@@ -126,7 +126,7 @@ CREATE TABLE user_rating_question (
   rating INTEGER NOT NULL,
   PRIMARY KEY (id_user, id_question),
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE,
-  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE,
+  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE ON DELETE CASCADE,
   CHECK (rating = 0 OR rating = 1)
 );
 
@@ -136,7 +136,7 @@ CREATE TABLE user_rating_answer (
   rating INTEGER NOT NULL,
   PRIMARY KEY (id_user, id_answer),
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE,
-  FOREIGN KEY (id_answer) REFERENCES answer(answer_id) ON UPDATE CASCADE,
+  FOREIGN KEY (id_answer) REFERENCES answer(answer_id) ON UPDATE CASCADE ON DELETE CASCADE,
   CHECK (rating = 0 OR rating = 1)
 );
 
@@ -145,7 +145,7 @@ CREATE TABLE user_follow_tag (
   id_tag TEXT NOT NULL,
   PRIMARY KEY (id_user, id_tag),
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE,
-  FOREIGN KEY (id_tag) REFERENCES tag(name) ON UPDATE CASCADE
+  FOREIGN KEY (id_tag) REFERENCES tag(name) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE user_follow_question (
@@ -153,7 +153,7 @@ CREATE TABLE user_follow_question (
   id_question INTEGER NOT NULL,
   PRIMARY KEY (id_user, id_question),
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE,
-  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE
+  FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --Index01
