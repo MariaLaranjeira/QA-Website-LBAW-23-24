@@ -124,9 +124,7 @@ class UserController extends Controller {
             $user->save();
         }
 
-        //$user->picture = 'melissa.jpg';
         $user->save();
-        //return redirect()->back();
         return view('pages.profile', ['user' => $user]);
       }
 
