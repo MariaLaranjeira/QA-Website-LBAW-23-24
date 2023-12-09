@@ -52,7 +52,6 @@ Route::controller(QuestionController::class)->group(function () {
     Route::post('/newquestion', 'create')->name('createnewquestion');
     Route::post('/question/delete/{id}', 'delete')->name('deletequestion');
     Route::post('/question/edit/{id}', 'edit')->name('editingquestion');
-    Route::get('/question/edit/{id}','showEditForm')->name('editquestion');
     Route::post('/search','search')->name('search');
 });
 

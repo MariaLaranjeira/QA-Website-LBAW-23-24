@@ -73,24 +73,10 @@ class QuestionController extends Controller {
                 'text_body' => 'required|string|min:5|max:4000',
             ]);
         }
-
         $question->title = $request->input('title');
         $question->text_body = $request->input('text_body');
-
         $question->save();
-        return redirect('/question/'.$id, 302,['id' => $id])->withSuccess('Edited a question successfully.');
-
-    }
-
-    public function showEditForm($id) {
-
-        $question = Question::findOrFail($id);
-        $this->authorize('edit', $question);
-        $answers = Answer::query()->where('id_question', '=', $id)->orderBy('rating')->get();
-        return view('pages/editquestion', [
-            'question' => $question,
-            'answers' => $answers
-        ]);
+        return response()->json(['message' => 'Updated the question successfully.', 'question' => $question], 200);
     }
 
     public function show($id) {
@@ -107,8 +93,10 @@ class QuestionController extends Controller {
         $this->authorize('delete', $question);
 
         $question->delete();
-        return redirect('/home', 302)->withSuccess('Deleted a question successfully.');
+
+        return response()->json(['message' => 'Deleted a question successfully.'], 200);
     }
+
 
 
     public function search(Request $request) {

@@ -27,7 +27,7 @@ class AnswerController extends Controller
         $answer->save();
 
         //return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Created a question successfully.');
-        return redirect()->refresh();
+        return response()->json(['message' => 'Posted answer successfully.'], 200);
     }
 
     public function __construct() {
