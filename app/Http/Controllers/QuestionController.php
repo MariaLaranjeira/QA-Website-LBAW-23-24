@@ -85,8 +85,8 @@ class QuestionController extends Controller {
     public function showEditForm($id) {
 
         $question = Question::findOrFail($id);
+        $this->authorize('edit', $question);
         $answers = Answer::query()->where('id_question', '=', $id)->orderBy('rating')->get();
-
         return view('pages/editquestion', [
             'question' => $question,
             'answers' => $answers
@@ -94,10 +94,8 @@ class QuestionController extends Controller {
     }
 
     public function show($id) {
-
         $question = Question::findOrFail($id);
         $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
-
         return view('pages/question', [
             'question' => $question,
             'answers' => $answers
@@ -106,7 +104,7 @@ class QuestionController extends Controller {
 
     public function delete($id) {
         $question = Question::find($id);
-        //$this->authorize('delete', $question);
+        $this->authorize('delete', $question);
 
         $question->delete();
         return redirect('/home', 302)->withSuccess('Deleted a question successfully.');

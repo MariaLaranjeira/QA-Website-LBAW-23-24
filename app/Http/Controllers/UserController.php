@@ -24,7 +24,7 @@ class UserController extends Controller {
 
     public function editUser()
     {
-        //$this->authorize('editUser', Auth::user());
+        $this->authorize('editUser', Auth::user());
         return view('pages.editUser', ['user' => Auth::user(),
             'old' => ['name' => Auth::user()->name,
                 'username' => Auth::user()->username,
@@ -75,7 +75,7 @@ class UserController extends Controller {
         if (!Auth::check()) return redirect('/login');
 
         $user = User::find($request->input('user_id'));
-        //$this->authorize('deleteProfile', $user);
+        $this->authorize('deleteProfile', $user);
 
         $deleted_account=DB::transaction(function() use ($request)
         {

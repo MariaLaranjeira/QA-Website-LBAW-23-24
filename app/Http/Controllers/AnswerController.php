@@ -10,7 +10,7 @@ class AnswerController extends Controller
 {
 
     public function create(Request $request, $id) {
-        //$this->authorize('create', Question::class);
+        $this->authorize('create', Answer::class);
 
         $request->validate([
             'answer_body' => 'required|string|max:4000|min:1',

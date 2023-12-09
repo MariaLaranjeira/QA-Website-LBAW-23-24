@@ -35,7 +35,6 @@ class QuestionPolicy {
      * Determine if a question can be deleted by a user.
      */
     public function delete(User $user, Question $question): bool {
-        // Only a question owner can delete it.
         return $user->user_id === $question->id_user|| $user->is_admin;
     }
 

@@ -50,9 +50,9 @@ Route::controller(QuestionController::class)->group(function () {
     Route::get('/question/{id}','show');
     Route::get('/newquestion', 'showNewQuestionForm')->name('newquestion');
     Route::post('/newquestion', 'create')->name('createnewquestion');
-    Route::post('/delete/{id}', 'delete')->name('deletequestion');
-    Route::post('/edit/{id}', 'edit')->name('editingquestion');
-    Route::get('/edit/{id}','showEditForm')->name('editquestion');
+    Route::post('/question/delete/{id}', 'delete')->name('deletequestion');
+    Route::post('/question/edit/{id}', 'edit')->name('editingquestion');
+    Route::get('/question/edit/{id}','showEditForm')->name('editquestion');
     Route::post('/search','search')->name('search');
 });
 
