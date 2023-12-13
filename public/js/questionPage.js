@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const applyButton = document.getElementById('applyButton');
     const cancelButton = document.getElementById('cancelButton');
     const answerButton = document.getElementById('postAnswer');
+    const commentButton = document.getElementById('postComment');
 
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function (e) {
@@ -152,6 +153,51 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             xhr.send(new FormData(answerForm));
+
+        });
+    }
+    if(commentButton){
+        commentButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const commentForm = commentButton.closest('form');
+            const url = commentForm.getAttribute('action');
+            const method = commentForm.getAttribute('method');
+
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url, true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = xhr.responseText;
+                    console.log(response);
+
+                    try {
+                        const jsonResponse = JSON.parse(response);
+
+                        // Handle the success JSON response, e.g., redirect or update the UI
+                        window.location.reload();
+                    } catch (jsonParseError) {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(response, 'text/html');
+                        const commentField = document.getElementById('post_comment_error');
+                        const newCommentField = doc.getElementById('post_comment_error');
+                        commentField.innerHTML = newCommentField.innerHTML;
+                        console.log("did it do it?");
+                        console.log(commentField.innerHTML);
+                    }
+                } else {
+                    // Handle the error, e.g., display an error message
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function () {
+                // Handle the error, e.g., display an error message
+                console.error('Network error occurred');
+            };
+
+            xhr.send(new FormData(commentForm));
 
         });
     }

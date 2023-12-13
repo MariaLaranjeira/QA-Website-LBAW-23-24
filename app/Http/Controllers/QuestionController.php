@@ -82,9 +82,11 @@ class QuestionController extends Controller {
     public function show($id) {
         $question = Question::findOrFail($id);
         $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+        $comments = Comment::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
         return view('pages/question', [
             'question' => $question,
-            'answers' => $answers
+            'answers' => $answers,
+            'comments' => $comments
         ]);
     }
 

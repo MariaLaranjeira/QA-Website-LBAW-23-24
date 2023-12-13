@@ -7,38 +7,43 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use App\Models\Comment;
 
 class CommentController extends Controller {
-    public function create(Request $request) {
-        $this->authorize('create', Comment::class);
+
+
+    public function createComment(Request $request, $id, $type) {
+        //$this->authorize('create', Comment::class);
 
         $comment = new Comment();
 
-        $comment->id_user = Auth::user()->getAuthIdentifier(); //Talvez esteja errado
+        $request->validate([
+            'comment_body' => 'required|string|max:4000|min:1'
+        ]);
 
-        $comment->creation_date = date("l, jS \of F Y h:i:s A"); //Talvez seja melhor mudar
+        $comment->id_user = Auth::user()->getAuthIdentifier();
 
-        if (($request->id_question == null) and ($request->id_answer != null)) {
-            $comment->id_answer = $request->id_answer;
-            $comment->comment_type = 'AnswerComment';
-        }
-        else if (($request->id_question != null) and ($request->id_answer == null)){
-            $comment->id_question = $request->id_question;
+        $comment->creation_date = now();
+
+        if($type == 'QuestionComment'){
+            $comment->id_question = $id;
             $comment->comment_type = 'QuestionComment';
+        }
+        else if($type == 'AnswerComment'){
+            $comment->id_answer = $id;
+            $comment->comment_type = 'AnswerComment';
         }
         else redirect()->back()->with('error', "A comment must be either an answer or a question");
 
-        if (($request->text_body == null) or ($request->text_body == "")){
-            redirect()->back()->with('error', "You cannot post a question without text");
-        }
-        else $comment->text_body = $request->text_body;
-
-        DB::beginTransaction();
-
+        $comment->text_body = $request->input('comment_body');
         $comment->save();
 
-        DB::commit();
+        return response()->json(['message' => 'Posted comment successfully.'], 200);
+    }
+
+    public function __construct() {
+
     }
 }

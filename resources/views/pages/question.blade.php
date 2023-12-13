@@ -72,6 +72,29 @@
     </form>
 </section>
 
+<section id="question_comments">
+    @auth
+    @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+    <h2>Post your comment</h2>
+    <form action="{{ route('newcomment', ['id' => $question->question_id, 'type' => 'QuestionComment']) }}" method="POST">
+        {{ csrf_field() }}
+        <textarea type="text" name="comment_body" id="comment_body" placeholder="Write your comment here (Be respectful)"></textarea>
+        <span class="error" id="post_comment_error">
+                    @if ($errors->has('comment_body'))
+                    Your comment's body must be between 1 and 4000 characters long.
+                    <br>
+                    @endif
+                </span>
+        <button type="submit" id="postComment">
+            Post New Comment
+        </button>
+    </form>
+    @endif
+    @endauth
+    <h2>Comments</h2>
+    @each('partials.comment', $comments, 'comment')
+</section>
+
 <section id="question_answers">
     @auth
         @if (Auth::user()->getAuthIdentifier() != $question->id_user)
@@ -94,4 +117,6 @@
     <h2>Answers</h2>
     @each('partials.answer', $answers, 'answer')
 </section>
+
+
 @endsection

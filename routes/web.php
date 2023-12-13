@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CardController;
@@ -61,6 +62,11 @@ Route::controller(QuestionController::class)->group(function () {
 //Answers
 Route::controller(AnswerController::class)->group(function () {
     Route::post('/question/{id}','create')->name('newanswer');
+});
+
+//Comments
+Route::controller(CommentController::class)->group(function () {
+    Route::post('/question/{id}/comment/{type}','createComment')->name('newcomment');
 });
 
 
