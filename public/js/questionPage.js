@@ -7,8 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cancelButton = document.getElementById('cancelButton');
     const answerButton = document.getElementById('postAnswer');
     const commentQButton = document.getElementById('postCommentQ');
-    const commentAButton = document.getElementById('postCommentA');
-
+    const commentAButtons = document.querySelectorAll('.post-comment-btn');
 
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function (e) {
@@ -203,11 +202,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         });
     }
-    if(commentAButton){
-        commentAButton.addEventListener('click', function (e) {
+    commentAButtons.forEach(function (button) {
+        button.addEventListener('click', function (e) {
             e.preventDefault();
 
-            const commentForm = commentAButton.closest('form');
+            const commentForm = button.closest('form');
             const url = commentForm.getAttribute('action');
             const method = commentForm.getAttribute('method');
 
@@ -247,5 +246,5 @@ document.addEventListener("DOMContentLoaded", function () {
             xhr.send(new FormData(commentForm));
 
         });
-    }
+    });
 });

@@ -95,53 +95,52 @@
     @each('partials.comment', $commentsQ, 'commentQ')
 </section>
 
-<section id="answer_comments">
-    @foreach ($answers as $answer)
+<section id="answer_section">
     @auth
-    @if (Auth::user()->getAuthIdentifier() != $answer->id_user)
-    <h2>Post your comment</h2>
-    <form action="{{ route('newcomment', ['id' => $answer->answer_id, 'type' => 'AnswerComment']) }}" method="POST">
+    @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+    <h2>Post your answer</h2>
+    <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
         {{ csrf_field() }}
-        <textarea type="text" name="comment_body" id="comment_body" placeholder="Write your comment here (Be respectful)"></textarea>
-        <span class="error" id="post_comment_error">
-                            @if ($errors->has('comment_body'))
-                                Your comment's body must be between 1 and 4000 characters long.
-                                <br>
-                            @endif
-            </span>
-        <button type="submit" id="postCommentA">
-            Post New Comment
-        </button>
-    </form>
-    @endif
-    @endauth
-    <h2>Comments for  Answer ID: {{ $answer->answer_id }}</h2>
-    @each('partials.answer_comment', $commentsA[$answer->answer_id], 'commentA')
-    @endforeach
-</section>
-
-<section id="question_answers">
-    @auth
-        @if (Auth::user()->getAuthIdentifier() != $question->id_user)
-        <h2>Post your answer</h2>
-            <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
-                {{ csrf_field() }}
-                <textarea type="text" name="answer_body" id="answer_body" placeholder="Write your answer here (Be respectful)"></textarea>
-                <span class="error" id="post_answer_error">
+        <textarea type="text" name="answer_body" id="answer_body" placeholder="Write your answer here (Be respectful)"></textarea>
+        <span class="error" id="post_answer_error">
                     @if ($errors->has('answer_body'))
                     Your answer's body must be between 1 and 4000 characters long.
                     <br>
                     @endif
                 </span>
-                <button type="submit" id="postAnswer">
-                    Post New Answer
-                </button>
-            </form>
-        @endif
+        <button type="submit" id="postAnswer">
+            Post New Answer
+        </button>
+    </form>
+    @endif
     @endauth
-    <h2>Answers</h2>
-    @each('partials.answer', $answers, 'answer')
+    @foreach ($answers as $answer)
+        <div id="answers">
+        @auth
+        <h3>{{ $answer->text_body }}</h3>
+        @if (Auth::user()->getAuthIdentifier() != $answer->id_user)
+        <h4>Post your comment</h4>
+        <form action="{{ route('newcomment', ['id' => $answer->answer_id, 'type' => 'AnswerComment']) }}" method="POST">
+            {{ csrf_field() }}
+            <textarea type="text" name="comment_body" id="comment_body" placeholder="Write your comment here (Be respectful)"></textarea>
+            <span class="error" id="post_comment_error">
+                                @if ($errors->has('comment_body'))
+                                    Your comment's body must be between 1 and 4000 characters long.
+                                    <br>
+                                @endif
+                </span>
+            <button type="submit" class="post-comment-btn" id='postCommentA' data-answer-id="{{ $answer->id }}">
+            Post New Comment
+            </button>
+        </form>
+        @endif
+        @endauth
+        <h4 class="comment_title">Comments</h4>
+        @each('partials.answer_comment', $commentsA[$answer->answer_id], 'commentA')
+        </div>
+    @endforeach
 </section>
+
 
 
 @endsection

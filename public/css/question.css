@@ -69,7 +69,15 @@
     color: #555;
 }
 
-#question_answers {
+#answer_section {
+    margin: 16px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#answers {
     margin: 16px;
     padding: 20px;
     background-color: #f8f8f8;
@@ -84,7 +92,9 @@
 }
 
 #question_comments {
-    background-color: #e3d385;
+    margin: 5px;
+    padding: 20px;
+    background-color: #d3d3d3;
     border-radius: 8px;
     border: 1px solid #ddd;
 }
@@ -94,4 +104,10 @@
     border-radius: 8px;
     border: 1px solid #ddd;
 
+}
+
+.comment_title {
+    font-size: 30px;
+    color: #59297a;
+    margin-bottom: 5px;
 }
