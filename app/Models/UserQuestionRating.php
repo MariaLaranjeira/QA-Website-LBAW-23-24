@@ -5,9 +5,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserQuestionRating extends Model {
 
+    use HasCompositePrimaryKey;
+
     public $timestamps = false;
     public $table = 'user_rating_question';
     public $primaryKey = ['id_user', 'id_question'];
+    public $incrementing = false;
 
     protected $fillable = [
         'id_user',

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('title', $question->title)
-@section('text_body', $question->text_body)
 
 @section('styles')
 <link href="{{ url('css/question.css') }}" rel="stylesheet">
 @endsection
 
 @section('scripts')
+<script>window.questionID = "{{ $question->question_id }}"</script>
 <script type="text/javascript" src={{ url('js/questionPage.js') }} defer> </script>
 @endsection
 
@@ -21,6 +21,15 @@
             </form>
 
             <button type="submit" class="edit" id="question_edit_button">&#9998;</button>
+        @endif
+        @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+            <button type="button" id="upVoteButton">Upvote</button>
+            @if ($question->rating >= 0)
+                <span id="rating"> {{ $question->rating }} </span>
+            @else
+                <span id="rating"> 0 </span>
+            @endif
+            <button type="button" id="downVoteButton">Downvote</button>
         @endif
     @endauth
     <h2 id="title_display">

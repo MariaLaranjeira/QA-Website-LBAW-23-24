@@ -71,7 +71,16 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/logout', 'logout')->name('logout');
 });
 
+// Registration
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register');
 });
+
+// Upvotes
+Route::controller(\App\Http\Controllers\UserQuestionRatingController::class)->group(function () {
+    Route::post('/question/{id}/upvote', 'upVote')->name('upvotequestion');
+    Route::post('/question/{id}/downvote', 'downVote')->name('downvotequestion');
+});
+
+// Downvotes

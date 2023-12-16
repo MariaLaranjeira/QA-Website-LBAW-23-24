@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const applyButton = document.getElementById('applyButton');
     const cancelButton = document.getElementById('cancelButton');
     const answerButton = document.getElementById('postAnswer');
+    const upVoteButton = document.getElementById('upVoteButton');
+    const downVoteButton = document.getElementById('downVoteButton');
+
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function (e) {
@@ -137,7 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         const answerField = document.getElementById('post_answer_error');
                         const newAnswerField = doc.getElementById('post_answer_error');
                         answerField.innerHTML = newAnswerField.innerHTML;
-                        console.log("did it do it?");
                         console.log(answerField.innerHTML);
                     }
                 } else {
@@ -152,6 +155,42 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             xhr.send(new FormData(answerForm));
+
+        });
+    }
+
+    if (upVoteButton && downVoteButton) {
+        upVoteButton.addEventListener('click', function (e) {
+            console.log("Clicked");
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/question/' + window.questionID + '/upvote', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            console.log('/question/' + window.questionID + '/upvote');
+            xhr.send();
+
+            xhr.onload = function () {
+                console.log(xhr.status + " " + xhr.statusText);
+                const previous = window.document.getElementById('rating').innerHTML
+                let newRating;
+                switch (xhr.status) {
+                    case 200:
+                        newRating = parseInt(previous) + 1;
+                        break;
+                    case 202:
+                        newRating = parseInt(previous) - 1;
+                        break;
+                    case 204:
+                        newRating = parseInt(previous) + 2;
+                        break;
+                    default:
+                        console.error('Error:', xhr.statusText);
+                        newRating = parseInt(previous);
+                        break;
+                }
+                window.document.getElementById('rating').innerHTML = newRating.toString();
+                console.log(xhr.status);
+            };
 
         });
     }

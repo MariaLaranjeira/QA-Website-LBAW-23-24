@@ -3,16 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\Access\AuthorizationException;
 
-use Illuminate\View\View;
 
 use App\Models\Question;
 use App\Models\Answer;
-use App\Models\Comment;
-use App\Models\UserAnswerRating;
 
 class QuestionController extends Controller {
 
@@ -115,13 +110,5 @@ class QuestionController extends Controller {
             ->get();
 
         return view('pages.searchquestion',['questions' => $questions, 'search' => $input])->render();
-    }
-
-    public function upvote() {
-        //TODO
-    }
-
-    public function downvote() {
-        //TODO
     }
 }
