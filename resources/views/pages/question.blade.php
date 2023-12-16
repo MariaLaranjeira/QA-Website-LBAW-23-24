@@ -85,14 +85,39 @@
                     <br>
                     @endif
                 </span>
-        <button type="submit" id="postComment">
+        <button type="submit" id="postCommentQ">
             Post New Comment
         </button>
     </form>
     @endif
     @endauth
     <h2>Comments</h2>
-    @each('partials.comment', $comments, 'comment')
+    @each('partials.comment', $commentsQ, 'commentQ')
+</section>
+
+<section id="answer_comments">
+    @foreach ($answers as $answer)
+    @auth
+    @if (Auth::user()->getAuthIdentifier() != $answer->id_user)
+    <h2>Post your comment</h2>
+    <form action="{{ route('newcomment', ['id' => $answer->answer_id, 'type' => 'AnswerComment']) }}" method="POST">
+        {{ csrf_field() }}
+        <textarea type="text" name="comment_body" id="comment_body" placeholder="Write your comment here (Be respectful)"></textarea>
+        <span class="error" id="post_comment_error">
+                            @if ($errors->has('comment_body'))
+                                Your comment's body must be between 1 and 4000 characters long.
+                                <br>
+                            @endif
+            </span>
+        <button type="submit" id="postCommentA">
+            Post New Comment
+        </button>
+    </form>
+    @endif
+    @endauth
+    <h2>Comments for  Answer ID: {{ $answer->answer_id }}</h2>
+    @each('partials.answer_comment', $commentsA[$answer->answer_id], 'commentA')
+    @endforeach
 </section>
 
 <section id="question_answers">

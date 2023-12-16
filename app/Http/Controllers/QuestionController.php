@@ -27,7 +27,7 @@ class QuestionController extends Controller {
 
         return view('question', ['question' => $question]);
     }
-    
+
     public function showNewQuestionForm() {
         //$this->authorize('create', Question::class);
         return view('pages/newquestion');
@@ -82,11 +82,16 @@ class QuestionController extends Controller {
     public function show($id) {
         $question = Question::findOrFail($id);
         $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
-        $comments = Comment::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+        $commentsQ = Comment::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+        $commentsA = [];
+        foreach($answers as $answer) {
+            $commentsA[$answer->answer_id] = Comment::query()->where('id_answer', '=', $answer->answer_id)->orderBy('creation_date', 'desc')->get();
+        }
         return view('pages/question', [
             'question' => $question,
             'answers' => $answers,
-            'comments' => $comments
+            'commentsQ' => $commentsQ,
+            'commentsA' => $commentsA
         ]);
     }
 
