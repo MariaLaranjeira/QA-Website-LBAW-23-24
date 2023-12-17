@@ -8,7 +8,6 @@ class UserTagFollow extends Model {
 
     public $timestamps  = false;
     public $table = 'user_follow_tag';
-    public $primaryKey = ['id_user', 'id_tag'];
 
     protected $fillable = [
         'id_user',

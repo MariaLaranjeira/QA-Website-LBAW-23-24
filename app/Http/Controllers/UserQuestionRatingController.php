@@ -23,32 +23,40 @@ class UserQuestionRatingController extends Controller {
     function upVote (Request $request, $id)
     {
         $question = Question::findOrFail($id);
-        //$this->authorize('upVote', $question);
 
-        $currentVote = UserQuestionRating::find(['id_user' => Auth::user()->getAuthIdentifier(), 'id_question' => $id]);
+        $currentVote = UserQuestionRating::query()->
+        where('id_user', '=', Auth::user()->getAuthIdentifier())->
+        where('id_question', '=', $id)->
+        get();
+
+        $not_exists = $currentVote->isEmpty();
+        if ($not_exists) {
+            $object = new UserQuestionRating();
+        } else {
+            $object = $currentVote[0];
+        }
 
         $status = 500;
 
-        if (!$currentVote->exists()) {
+        if ($not_exists) {
             $status = 200;
-            $currentVote = new UserQuestionRating();
-            $currentVote->id_user = Auth::user()->getAuthIdentifier();
-            $currentVote->id_question = $id;
-            $currentVote->rating = 1;
+            $object->id_user = Auth::user()->getAuthIdentifier();
+            $object->id_question = $id;
+            $object->rating = 1;
             $question->rating = $question->rating + 1;
-            $currentVote->save();
+            $object->save();
             $question->save();
-        } else if ($currentVote->rating == 1) {
+        } else if ($object->rating == 1) {
             $status = 202;
             $question->rating = $question->rating - 1;
-            $currentVote->delete();
+            $object->delete();
             $question->save();
-        } else if ($currentVote->rating == 0) {
+        } else if ($object->rating == 0) {
             $status = 204;
             $question->rating = $question->rating + 2;
-            $currentVote->rating = 1;
+            $object->rating = 1;
             $question->save();
-            $currentVote->save();
+            $object->save();
         }
         return response()->json(['message' => 'Updated the question vote.'], $status);
     }
@@ -56,31 +64,39 @@ class UserQuestionRatingController extends Controller {
     function downVote (Request $request, $id)
     {
         $question = Question::findOrFail($id);
-        //$this->authorize('downVote', $question);
 
-        $currentVote = UserQuestionRating::find(['id_user' => Auth::user()->getAuthIdentifier(), 'id_question' => $id]);
+        $currentVote = UserQuestionRating::query()->
+        where('id_user', '=', Auth::user()->getAuthIdentifier())->
+        where('id_question', '=', $id)->
+        get();
+
+        $not_exists = $currentVote->isEmpty();
+        if ($not_exists) {
+            $object = new UserQuestionRating();
+        } else {
+            $object = $currentVote[0];
+        }
 
         $status = 500;
 
-        if (!$currentVote->exists()) {
+        if ($not_exists) {
             $status = 201;
-            $currentVote = new UserQuestionRating();
-            $currentVote->id_user = Auth::user()->getAuthIdentifier();
-            $currentVote->id_question = $id;
-            $currentVote->rating = 0;
+            $object->id_user = Auth::user()->getAuthIdentifier();
+            $object->id_question = $id;
+            $object->rating = 0;
             $question->rating = $question->rating - 1;
-            $currentVote->save();
+            $object->save();
             $question->save();
-        } else if ($currentVote->rating == 1) {
+        } else if ($object->rating == 1) {
             $status = 203;
             $question->rating = $question->rating - 2;
-            $currentVote->rating = 0;
+            $object->rating = 0;
             $question->save();
-            $currentVote->save();
-        } else if ($currentVote->rating == 0) {
+            $object->save();
+        } else if ($object->rating == 0) {
             $status = 205;
             $question->rating = $question->rating + 1;
-            $currentVote->delete();
+            $object->delete();
             $question->save();
         }
         return response()->json(['message' => 'Updated the question vote.'], $status);

@@ -8,7 +8,6 @@ class UserQuestionFollow extends Model {
 
     public $timestamps  = false;
     public $table = 'user_follow_question';
-    public $primaryKey = ['id_user', 'id_question'];
 
     protected $fillable = [
         'id_user',

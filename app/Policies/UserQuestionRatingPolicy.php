@@ -9,8 +9,8 @@ use App\Models\UserQuestionRating;
 
 
 class UserQuestionRatingPolicy {
-    public function upVote ($question) : bool {
-        return Auth::check() && $question->id_user != Auth::user()->getAuthIdentifier();
+    public function upVote () : bool {
+        return Auth::check();
     }
 
     public function downVote ($question) : bool {

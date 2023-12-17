@@ -118,22 +118,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (answerButton) {
         answerButton.addEventListener('click', function (e) {
             e.preventDefault();
-
             const answerForm = answerButton.closest('form');
             const url = answerForm.getAttribute('action');
             const method = answerForm.getAttribute('method');
-
             const xhr = new XMLHttpRequest();
             xhr.open(method, url, true);
-
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     const response = xhr.responseText;
-
                     try {
                         const jsonResponse = JSON.parse(response);
-
-                        // Handle the success JSON response, e.g., redirect or update the UI
                         window.location.reload();
                     } catch (jsonParseError) {
                         const parser = new DOMParser();
@@ -144,33 +138,25 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log(answerField.innerHTML);
                     }
                 } else {
-                    // Handle the error, e.g., display an error message
                     console.error('Error:', xhr.statusText);
                 }
             };
-
             xhr.onerror = function () {
                 // Handle the error, e.g., display an error message
                 console.error('Network error occurred');
             };
-
             xhr.send(new FormData(answerForm));
-
         });
     }
 
     if (upVoteButton && downVoteButton) {
         upVoteButton.addEventListener('click', function (e) {
-            console.log("Clicked");
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/question/' + window.questionID + '/upvote', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-            console.log('/question/' + window.questionID + '/upvote');
             xhr.send();
-
             xhr.onload = function () {
-                console.log(xhr.status + " " + xhr.statusText);
                 const previous = window.document.getElementById('rating').innerHTML
                 let newRating;
                 switch (xhr.status) {
@@ -189,9 +175,35 @@ document.addEventListener("DOMContentLoaded", function () {
                         break;
                 }
                 window.document.getElementById('rating').innerHTML = newRating.toString();
-                console.log(xhr.status);
             };
+        });
 
+        downVoteButton.addEventListener('click', function (e) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/question/' + window.questionID + '/downvote', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            xhr.send();
+            xhr.onload = function () {
+                const previous = window.document.getElementById('rating').innerHTML
+                let newRating;
+                switch (xhr.status) {
+                    case 201:
+                        newRating = parseInt(previous) - 1;
+                        break;
+                    case 203:
+                        newRating = parseInt(previous) - 2;
+                        break;
+                    case 205:
+                        newRating = parseInt(previous) + 1;
+                        break;
+                    default:
+                        console.error('Error:', xhr.statusText);
+                        newRating = parseInt(previous);
+                        break;
+                }
+                window.document.getElementById('rating').innerHTML = newRating.toString();
+            };
         });
     }
 });
