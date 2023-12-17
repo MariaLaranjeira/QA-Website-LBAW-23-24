@@ -25,6 +25,14 @@
         </span>
         <br>
         @endif
+
+        <div id="tags">
+            <label for="tags">Tags:</label>
+            <select name="tags[]" id="tags">
+                @each('partials.tags', $tags, 'tag')
+            </select>
+        </div>
+
         <button type="submit" class="new_question">
             Post a Question
         </button>

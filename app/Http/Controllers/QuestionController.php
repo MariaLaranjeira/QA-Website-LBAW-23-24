@@ -30,7 +30,9 @@ class QuestionController extends Controller {
     
     public function showNewQuestionForm() {
         //$this->authorize('create', Question::class);
-        return view('pages/newquestion');
+        $tags = DB::table('tag')->get();
+
+        return view('pages/newquestion', ['tags' => $tags]);
     }
 
 
@@ -53,6 +55,14 @@ class QuestionController extends Controller {
         $question->save();
 
         $id = $question->question_id;
+
+        $tags = $request->input('tags');
+        foreach ($tags as $tag) {
+            DB::table('question_tag')->insert([
+                'id_question' => $id,
+                'id_tag' => $tag,
+            ]);
+        }
 
         return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Created a question successfully.');
     }

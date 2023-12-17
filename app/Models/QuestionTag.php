@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -15,9 +16,9 @@ class QuestionTag extends Model {
         'id_tag',
     ];
 
-    public function question(): BelongsTo
+    public function question(): BelongsToMany
     {
-        return $this->belongsTo('App\Models\Question');
+        return $this->belongsToMany('App\Models\Question');
     }
 
     public function tag(): BelongsTo
