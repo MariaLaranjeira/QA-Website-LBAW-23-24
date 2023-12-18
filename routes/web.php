@@ -62,6 +62,8 @@ Route::controller(QuestionController::class)->group(function () {
 //Answers
 Route::controller(AnswerController::class)->group(function () {
     Route::post('/question/{id}','create')->name('newanswer');
+    Route::post('/answer/delete/{id}', 'delete')->name('deleteanswer');
+    Route::post('/answer/edit/{id}', 'edit')->name('editinganswer');
 });
 
 //Comments

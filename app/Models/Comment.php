@@ -23,7 +23,10 @@ class Comment extends Model {
         return $this->belongsTo('App\Models\User');
     }
 
-    public function root() {
-        return $this->belongsTo('App\Models\Answer');
+    public function question()
+    {
+        return $this->belongsTo(Question::class, 'id_question', 'question_id');
+        //return $this->belongsTo(Question::class, 'question_id', 'id_question');
+
     }
 }

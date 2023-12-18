@@ -26,4 +26,8 @@ class Question extends Model {
     public function tag(){
         return $this->hasMany('App\Models\Tag')->get();
     }
+
+    public function comments() {
+        return $this->hasMany(Comment::class, 'question_id', 'comment_id');
+    }
 }
