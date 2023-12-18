@@ -15,14 +15,4 @@ class QuestionTag extends Model {
         'id_question',
         'id_tag',
     ];
-
-    public function question(): BelongsToMany
-    {
-        return $this->belongsToMany('App\Models\Question');
-    }
-
-    public function tag(): BelongsTo
-    {
-        return $this->belongsTo('App\Models\Tag');
-    }
 }

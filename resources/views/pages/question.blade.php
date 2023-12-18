@@ -32,6 +32,13 @@
         {{ $question->text_body }}
     </div>
     <div id="post_info">
+        <div id="tags">
+            @foreach ($question->tags as $tag)
+                <div class="tag">
+                    {{ $tag->name }}
+                </div>
+            @endforeach
+        </div>
         <div id="author">
             {{ \App\Models\User::where('user_id', $question->id_user)->first()->username }}
         </div>

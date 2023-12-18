@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\QuestionTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -90,11 +91,11 @@ class QuestionController extends Controller {
     }
 
     public function show($id) {
-        $question = Question::findOrFail($id);
+        $question = Question::with('tags')->findOrFail($id);
         $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
         return view('pages/question', [
             'question' => $question,
-            'answers' => $answers
+            'answers' => $answers,
         ]);
     }
 

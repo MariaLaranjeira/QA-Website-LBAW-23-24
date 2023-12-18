@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 class Question extends Model {
@@ -23,7 +24,8 @@ class Question extends Model {
         return $this->belongsTo('App\Models\User');
     }
 
-    public function tag(){
-        return $this->hasMany('App\Models\Tag')->get();
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'question_tag', 'id_question', 'id_tag');
     }
 }
