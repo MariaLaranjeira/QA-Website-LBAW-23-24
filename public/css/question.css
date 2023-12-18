@@ -82,3 +82,41 @@
     min-width: 100%;
     min-height: 28px;
 }
+
+.vote {
+    float: left;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px; /* Adjust the font size as needed */
+}
+
+.upvote, .downvote {
+    cursor: pointer;
+    font-size: 24px; /* Larger size for visibility */
+    font-weight: bold; /* Bold for emphasis */
+    color: #7a7a7a; /* A neutral color that stands out */
+    text-shadow: 0 1px 0 rgba(0,0,0,0.1); /* A subtle shadow for depth */
+    -webkit-touch-callout: none; /* Disable callout on touch devices */
+    -webkit-user-select: none; /* Disable text selection on webkit browsers */
+    -khtml-user-select: none; /* Disable text selection on KHTML browsers */
+    -moz-user-select: none; /* Disable text selection on Firefox browsers */
+    -ms-user-select: none; /* Disable text selection on Internet Explorer/Edge browsers */
+    user-select: none; /* Disable text selection on non-prefixed browsers */
+}
+
+#rating {
+    font-size: 1.2em; /* Slightly larger than the surrounding text */
+    font-weight: bold;
+    margin: 5px 0; /* Adds a little space above and below the vote count */
+}
+
+.upvote:hover, .downvote:hover {
+    color: #ff4500; /* Reddit's upvote color on hover */
+}
+
+.upvote.clicked, .downvote.clicked {
+    color: #ff4500; /* Reddit's upvote color when selected */
+}

@@ -4,6 +4,7 @@
 
 @section('styles')
 <link href="{{ url('css/question.css') }}" rel="stylesheet">
+<link href="{{ url('css/font-awesome.css') }}" rel="stylesheet">
 @endsection
 
 @section('scripts')
@@ -23,13 +24,15 @@
             <button type="submit" class="edit" id="question_edit_button">&#9998;</button>
         @endif
         @if (Auth::user()->getAuthIdentifier() != $question->id_user)
-            <button type="button" id="upVoteButton">Upvote</button>
-            @if ($question->rating >= 0)
-                <span id="rating"> {{ $question->rating }} </span>
-            @else
-                <span id="rating"> 0 </span>
-            @endif
-            <button type="button" id="downVoteButton">Downvote</button>
+            <div id="vote_section" class="vote">
+                <div id="upVoteButton" class="upvote">&#8593;</div>
+                @if ($question->rating >= 0)
+                    <span id="rating"> {{ $question->rating }} </span>
+                @else
+                    <span id="rating"> 0 </span>
+                @endif
+                <div id="downVoteButton" class="downvote">&#8595;</div>
+            </div>
         @endif
     @endauth
     <h2 id="title_display">
