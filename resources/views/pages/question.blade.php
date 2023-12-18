@@ -32,11 +32,9 @@
         {{ $question->text_body }}
     </div>
     <div id="post_info">
-        <div id="tags">
+        <div id="tags">Tags: |
             @foreach ($question->tags as $tag)
-                <div class="tag">
-                    {{ $tag->name }}
-                </div>
+                <span class="tag">{{ $tag->name }} |</span>
             @endforeach
         </div>
         <div id="author">

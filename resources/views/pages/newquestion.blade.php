@@ -28,9 +28,7 @@
 
         <div id="tags">
             <label for="tags">Tags:</label>
-            <select name="tags[]" id="tags" multiple>
-                @each('partials.tags', $tags, 'tag')
-            </select>
+            @each('partials.tags', $tags, 'tag')
         </div>
 
         <button type="submit" class="new_question">
