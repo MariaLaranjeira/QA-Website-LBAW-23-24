@@ -28,6 +28,12 @@ class Question extends Model {
     }
 
     public function comments() {
-        return $this->hasMany(Comment::class, 'question_id', 'comment_id');
+        return $this->hasMany(Comment::class, 'id_question', 'question_id')->orderBy('creation_date', 'desc');
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'id_question', 'question_id')
+            ->orderBy('creation_date', 'desc');
     }
 }

@@ -92,7 +92,7 @@
     @endif
     @endauth
     <h2>Comments</h2>
-    @each('partials.comment', $commentsQ, 'commentQ')
+    @each('partials.comment', $question->comments, 'commentQ')
 </section>
 
 <section id="answer_section">
@@ -114,7 +114,7 @@
     </form>
     @endif
     @endauth
-    @foreach ($answers as $answer)
+    @foreach ($question->answers as $answer)
         <div class="answer-view-mode" id="answer_view_{{ $answer->answer_id }}">
 
         <h3 id="answer_text_body_display">
@@ -142,7 +142,7 @@
         @endif
         @endauth
         <h4 class="comment_title">Comments</h4>
-        @each('partials.answer_comment', $commentsA[$answer->answer_id], 'commentA')
+        @each('partials.answer_comment', $answer->comments, 'commentA')
         </div>
         <section class="answer-edit-mode" id="answer_edit_{{ $answer->answer_id }}" style="display: none;">
 

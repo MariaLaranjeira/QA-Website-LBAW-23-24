@@ -80,18 +80,20 @@ class QuestionController extends Controller {
     }
 
     public function show($id) {
-        $question = Question::findOrFail($id);
+        $question = Question::with(['comments','answers.comments'])->findOrFail($id);
         $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
-        $commentsQ = Comment::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+        //$commentsQ = Comment::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+        /*
         $commentsA = [];
         foreach($answers as $answer) {
             $commentsA[$answer->answer_id] = Comment::query()->where('id_answer', '=', $answer->answer_id)->orderBy('creation_date', 'desc')->get();
         }
+        */
         return view('pages/question', [
             'question' => $question,
-            'answers' => $answers,
-            'commentsQ' => $commentsQ,
-            'commentsA' => $commentsA
+            //'answers' => $answers,
+            //'commentsQ' => $commentsQ,
+            //'commentsA' => $commentsA
         ]);
     }
 
