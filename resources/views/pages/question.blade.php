@@ -15,7 +15,7 @@
 @section('content')
 <section id="question">
     @auth
-        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin)
+        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
             <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
                 {{ csrf_field() }}
                 <button type="submit" class="delete">&#10761;</button>
@@ -50,7 +50,7 @@
 
     
     @auth
-        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin)
+        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
          <a class="button" href="{{ url('/edit_question_picture', ['id' => $question->question_id]) }}"> Add picture </a>
         @endif
     @endauth

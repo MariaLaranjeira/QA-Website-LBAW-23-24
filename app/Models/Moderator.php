@@ -16,6 +16,7 @@ class Moderator extends Model {
     public $timestamps  = false;
     public $table = 'moderator';
     public  $primaryKey = 'mod_id';
+    public $incrementing = false;
 
 
 

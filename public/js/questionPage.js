@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const answerUpVoteButtons = document.querySelectorAll('.answer_upvote');
     const answerDownVoteButtons = document.querySelectorAll('.answer_downvote');
 
-    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function (e) {

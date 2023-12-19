@@ -54,7 +54,7 @@ CREATE TABLE users (
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   picture TEXT DEFAULT 'default.jpg' NOT NULL,
-  is_admin BOOLEAN DEFAULT False,
+  remember_token TEXT,
   profileURL TEXT
 );
 
@@ -64,9 +64,8 @@ CREATE TABLE moderator (
 );
 
 CREATE TABLE admin (
-  admin_id SERIAL PRIMARY KEY,
-  email TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
+   admin_id INTEGER PRIMARY KEY,
+   FOREIGN KEY (admin_id) REFERENCES users(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE question (
@@ -270,18 +269,14 @@ INSERT INTO users (name, username, email, password, profileURL) VALUES
 ('Alice Smith', 'alicesmith', 'alice@example.com', 'alicepass', 'https://example.com/alicesmith'),
 ('Bob Johnson', 'bobjohnson', 'bob@example.com', 'bobpassword', 'https://example.com/bobjohnson'),
 ('Eva Johnson', 'evaj', 'eva@example.com', 'evapass', 'https://example.com/evajohnson'),
-('Michael White', 'michaelw', 'michael@example.com', 'michaelpass', 'https://example.com/michaelwhite');
-
+('Michael White', 'michaelw', 'michael@example.com', 'michaelpass', 'https://example.com/michaelwhite'),
+('John Admin', 'Admin', 'admin@example.com', '$2y$10$w7tQcOPURHIL3OaRyGRy1OUHAlPcjr.P1AyQr2L9n3hJ5wITbbifi', 'https://example.com/admin');
 --ADMIN
-INSERT INTO users (name, username, email, password, is_admin, profileURL) VALUES
-('John Admin', 'Admin', 'admin@example.com', '$2y$10$w7tQcOPURHIL3OaRyGRy1OUHAlPcjr.P1AyQr2L9n3hJ5wITbbifi','True', 'https://example.com/admin'); 
 --pass is 12345678
-
-
 
 INSERT INTO moderator (mod_id) VALUES (1);
 
-INSERT INTO admin (admin_id, email, password) VALUES (1, 'admin@example.com', 'adminpass');
+INSERT INTO admin (admin_id) VALUES (6);
 
 INSERT INTO question (title, text_body, media_address, creation_date, rating, id_user) VALUES
 ('How to Build a Time Machine?', 'I am curious about time travel. Can anyone guide me on how to build a time machine?', 'default.jpg', CURRENT_TIMESTAMP, 10, 1),

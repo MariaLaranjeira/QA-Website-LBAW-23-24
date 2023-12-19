@@ -88,7 +88,7 @@ class QuestionController extends Controller {
     }
 
     public function delete($id) {
-        $question = Question::find($id);
+        $question = Question::findOrFail($id);
         $this->authorize('delete', $question);
 
         $question->delete();
@@ -126,8 +126,7 @@ class QuestionController extends Controller {
         $question->save();
         return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Uploaded Media Succesfully.');
       }
-
-      public function deletePicture(){
+    public function deletePicture(){
         $user = Auth::user();
         if ($user->picture != 'default.jpg'){
           $deletepath = public_path().'images/question/'.$question->media_address;

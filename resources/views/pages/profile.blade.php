@@ -30,7 +30,7 @@
   <a class="button" href="{{ url('/edit_user') }}"> Edit Profile </a>
   <a class="button" href="{{ url('/edit_profile_picture') }}"> Change Picture </a>
 
-  @if (Auth::user()->is_admin)
+  @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
   <a class="button" href="{{ url('/users') }}"> Administration Page </a>
 
   @endif
