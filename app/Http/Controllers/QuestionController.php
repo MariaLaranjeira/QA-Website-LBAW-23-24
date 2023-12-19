@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 use Illuminate\View\View;
 
@@ -96,6 +99,49 @@ class QuestionController extends Controller {
 
         return response()->json(['message' => 'Deleted a question successfully.'], 200);
     }
+
+    /*PICTURE*/
+
+    public function editQuestionPicture($id)
+    {
+            $question = Question::findOrFail($id);
+            $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+            return view('pages/editQuestionPicture', [
+                'question' => $question,
+                'answers' => $answers
+            ]);
+    }
+
+    public function uploadQuestionPicture(Request $request) {
+        $id = $request->id;
+        $question = Question::findOrFail($request->id);
+        if($request->file('questionPic')){
+            if ($question->media_address != 'default.jpg'){
+              $deletepath = public_path().'/images/question/'.$question->media_address;
+              File::delete($deletepath);
+            }
+            $filename = Str::slug(Carbon::now(), '_').'.jpg';
+
+            $request->file('questionPic')->move(public_path('images/question'), $filename);
+            $question->media_address = $filename;
+            $question->save();
+        }
+
+        $question->save();
+        return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Uploaded Media Succesfully.');
+      }
+
+      public function deletePicture(){
+        $user = Auth::user();
+        if ($user->picture != 'default.jpg'){
+          $deletepath = public_path().'images/question/'.$question->media_address;
+          File::delete($deletepath);
+          $question->media_address = 'default.jpg';
+          $question->save();
+        }
+        return redirect()->back();
+      }
+
 
 
 

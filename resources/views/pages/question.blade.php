@@ -28,6 +28,21 @@
             {{ $question->title }}
         </div>
     </h2>
+
+
+    @if ($question -> media_address != 'default.jpg')
+        <div id="questionPic">
+            <img src="/images/question/{{ $question->media_address }}" alt="Question Picture" >
+        </div>
+    @endif
+
+    
+    @auth
+        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin)
+         <a class="button" href="{{ url('/edit_question_picture', ['id' => $question->question_id]) }}"> Add picture </a>
+        @endif
+    @endauth
+    
     <div id="text_body_display">
         {{ $question->text_body }}
     </div>
