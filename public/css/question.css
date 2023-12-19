@@ -93,7 +93,7 @@
     font-size: 18px; /* Adjust the font size as needed */
 }
 
-.upvote, .downvote {
+.upvote, .downvote, .answer_upvote, .answer_downvote {
     cursor: pointer;
     font-size: 24px; /* Larger size for visibility */
     font-weight: bold; /* Bold for emphasis */
@@ -113,7 +113,7 @@
     margin: 5px 0; /* Adds a little space above and below the vote count */
 }
 
-.upvote:hover, .downvote:hover {
+.upvote:hover, .downvote:hover, .answer_upvote:hover, .answer_downvote:hover {
     color: #ff4500; /* Reddit's upvote color on hover */
 }
 

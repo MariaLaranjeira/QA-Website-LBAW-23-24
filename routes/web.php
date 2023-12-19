@@ -1,9 +1,8 @@
 <?php
 
+use App\Http\Controllers\UserAnswerRatingController;
+use App\Http\Controllers\UserQuestionRatingController;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\CardController;
-use App\Http\Controllers\ItemController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -77,10 +76,15 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'register');
 });
 
-// Upvotes
-Route::controller(\App\Http\Controllers\UserQuestionRatingController::class)->group(function () {
+// Question Votes
+Route::controller(UserQuestionRatingController::class)->group(function () {
     Route::post('/question/{id}/upvote', 'upVote')->name('upvotequestion');
     Route::post('/question/{id}/downvote', 'downVote')->name('downvotequestion');
 });
 
-// Downvotes
+// AnswerVotes
+Route::controller(UserAnswerRatingController::class)->group(function () {
+    Route::post('/answer/{id}/upvote', 'upVote')->name('upvoteanswer');
+    Route::post('/answer/{id}/downvote', 'downVote')->name('downvoteanswer');
+});
+

@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const answerButton = document.getElementById('postAnswer');
     const upVoteButton = document.getElementById('upVoteButton');
     const downVoteButton = document.getElementById('downVoteButton');
+    const answerUpVoteButtons = document.querySelectorAll('.answer_upvote');
+    const answerDownVoteButtons = document.querySelectorAll('.answer_downvote');
 
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -206,4 +208,71 @@ document.addEventListener("DOMContentLoaded", function () {
             };
         });
     }
+
+    answerUpVoteButtons.forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            console.log('upvote');
+            const xhr = new XMLHttpRequest();
+            const voteSection = this.closest('.vote');
+            const span = voteSection.querySelector('span#rating');
+            const id = span.dataset.id;
+            xhr.open('POST', '/answer/' + id + '/upvote', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            xhr.send();
+            xhr.onload = function () {
+                const previous = span.innerHTML;
+                let newRating;
+                switch (xhr.status) {
+                    case 200:
+                        newRating = parseInt(previous) + 1;
+                        break;
+                    case 202:
+                        newRating = parseInt(previous) - 1;
+                        break;
+                    case 204:
+                        newRating = parseInt(previous) + 2;
+                        break;
+                    default:
+                        console.error('Error:', xhr.statusText);
+                        newRating = parseInt(previous);
+                        break;
+                }
+                span.innerHTML = newRating.toString();
+            };
+        });
+    });
+
+    answerDownVoteButtons.forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            const xhr = new XMLHttpRequest();
+            const voteSection = this.closest('.vote');
+            const span = voteSection.querySelector('span#rating');
+            const id = span.dataset.id;
+            xhr.open('POST', '/answer/' + id + '/downvote', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            xhr.send();
+            xhr.onload = function () {
+                const previous = span.innerHTML;
+                let newRating;
+                switch (xhr.status) {
+                    case 201:
+                        newRating = parseInt(previous) - 1;
+                        break;
+                    case 203:
+                        newRating = parseInt(previous) - 2;
+                        break;
+                    case 205:
+                        newRating = parseInt(previous) + 1;
+                        break;
+                    default:
+                        console.error('Error:', xhr.statusText);
+                        newRating = parseInt(previous);
+                        break;
+                }
+                span.innerHTML = newRating.toString();
+            }
+        });
+    });
 });
