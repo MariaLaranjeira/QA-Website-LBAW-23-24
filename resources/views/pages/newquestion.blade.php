@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'New Question')
+@section('title', 'Create Question')
+
+@section('styles')
+<link href="{{ url('css/new.question.css') }}" rel="stylesheet">
+@endsection
 
 @section('content')
 

@@ -10,7 +10,7 @@ class AnswerController extends Controller
 {
 
     public function create(Request $request, $id) {
-        //$this->authorize('create', Question::class);
+        $this->authorize('create', Answer::class);
 
         $request->validate([
             'answer_body' => 'required|string|max:4000|min:1',
@@ -27,7 +27,7 @@ class AnswerController extends Controller
         $answer->save();
 
         //return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Created a question successfully.');
-        return redirect()->refresh();
+        return response()->json(['message' => 'Posted answer successfully.'], 200);
     }
 
     public function __construct() {

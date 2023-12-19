@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@section('title', 'Search')
+
+@section('styles')
+<link href="{{ url('css/question.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 
     <h2>Results the search </h2>

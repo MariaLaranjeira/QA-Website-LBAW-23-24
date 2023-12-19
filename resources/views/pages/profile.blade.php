@@ -2,6 +2,9 @@
 
 @section('title', 'Profile')
 
+@section('styles')
+<link href="{{ url('css/profile.css') }}" rel="stylesheet">
+@endsection
 
 @section('content')
 <section id="profile">
@@ -20,7 +23,12 @@
 
   </div>
 
+  <div id="profilePic">
+  <img src="/images/profile/{{ $user->picture }}" alt="Profile picture" width="240" height="240">
+</div>
+
   <a class="button" href="{{ url('/edit_user') }}"> Edit Profile </a>
+  <a class="button" href="{{ url('/edit_profile_picture') }}"> Change Picture </a>
 
   @if (Auth::user()->is_admin)
   <a class="button" href="{{ url('/users') }}"> Administration Page </a>

@@ -29,6 +29,7 @@
         </div>
     </h2>
 
+
     @if ($question -> media_address != 'default.jpg')
         <div id="questionPic">
             <img src="/images/question/{{ $question->media_address }}" alt="Question Picture" >
@@ -42,7 +43,6 @@
         @endif
     @endauth
     
-
     <div id="text_body_display">
         {{ $question->text_body }}
     </div>

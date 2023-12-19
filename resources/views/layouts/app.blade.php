@@ -8,22 +8,20 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>@yield('title', 'CreativeHub')</title>
 
         <!-- Styles -->
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
-        <link href="{{ url('css/question.css') }}" rel="stylesheet">
-        <link href="{{ url('css/new.question.css') }}" rel="stylesheet">
-        <link href="{{ url('css/profile.css') }}" rel="stylesheet">
+        @yield('styles')
 
-
+        <!-- Scripts -->
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
         </script>
-        <script type="text/javascript" src={{ url('js/app.js') }} defer>
-        </script>
+        <script type="text/javascript" src={{ url('js/app.js') }} defer> </script>
+        @yield('scripts')
     </head>
     <body>
         <main>
