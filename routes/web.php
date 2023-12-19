@@ -51,9 +51,11 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(QuestionController::class)->group(function () {
     Route::get('/question/{id}','show');
     Route::get('/newquestion', 'showNewQuestionForm')->name('newquestion');
+    Route::get('/edit_question_picture/{id}', 'editQuestionPicture')->name('edit_question_picture');
     Route::post('/newquestion', 'create')->name('createnewquestion');
     Route::post('/question/delete/{id}', 'delete')->name('deletequestion');
     Route::post('/question/edit/{id}', 'edit')->name('editingquestion');
+    Route::post('/upload_question_picture', 'uploadQuestionPicture')->name('upload_question_picture');
     Route::post('/search','search')->name('search');
 });
 
