@@ -30,6 +30,29 @@ class AnswerController extends Controller
         return response()->json(['message' => 'Posted answer successfully.'], 200);
     }
 
+    public function edit(Request $request, $id) {
+        //$this->authorize('edit', Answer::class);
+
+        $request->validate([
+            'answer_body' => 'required|string|max:4000|min:1',
+        ]);
+
+        $answer = Answer::findOrFail($id);
+        $answer->text_body = $request->input('answer_body');
+        $answer->save();
+
+        return response()->json(['message' => 'Edited answer successfully.', 'answer' => $answer], 200);
+    }
+
+    public function delete(Request $request, $id) {
+        $this->authorize('delete', Answer::class);
+
+        $answer = Answer::find($id);
+        $answer->delete();
+
+        return response()->json(['message' => 'Deleted answer successfully.'], 200);
+    }
+
     public function __construct() {
         
     }
