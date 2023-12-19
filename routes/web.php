@@ -1,9 +1,8 @@
 <?php
 
+use App\Http\Controllers\UserAnswerRatingController;
+use App\Http\Controllers\UserQuestionRatingController;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\CardController;
-use App\Http\Controllers\ItemController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -52,9 +51,11 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(QuestionController::class)->group(function () {
     Route::get('/question/{id}','show');
     Route::get('/newquestion', 'showNewQuestionForm')->name('newquestion');
+    Route::get('/edit_question_picture/{id}', 'editQuestionPicture')->name('edit_question_picture');
     Route::post('/newquestion', 'create')->name('createnewquestion');
     Route::post('/question/delete/{id}', 'delete')->name('deletequestion');
     Route::post('/question/edit/{id}', 'edit')->name('editingquestion');
+    Route::post('/upload_question_picture', 'uploadQuestionPicture')->name('upload_question_picture');
     Route::post('/search','search')->name('search');
     Route::post('/question/edit_tags/{id}','editTags')->name('edittags');
 });
@@ -72,7 +73,21 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/logout', 'logout')->name('logout');
 });
 
+// Registration
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register');
 });
+
+// Question Votes
+Route::controller(UserQuestionRatingController::class)->group(function () {
+    Route::post('/question/{id}/upvote', 'upVote')->name('upvotequestion');
+    Route::post('/question/{id}/downvote', 'downVote')->name('downvotequestion');
+});
+
+// AnswerVotes
+Route::controller(UserAnswerRatingController::class)->group(function () {
+    Route::post('/answer/{id}/upvote', 'upVote')->name('upvoteanswer');
+    Route::post('/answer/{id}/downvote', 'downVote')->name('downvoteanswer');
+});
+

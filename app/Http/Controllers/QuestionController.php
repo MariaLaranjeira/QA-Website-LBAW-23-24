@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\QuestionTag;
 use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
-use Illuminate\View\View;
 
 use App\Models\Question;
 use App\Models\Answer;
-use App\Models\Comment;
-use App\Models\UserAnswerRating;
 
 class QuestionController extends Controller {
 
@@ -133,13 +132,55 @@ class QuestionController extends Controller {
     }
 
     public function delete($id) {
-        $question = Question::find($id);
+        $question = Question::findOrFail($id);
         $this->authorize('delete', $question);
 
         $question->delete();
 
         return response()->json(['message' => 'Deleted a question successfully.'], 200);
     }
+
+    /*PICTURE*/
+
+    public function editQuestionPicture($id)
+    {
+            $question = Question::findOrFail($id);
+            $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+            return view('pages/editQuestionPicture', [
+                'question' => $question,
+                'answers' => $answers
+            ]);
+    }
+
+    public function uploadQuestionPicture(Request $request) {
+        $id = $request->id;
+        $question = Question::findOrFail($request->id);
+        if($request->file('questionPic')){
+            if ($question->media_address != 'default.jpg'){
+              $deletepath = public_path().'/images/question/'.$question->media_address;
+              File::delete($deletepath);
+            }
+            $filename = Str::slug(Carbon::now(), '_').'.jpg';
+
+            $request->file('questionPic')->move(public_path('images/question'), $filename);
+            $question->media_address = $filename;
+            $question->save();
+        }
+
+        $question->save();
+        return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Uploaded Media Succesfully.');
+      }
+    public function deletePicture(){
+        $user = Auth::user();
+        if ($user->picture != 'default.jpg'){
+          $deletepath = public_path().'images/question/'.$question->media_address;
+          File::delete($deletepath);
+          $question->media_address = 'default.jpg';
+          $question->save();
+        }
+        return redirect()->back();
+      }
+
 
 
 
@@ -159,13 +200,5 @@ class QuestionController extends Controller {
             ->get();
 
         return view('pages.searchquestion',['questions' => $questions, 'search' => $input])->render();
-    }
-
-    public function upvote() {
-        //TODO
-    }
-
-    public function downvote() {
-        //TODO
     }
 }

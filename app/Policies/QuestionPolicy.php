@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\Admin;
+
 use App\Models\Moderator;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -36,14 +38,12 @@ class QuestionPolicy {
      * Determine if a question can be deleted by a user.
      */
     public function delete(User $user, Question $question): bool {
-        return $user->user_id === $question->id_user|| $user->is_admin;
+        return $user->user_id === $question->id_user|| Admin::where('admin_id', $user->user_id)->exists();
     }
 
     public function edit(User $user, Question $question): bool
     {
-        // User can only update items in cards they own.
-        return $user->user_id === $question->id_user || $user->is_admin || Moderator::where('mod_id', $user->user_id)->exists();
+        return $user->user_id === $question->id_user || Admin::where('admin_id', $user->user_id)->exists() || Moderator::where('mod_id', $user->user_id)->exists();
     }
-
 
 }

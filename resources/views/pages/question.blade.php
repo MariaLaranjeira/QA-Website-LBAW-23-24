@@ -1,20 +1,21 @@
 @extends('layouts.app')
 
 @section('title', $question->title)
-@section('text_body', $question->text_body)
 
 @section('styles')
 <link href="{{ url('css/question.css') }}" rel="stylesheet">
+<link href="{{ url('css/font-awesome.css') }}" rel="stylesheet">
 @endsection
 
 @section('scripts')
+<script>window.questionID = "{{ $question->question_id }}"</script>
 <script type="text/javascript" src={{ url('js/questionPage.js') }} defer> </script>
 @endsection
 
 @section('content')
 <section id="question">
     @auth
-        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin)
+        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
             <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
                 {{ csrf_field() }}
                 <button type="submit" class="delete">&#10761;</button>
@@ -22,12 +23,38 @@
 
             <button type="submit" class="edit" id="question_edit_button">&#9998;</button>
         @endif
+        @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+            <div id="vote_section" class="vote">
+                <div id="upVoteButton" class="upvote">&#8593;</div>
+                @if ($question->rating >= 0)
+                    <span id="rating"> {{ $question->rating }} </span>
+                @else
+                    <span id="rating"> 0 </span>
+                @endif
+                <div id="downVoteButton" class="downvote">&#8595;</div>
+            </div>
+        @endif
     @endauth
     <h2 id="title_display">
         <div id="question_title">
             {{ $question->title }}
         </div>
     </h2>
+
+
+    @if ($question -> media_address != 'default.jpg')
+        <div id="questionPic">
+            <img src="/images/question/{{ $question->media_address }}" alt="Question Picture" >
+        </div>
+    @endif
+
+    
+    @auth
+        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
+         <a class="button" href="{{ url('/edit_question_picture', ['id' => $question->question_id]) }}"> Add picture </a>
+        @endif
+    @endauth
+    
     <div id="text_body_display">
         {{ $question->text_body }}
     </div>

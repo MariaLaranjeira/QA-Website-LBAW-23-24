@@ -7,7 +7,6 @@ class UserQuestionRating extends Model {
 
     public $timestamps = false;
     public $table = 'user_rating_question';
-    public $primaryKey = ['id_user', 'id_question'];
 
     protected $fillable = [
         'id_user',

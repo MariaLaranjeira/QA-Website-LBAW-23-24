@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Admin;
 use App\Models\User;
 
 class UserPolicy
@@ -21,6 +22,6 @@ class UserPolicy
 
     public function deleteProfile(User $user, User $target)
     {
-        return ($user->id === $target->id) || $user->is_admin;
+        return ($user->id === $target->id) || Admin::where('user_id', $user->user_id)->exists();
     }
 }
