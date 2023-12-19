@@ -15,7 +15,7 @@
 @section('content')
 <section id="question">
     @auth
-        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
+        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists() || \App\Models\Moderator::where('mod_id', Auth::user()->getAuthIdentifier())->exists())
             <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
                 {{ csrf_field() }}
                 <button type="submit" class="delete">&#10761;</button>
@@ -63,12 +63,6 @@
             @foreach ($question->tags as $tag)
                 <span class="tag">{{ $tag->name }} |</span>
             @endforeach
-
-            @auth
-                @if (\App\Models\Moderator::where('mod_id', Auth::user()->getAuthIdentifier())->exists() && Auth::user()->getAuthIdentifier() != $question->id_user)
-                        <button type="button" class="edit_tags" id="editTagsButton" onclick="editTags()">&#10761;</button>
-                @endif
-            @endauth
         </div>
         <div id="author">
             {{ \App\Models\User::where('user_id', $question->id_user)->first()->username }}
@@ -78,10 +72,14 @@
         </div>
 </section>
 
+@auth
 <section id="editMode" style="display: none">
 
     <form method = "POST" action = "{{ route('editingquestion', ['id' => $question->question_id]) }}" >
         {{ csrf_field() }}
+        
+        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
+
         <h2 id="edit_title_display">
             <input type="text" name="title" id="question_title_edit" value="{{ $question->title }}"></input>
             @if ($errors->has('title'))
@@ -102,6 +100,30 @@
             @endif
         </h2>
 
+        @elseif (\App\Models\Moderator::where('mod_id', Auth::user()->getAuthIdentifier())->exists())
+
+        <h2 id="edit_title_display">
+            <input type="text" name="title" id="question_title_edit" value="{{ $question->title }}" readonly></input>
+            @if ($errors->has('title'))
+            <span class="error">
+                Your title must be between 5 and 100 characters long.
+            </span>
+            <br>
+            @endif
+        </h2>
+
+        <h2 id="edit_text_body">
+            <input type="text" name="text_body" id="question_text_body_edit" value="{{ $question->text_body }}" readonly></input>
+            @if ($errors->has('text_body'))
+            <span class="error">
+                Your text body must be between 5 and 4000 characters long.
+            </span>
+            <br>
+            @endif
+        </h2>
+
+        @endif
+
         <div id="edit_tags">
             @foreach ($tags as $tag)
                 @if ($question->tags->contains($tag))
@@ -120,30 +142,8 @@
         </button>
     </form>
 </section>
+@endauth
 
-<section id="editTagsMode" style="display: none">
-
-    <form method = "POST" action = "{{ route('edittags', ['id' => $question->question_id]) }}" >
-        {{ csrf_field() }}
-
-        <div id="edit_tags">
-            @foreach ($tags as $tag)
-            @if ($question->tags->contains($tag))
-            <input type="checkbox" class="checkbox_edit_tag" name="tags[]" value="{{ $tag->name }}" checked>{{ $tag->name }}
-            @else
-            <input type="checkbox" class="checkbox_edit_tag" name="tags[]" value="{{ $tag->name }}">{{ $tag->name }}
-            @endif
-            @endforeach
-        </div>
-
-        <button type="reset" id="cancelTagsButton">
-            Cancel
-        </button>
-        <button type="submit" id="applyTagsButton">
-            Apply
-        </button>
-    </form>
-</section>
 
 <section id="question_answers">
     @auth

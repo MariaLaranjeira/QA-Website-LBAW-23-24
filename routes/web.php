@@ -57,7 +57,6 @@ Route::controller(QuestionController::class)->group(function () {
     Route::post('/question/edit/{id}', 'edit')->name('editingquestion');
     Route::post('/upload_question_picture', 'uploadQuestionPicture')->name('upload_question_picture');
     Route::post('/search','search')->name('search');
-    Route::post('/question/edit_tags/{id}','editTags')->name('edittags');
 });
 
 //Answers
