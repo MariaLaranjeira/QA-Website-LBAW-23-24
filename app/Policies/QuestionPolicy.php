@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Moderator;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Question;
@@ -41,7 +42,7 @@ class QuestionPolicy {
     public function edit(User $user, Question $question): bool
     {
         // User can only update items in cards they own.
-        return $user->user_id === $question->id_user || $user->is_admin;
+        return $user->user_id === $question->id_user || $user->is_admin || Moderator::where('mod_id', $user->user_id)->exists();
     }
 
 

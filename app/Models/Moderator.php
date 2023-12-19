@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Moderator extends Model {
-    use HasApiTokens, HasFactory, Notifiable;
 
     // Don't add create and update timestamps in database.
     public $timestamps  = false;
     public $table = 'moderator';
     public  $primaryKey = 'mod_id';
+    public $incrementing = false;
 
 
 

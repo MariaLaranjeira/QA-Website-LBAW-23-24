@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 // Added to define Eloquent relationships.
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -76,10 +77,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
-
-    public function isModerator(): bool
-    {
-        //TODO: Implement this function.
-    }
-
 }

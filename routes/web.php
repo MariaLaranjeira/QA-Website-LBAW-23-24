@@ -56,6 +56,7 @@ Route::controller(QuestionController::class)->group(function () {
     Route::post('/question/delete/{id}', 'delete')->name('deletequestion');
     Route::post('/question/edit/{id}', 'edit')->name('editingquestion');
     Route::post('/search','search')->name('search');
+    Route::post('/question/edit_tags/{id}','editTags')->name('edittags');
 });
 
 //Answers

@@ -36,6 +36,12 @@
             @foreach ($question->tags as $tag)
                 <span class="tag">{{ $tag->name }} |</span>
             @endforeach
+
+            @auth
+                @if (\App\Models\Moderator::where('mod_id', Auth::user()->getAuthIdentifier())->exists() && Auth::user()->getAuthIdentifier() != $question->id_user)
+                        <button type="button" class="edit_tags" id="editTagsButton" onclick="editTags()">&#10761;</button>
+                @endif
+            @endauth
         </div>
         <div id="author">
             {{ \App\Models\User::where('user_id', $question->id_user)->first()->username }}
@@ -83,6 +89,30 @@
             Cancel
         </button>
         <button type="submit" id="applyButton">
+            Apply
+        </button>
+    </form>
+</section>
+
+<section id="editTagsMode" style="display: none">
+
+    <form method = "POST" action = "{{ route('edittags', ['id' => $question->question_id]) }}" >
+        {{ csrf_field() }}
+
+        <div id="edit_tags">
+            @foreach ($tags as $tag)
+            @if ($question->tags->contains($tag))
+            <input type="checkbox" class="checkbox_edit_tag" name="tags[]" value="{{ $tag->name }}" checked>{{ $tag->name }}
+            @else
+            <input type="checkbox" class="checkbox_edit_tag" name="tags[]" value="{{ $tag->name }}">{{ $tag->name }}
+            @endif
+            @endforeach
+        </div>
+
+        <button type="reset" id="cancelTagsButton">
+            Cancel
+        </button>
+        <button type="submit" id="applyTagsButton">
             Apply
         </button>
     </form>

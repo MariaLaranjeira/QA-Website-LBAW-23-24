@@ -1,3 +1,63 @@
+
+function editTags() {
+    const tags = document.getElementById('tags');
+    const editTagsButton = document.getElementById('editTagsButton');
+    const editTagsMode = document.getElementById('editTagsMode');
+    const editTagsInput = document.getElementById('edit_tags');
+
+    tags.style.display = 'none';
+    editTagsButton.style.display = 'none';
+    editTagsMode.style.display = 'block';
+    editTagsInput.value = tags.textContent.trim();
+}
+
+function editTagsApply() {
+    e.preventDefault();
+    const applyTagsButton = document.getElementById('applyTagsButton');
+
+    const updateQuestionConfirmation = confirm('Are you sure you want to update this question tags?');
+    if (updateQuestionConfirmation) {
+        const updateForm = applyTagsButton.closest('form');
+        const url = updateForm.getAttribute('action');
+        const method = updateForm.getAttribute('method');
+
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, url, true);
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = xhr.responseText;
+
+                try {
+                    const jsonResponse = JSON.parse(response);
+
+                    // Handle the success JSON response, e.g., redirect or update the UI
+                    window.location.reload();
+                } catch (jsonParseError) {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(response, 'text/html');
+                    const editTitleField = document.getElementById('edit_title_display');
+                    const titleField = doc.getElementById('edit_title_display')
+                    editTitleField.innerHTML = titleField.innerHTML;
+                    const editTextField = document.getElementById('edit_text_body');
+                    const textField = doc.getElementById('edit_text_body')
+                    editTextField.innerHTML = textField.innerHTML;
+                }
+            } else {
+                // Handle the error, e.g., display an error message
+                console.error('Error:', xhr.statusText);
+            }
+        };
+
+        xhr.onerror = function () {
+            // Handle the error, e.g., display an error message
+            console.error('Network error occurred');
+        };
+
+        xhr.send(new FormData(updateForm));
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const deleteButtons = document.querySelectorAll('.delete');
     const editButton = document.getElementById('question_edit_button');

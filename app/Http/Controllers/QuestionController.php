@@ -102,6 +102,25 @@ class QuestionController extends Controller {
         return response()->json(['message' => 'Updated the question successfully.', 'question' => $question], 200);
     }
 
+    public function editTags(Request $request, $id) {
+
+        $question = Question::findOrFail($id);
+        $this->authorize('edit', $question);
+        $tags = $request->input('tags');
+
+        QuestionTag::where('id_question', '=', $id)->delete();
+
+        foreach ($tags as $tag) {
+            DB::table('question_tag')->insert([
+                'id_question' => $id,
+                'id_tag' => $tag,
+            ]);
+        }
+
+        $question->save();
+        return response()->json(['message' => 'Updated the question successfully.', 'question' => $question], 200);
+    }
+
     public function show($id) {
         $question = Question::with('tags')->findOrFail($id);
         $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
