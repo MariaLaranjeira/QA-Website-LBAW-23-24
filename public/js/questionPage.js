@@ -11,53 +11,6 @@ function editTags() {
     editTagsInput.value = tags.textContent.trim();
 }
 
-function editTagsApply() {
-    e.preventDefault();
-    const applyTagsButton = document.getElementById('applyTagsButton');
-
-    const updateQuestionConfirmation = confirm('Are you sure you want to update this question tags?');
-    if (updateQuestionConfirmation) {
-        const updateForm = applyTagsButton.closest('form');
-        const url = updateForm.getAttribute('action');
-        const method = updateForm.getAttribute('method');
-
-        const xhr = new XMLHttpRequest();
-        xhr.open(method, url, true);
-
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                const response = xhr.responseText;
-
-                try {
-                    const jsonResponse = JSON.parse(response);
-
-                    // Handle the success JSON response, e.g., redirect or update the UI
-                    window.location.reload();
-                } catch (jsonParseError) {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(response, 'text/html');
-                    const editTitleField = document.getElementById('edit_title_display');
-                    const titleField = doc.getElementById('edit_title_display')
-                    editTitleField.innerHTML = titleField.innerHTML;
-                    const editTextField = document.getElementById('edit_text_body');
-                    const textField = doc.getElementById('edit_text_body')
-                    editTextField.innerHTML = textField.innerHTML;
-                }
-            } else {
-                // Handle the error, e.g., display an error message
-                console.error('Error:', xhr.statusText);
-            }
-        };
-
-        xhr.onerror = function () {
-            // Handle the error, e.g., display an error message
-            console.error('Network error occurred');
-        };
-
-        xhr.send(new FormData(updateForm));
-    }
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     const deleteButtons = document.querySelectorAll('.delete');
     const editButton = document.getElementById('question_edit_button');
@@ -212,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (upVoteButton && downVoteButton) {
-        upVoteButton.addEventListener('click', function (e) {
+        upVoteButton.addEventListener('click', function () {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/question/' + window.questionID + '/upvote', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -240,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
             };
         });
 
-        downVoteButton.addEventListener('click', function (e) {
+        downVoteButton.addEventListener('click', function () {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/question/' + window.questionID + '/downvote', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -270,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     answerUpVoteButtons.forEach(function (button) {
-        button.addEventListener('click', function (e) {
+        button.addEventListener('click', function () {
             console.log('upvote');
             const xhr = new XMLHttpRequest();
             const voteSection = this.closest('.vote');
@@ -304,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     answerDownVoteButtons.forEach(function (button) {
-        button.addEventListener('click', function (e) {
+        button.addEventListener('click', function () {
             const xhr = new XMLHttpRequest();
             const voteSection = this.closest('.vote');
             const span = voteSection.querySelector('span#rating');
