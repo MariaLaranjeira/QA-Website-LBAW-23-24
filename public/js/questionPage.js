@@ -1,16 +1,3 @@
-
-function editTags() {
-    const tags = document.getElementById('tags');
-    const editTagsButton = document.getElementById('editTagsButton');
-    const editTagsMode = document.getElementById('editTagsMode');
-    const editTagsInput = document.getElementById('edit_tags');
-
-    tags.style.display = 'none';
-    editTagsButton.style.display = 'none';
-    editTagsMode.style.display = 'block';
-    editTagsInput.value = tags.textContent.trim();
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     const deleteButtons = document.querySelectorAll('.delete');
     const editButton = document.getElementById('question_edit_button');
