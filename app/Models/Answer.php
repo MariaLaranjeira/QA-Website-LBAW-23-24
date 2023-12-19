@@ -26,4 +26,10 @@ class Answer extends Model {
     public function root() {
         return $this->belongsTo('App\Models\Question');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'id_answer', 'answer_id')
+            ->orderBy('creation_date', 'desc');
+    }
 }

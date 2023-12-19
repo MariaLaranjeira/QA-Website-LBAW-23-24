@@ -69,7 +69,15 @@
     color: #555;
 }
 
-#question_answers {
+#answer_section {
+    margin: 16px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#answers {
     margin: 16px;
     padding: 20px;
     background-color: #f8f8f8;
@@ -119,4 +127,25 @@
 
 .upvote.clicked, .downvote.clicked {
     color: #ff4500; /* Reddit's upvote color when selected */
+}
+
+#question_comments {
+    margin: 5px;
+    padding: 20px;
+    background-color: #d3d3d3;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+#answer_comments {
+    background-color: #f5ede3;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+
+}
+
+.comment_title {
+    font-size: 30px;
+    color: #59297a;
+    margin-bottom: 5px;
 }

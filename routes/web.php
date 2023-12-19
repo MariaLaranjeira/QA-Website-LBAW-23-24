@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserAnswerRatingController;
 use App\Http\Controllers\UserQuestionRatingController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
@@ -62,8 +63,14 @@ Route::controller(QuestionController::class)->group(function () {
 //Answers
 Route::controller(AnswerController::class)->group(function () {
     Route::post('/question/{id}','create')->name('newanswer');
+    Route::post('/answer/delete/{id}', 'delete')->name('deleteanswer');
+    Route::post('/answer/edit/{id}', 'edit')->name('editinganswer');
 });
 
+//Comments
+Route::controller(CommentController::class)->group(function () {
+    Route::post('/question/{id}/comment/{type}','createComment')->name('newcomment');
+});
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {

@@ -1,17 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
     const deleteButtons = document.querySelectorAll('.delete');
-    const editButton = document.getElementById('question_edit_button');
-    const viewModeSection = document.getElementById('question');
-    const editModeSection = document.getElementById('editMode');
-    const applyButton = document.getElementById('applyButton');
-    const cancelButton = document.getElementById('cancelButton');
+    const questionEditButton = document.getElementById('question_edit_button');
+    const answerEditButtons = document.querySelectorAll('.answer_edit_button');
+    const questionViewModeSection = document.getElementById('question');
+    const questionEditModeSection = document.getElementById('editMode');
+    //const answerViewModeSection = document.getElementById('answers');
+    //const answerEditModeSection = document.getElementById('answerEditMode');
+    const questionApplyButton = document.getElementById('applyButton');
+    const questionCancelButton = document.getElementById('cancelButton');
+    const answerApplyButtons = document.querySelectorAll('.applyAnswerButton');
+    const answerCancelButtons = document.querySelectorAll('.cancelAnswerButton');
     const answerButton = document.getElementById('postAnswer');
     const upVoteButton = document.getElementById('upVoteButton');
     const downVoteButton = document.getElementById('downVoteButton');
     const answerUpVoteButtons = document.querySelectorAll('.answer_upvote');
     const answerDownVoteButtons = document.querySelectorAll('.answer_downvote');
+    const commentQButton = document.getElementById('postCommentQ');
+    const commentAButtons = document.querySelectorAll('.post-comment-btn');
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
 
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function (e) {
@@ -47,8 +55,70 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    if (editButton && viewModeSection && editModeSection && applyButton && cancelButton) {
-        editButton.addEventListener('click', function () {
+    answerEditButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            const answerId = e.currentTarget.getAttribute('data-answer-id');
+            console.log(answerId);
+            document.getElementById(`answer_view_${answerId}`).style.display = 'none';
+            document.getElementById(`answer_edit_${answerId}`).style.display = 'block';
+        });
+    });
+
+    answerApplyButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const updateAnswerConfirmation = confirm('Are you sure you want to update this answer?');
+            if (updateAnswerConfirmation) {
+                const updateForm = button.closest('form');
+                const url = updateForm.getAttribute('action');
+                const method = updateForm.getAttribute('method');
+                const xhr = new XMLHttpRequest();
+                xhr.open(method, url, true);
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const response = xhr.responseText;
+
+                        try {
+                            const jsonResponse = JSON.parse(response);
+
+                            // Handle the success JSON response, e.g., redirect or update the UI
+                            window.location.reload();
+                        } catch (jsonParseError) {
+                            console.log("am i here?");
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(response, 'text/html');
+                            const editTextField = document.getElementById('answer_edit_text_body');
+                            const textField = doc.getElementById('answer_edit_text_body')
+                            editTextField.innerHTML = textField.innerHTML;
+                        }
+                    } else {
+                        // Handle the error, e.g., display an error message
+                        console.error('Error:', xhr.statusText);
+                    }
+                };
+
+                xhr.onerror = function () {
+                    // Handle the error, e.g., display an error message
+                    console.error('Network error occurred');
+                };
+
+                xhr.send(new FormData(updateForm));
+            }
+        });
+    });
+
+    answerCancelButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            const answerId = e.currentTarget.getAttribute('data-answer-id');
+            document.getElementById(`answer_view_${answerId}`).style.display = 'block';
+            document.getElementById(`answer_edit_${answerId}`).style.display = 'none';
+        });
+    });
+
+    if (questionEditButton && questionViewModeSection && questionEditModeSection && questionApplyButton && questionCancelButton) {
+        questionEditButton.addEventListener('click', function () {
             const titleInput = document.getElementById('question_title');
             const textBodyInput = document.getElementById('text_body_display');
 
@@ -59,16 +129,16 @@ document.addEventListener("DOMContentLoaded", function () {
             editTitleInput.value = titleInput.textContent.trim();
             editTextBodyInput.value = textBodyInput.textContent.trim();
             // Switch from view mode to edit mode
-            viewModeSection.style.display = 'none';
-            editModeSection.style.display = 'block';
+            questionViewModeSection.style.display = 'none';
+            questionEditModeSection.style.display = 'block';
         });
 
-        applyButton.addEventListener('click', function (e) {
+        questionApplyButton.addEventListener('click', function (e) {
             e.preventDefault();
 
             const updateQuestionConfirmation = confirm('Are you sure you want to update this question?');
             if (updateQuestionConfirmation) {
-                const updateForm = applyButton.closest('form');
+                const updateForm = questionApplyButton.closest('form');
                 const url = updateForm.getAttribute('action');
                 const method = updateForm.getAttribute('method');
 
@@ -111,9 +181,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         });
 
-        cancelButton.addEventListener('click', function () {
-            viewModeSection.style.display = 'block';
-            editModeSection.style.display = 'none';
+        questionCancelButton.addEventListener('click', function () {
+            questionViewModeSection.style.display = 'block';
+            questionEditModeSection.style.display = 'none';
         });
     }
 
@@ -273,6 +343,96 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 span.innerHTML = newRating.toString();
             }
+        });
+    });
+    if(commentQButton){
+        commentQButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const commentForm = commentQButton.closest('form');
+            const url = commentForm.getAttribute('action');
+            const method = commentForm.getAttribute('method');
+
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url, true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = xhr.responseText;
+                    console.log(response);
+
+                    try {
+                        const jsonResponse = JSON.parse(response);
+
+                        // Handle the success JSON response, e.g., redirect or update the UI
+                        window.location.reload();
+                    } catch (jsonParseError) {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(response, 'text/html');
+                        const commentField = document.getElementById('post_comment_error');
+                        const newCommentField = doc.getElementById('post_comment_error');
+                        commentField.innerHTML = newCommentField.innerHTML;
+                        console.log("did it do it?");
+                        console.log(commentField.innerHTML);
+                    }
+                } else {
+                    // Handle the error, e.g., display an error message
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function () {
+                // Handle the error, e.g., display an error message
+                console.error('Network error occurred');
+            };
+
+            xhr.send(new FormData(commentForm));
+
+        });
+    }
+    commentAButtons.forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const commentForm = button.closest('form');
+            const url = commentForm.getAttribute('action');
+            const method = commentForm.getAttribute('method');
+
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url, true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = xhr.responseText;
+                    console.log(response);
+
+                    try {
+                        const jsonResponse = JSON.parse(response);
+
+                        // Handle the success JSON response, e.g., redirect or update the UI
+                        window.location.reload();
+                    } catch (jsonParseError) {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(response, 'text/html');
+                        const commentField = document.getElementById('post_comment_error');
+                        const newCommentField = doc.getElementById('post_comment_error');
+                        commentField.innerHTML = newCommentField.innerHTML;
+                        console.log("did it do it?");
+                        console.log(commentField.innerHTML);
+                    }
+                } else {
+                    // Handle the error, e.g., display an error message
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function () {
+                // Handle the error, e.g., display an error message
+                console.error('Network error occurred');
+            };
+
+            xhr.send(new FormData(commentForm));
+
         });
     });
 });

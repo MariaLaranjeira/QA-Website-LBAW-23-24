@@ -28,4 +28,14 @@ class Question extends Model {
     {
         return $this->belongsToMany(Tag::class, 'question_tag', 'id_question', 'id_tag');
     }
+
+    public function comments() {
+        return $this->hasMany(Comment::class, 'id_question', 'question_id')->orderBy('creation_date', 'desc');
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'id_question', 'question_id')
+            ->orderBy('creation_date', 'desc');
+    }
 }
