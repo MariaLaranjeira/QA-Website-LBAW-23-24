@@ -40,19 +40,23 @@ Route::controller(HomeController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile', 'profile');
     Route::get('/edit_user', 'editUser')->name('edit_user');
+    Route::get('/edit_profile_picture', 'editProfilePicture')->name('edit_profile_picture');
+    Route::get('/delete_picture', 'deletePic')->name('delete_picture');
     Route::post('/update_user','updateUser')->name('update_user');
     Route::get('/users','list')->name('users');
     Route::post('/delete_profile', 'deleteProfile')->name('delete_profile');
+    Route::post('/upload_picture', 'uploadPicture')->name('upload_picture');
 });
 
 //Questions
 Route::controller(QuestionController::class)->group(function () {
     Route::get('/question/{id}','show');
     Route::get('/newquestion', 'showNewQuestionForm')->name('newquestion');
+    Route::get('/edit_question_picture/{id}', 'editQuestionPicture')->name('edit_question_picture');
     Route::post('/newquestion', 'create')->name('createnewquestion');
-    Route::post('/delete/{id}', 'delete')->name('deletequestion');
-    Route::post('/edit/{id}', 'edit')->name('editingquestion');
-    Route::get('/edit/{id}','showEditForm')->name('editquestion');
+    Route::post('/question/delete/{id}', 'delete')->name('deletequestion');
+    Route::post('/question/edit/{id}', 'edit')->name('editingquestion');
+    Route::post('/upload_question_picture', 'uploadQuestionPicture')->name('upload_question_picture');
     Route::post('/search','search')->name('search');
 });
 

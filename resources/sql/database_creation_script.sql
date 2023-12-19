@@ -53,6 +53,7 @@ CREATE TABLE users (
   username TEXT UNIQUE NOT NULL,
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
+  picture TEXT DEFAULT 'default.jpg' NOT NULL,
   is_admin BOOLEAN DEFAULT False,
   profileURL TEXT
 );
@@ -72,7 +73,7 @@ CREATE TABLE question (
   question_id SERIAL PRIMARY KEY,
   title TEXT NOT NULL,
   text_body TEXT NOT NULL,
-  media_address TEXT,
+  media_address TEXT DEFAULT 'default.jpg' NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   rating INTEGER NOT NULL DEFAULT 0,
   id_user INTEGER NOT NULL,
@@ -83,7 +84,7 @@ CREATE TABLE answer (
   answer_id SERIAL PRIMARY KEY,
   text_body TEXT NOT NULL,
   rating INTEGER NOT NULL DEFAULT 0,
-  media_address TEXT,
+  media_address TEXT DEFAULT 'default.jpg' NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   id_user INTEGER NOT NULL,
   id_question INTEGER NOT NULL,
@@ -283,16 +284,16 @@ INSERT INTO moderator (mod_id) VALUES (1);
 INSERT INTO admin (admin_id, email, password) VALUES (1, 'admin@example.com', 'adminpass');
 
 INSERT INTO question (title, text_body, media_address, creation_date, rating, id_user) VALUES
-('How to Build a Time Machine?', 'I am curious about time travel. Can anyone guide me on how to build a time machine?', NULL, CURRENT_TIMESTAMP, 10, 1),
-('Is there life on Mars?', 'With all the advancements in space exploration, is there any evidence of life on Mars?', NULL, CURRENT_TIMESTAMP, 15, 2),
-('What is the future of artificial intelligence?', 'I am interested in the future of AI. What advancements can we expect in the next decade?', NULL, CURRENT_TIMESTAMP, 18, 4),
-('How does quantum computing work?', 'I have heard about quantum computing, but I don’t understand how it works. Can someone explain?', NULL, CURRENT_TIMESTAMP, 22, 5);
+('How to Build a Time Machine?', 'I am curious about time travel. Can anyone guide me on how to build a time machine?', 'default.jpg', CURRENT_TIMESTAMP, 10, 1),
+('Is there life on Mars?', 'With all the advancements in space exploration, is there any evidence of life on Mars?', 'default.jpg', CURRENT_TIMESTAMP, 15, 2),
+('What is the future of artificial intelligence?', 'I am interested in the future of AI. What advancements can we expect in the next decade?', 'default.jpg', CURRENT_TIMESTAMP, 18, 4),
+('How does quantum computing work?', 'I have heard about quantum computing, but I don’t understand how it works. Can someone explain?', 'default.jpg', CURRENT_TIMESTAMP, 22, 5);
 
 INSERT INTO answer (text_body, rating, media_address, creation_date, id_user, id_question) VALUES
-('Building a time machine is currently theoretical. Scientists are exploring the concept through theories like wormholes and relativity.', 8, NULL, CURRENT_TIMESTAMP, 2, 1),
-('While there is no direct evidence of life on Mars, scientists have found signs that suggest the possibility of microbial life in the past.', 12, NULL, CURRENT_TIMESTAMP, 3, 2),
-('The future of AI is exciting! We can expect improvements in natural language processing, computer vision, and AI-driven healthcare technologies.', 15, NULL, CURRENT_TIMESTAMP, 2, 3),
-('Quantum computing utilizes qubits and superposition to perform complex calculations. It has the potential to revolutionize cryptography and solve problems currently infeasible for classical computers.', 20, NULL, CURRENT_TIMESTAMP, 3, 4);
+('Building a time machine is currently theoretical. Scientists are exploring the concept through theories like wormholes and relativity.', 8, 'default.jpg', CURRENT_TIMESTAMP, 2, 1),
+('While there is no direct evidence of life on Mars, scientists have found signs that suggest the possibility of microbial life in the past.', 12, 'default.jpg', CURRENT_TIMESTAMP, 3, 2),
+('The future of AI is exciting! We can expect improvements in natural language processing, computer vision, and AI-driven healthcare technologies.', 15, 'default.jpg', CURRENT_TIMESTAMP, 2, 3),
+('Quantum computing utilizes qubits and superposition to perform complex calculations. It has the potential to revolutionize cryptography and solve problems currently infeasible for classical computers.', 20, 'default.jpg', CURRENT_TIMESTAMP, 3, 4);
 
 
 INSERT INTO tag (name) VALUES
