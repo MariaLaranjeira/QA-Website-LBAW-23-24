@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\QuestionTag;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +73,7 @@ class QuestionController extends Controller {
 
         $question = Question::findOrFail($id);
         $this->authorize('edit', $question);
+        $tags = $request->input('tags');
 
         if ($question->title == $request->input('title')) {
             $request->validate([
@@ -84,6 +86,16 @@ class QuestionController extends Controller {
                 'text_body' => 'required|string|min:5|max:4000',
             ]);
         }
+
+        QuestionTag::where('id_question', '=', $id)->delete();
+
+        foreach ($tags as $tag) {
+            DB::table('question_tag')->insert([
+                'id_question' => $id,
+                'id_tag' => $tag,
+            ]);
+        }
+
         $question->title = $request->input('title');
         $question->text_body = $request->input('text_body');
         $question->save();
@@ -93,9 +105,11 @@ class QuestionController extends Controller {
     public function show($id) {
         $question = Question::with('tags')->findOrFail($id);
         $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+        $tags = Tag::all();
         return view('pages/question', [
             'question' => $question,
             'answers' => $answers,
+            'tags' => $tags
         ]);
     }
 

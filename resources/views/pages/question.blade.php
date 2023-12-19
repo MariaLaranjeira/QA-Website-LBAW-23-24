@@ -68,6 +68,17 @@
             <br>
             @endif
         </h2>
+
+        <div id="edit_tags">
+            @foreach ($tags as $tag)
+                @if ($question->tags->contains($tag))
+                    <input type="checkbox" class="checkbox_edit_tag" name="tags[]" value="{{ $tag->name }}" checked>{{ $tag->name }}
+                @else
+                    <input type="checkbox" class="checkbox_edit_tag" name="tags[]" value="{{ $tag->name }}">{{ $tag->name }}
+                @endif
+            @endforeach
+        </div>
+
         <button type="reset" id="cancelButton">
             Cancel
         </button>
