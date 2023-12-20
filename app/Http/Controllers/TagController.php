@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class TagController extends Controller {
 
     public function create(Request $request) {
-        $this->authorize('create', Tag::class);
+        //$this->authorize('create', Tag::class);
 
         $this->validate($request, [
             'name' => 'required|unique:tag|max:255', //Mudar valor de max se necessario
@@ -19,7 +19,7 @@ class TagController extends Controller {
         $tag->name = $request->input('name');
         $tag->save();
 
-        return redirect()->route('home'); //TODO: Mudar para a pagina da tag
+        return redirect()->route('tags');
     }
 
     public function view(Request $request) {
