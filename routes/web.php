@@ -66,6 +66,7 @@ Route::controller(AnswerController::class)->group(function () {
     Route::post('/question/{id}','create')->name('newanswer');
     Route::post('/answer/delete/{id}', 'delete')->name('deleteanswer');
     Route::post('/answer/edit/{id}', 'edit')->name('editinganswer');
+    Route::post('/upload_answer_picture', 'uploadAnswerPicture')->name('upload_answer_picture');
 });
 
 //Comments
@@ -102,4 +103,3 @@ Route::controller(TagController::class)->group(function () {
     Route::get('/tags', 'list')->name('tags');
     Route::post('/tag/{name}', 'edit')->name('editTag');
 });
-
