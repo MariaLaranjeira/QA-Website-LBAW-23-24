@@ -55,9 +55,9 @@
         @endif
         @if (Auth::user()->getAuthIdentifier() != $question->id_user)
         @if (\App\Models\UserQuestionFollow::where('id_user', Auth::user()->getAuthIdentifier())->where('id_question', $question->question_id)->exists())
-        	<div id="followQuestion" class="follow" data-question_id="{{ $question->question_id }}"> Unfollow </div>
+        	<div id="followQuestion" class="button" data-question_id="{{ $question->question_id }}"> Unfollow </div>
         @else
-            <div id="followQuestion" class="follow" data-question_id="{{ $question->question_id }}"> Follow </div>
+            <div id="followQuestion" class="button" data-question_id="{{ $question->question_id }}"> Follow </div>
         @endif
         @endif
     @endauth
