@@ -6,7 +6,7 @@
     </label>
 </section>
 
-<section id="editTagMode">
+<section id="editTagMode" style="display: none">
     <form action="{{ route('editTag', ['name' => $tag->name]) }}" method="POST">
         @csrf
         <input type="text" name="name" id="tag_name_edit" value="{{ $tag->name }}">
