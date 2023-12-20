@@ -11,7 +11,7 @@ class TagController extends Controller {
     public function create(Request $request) {
         //$this->authorize('create', Tag::class);
 
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|unique:tag|max:255', //Mudar valor de max se necessario
         ]);
 

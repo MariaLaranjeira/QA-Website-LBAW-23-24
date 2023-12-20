@@ -9,6 +9,7 @@
     </label>
 </section>
 
+<section id="editTagMode" style="display: none">
 <section id="edit{{ $tag->name }}Mode" style="display: none">
     <form action="{{ route('editTag', ['name' => $tag->name]) }}" method="POST">
         @csrf
