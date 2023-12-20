@@ -14,15 +14,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const answerUpVoteButtons = document.querySelectorAll('.answer_upvote');
     const answerDownVoteButtons = document.querySelectorAll('.answer_downvote');
     const answerDeleteButtons = document.querySelectorAll('.answer_delete');
+
     const commentQButton = document.getElementById('postCommentQ');
     const commentAButtons = document.querySelectorAll('.post-comment-btn');
 
     const commentQEditButtons = document.querySelectorAll('.edit_commentQ');
     const commentQApplyButtons = document.querySelectorAll('.applyCommentQButton');
     const commentQCancelButtons = document.querySelectorAll('.cancelCommentQButton');
-
     const commentQDeleteButtons = document.querySelectorAll('.delete_commentQ');
 
+    const commentAEditButtons = document.querySelectorAll('.edit_commentA');
+    const commentAApplyButtons = document.querySelectorAll('.applyCommentAButton');
+    const commentACancelButtons = document.querySelectorAll('.cancelCommentAButton');
+    const commentADeleteButtons = document.querySelectorAll('.delete_commentA');
 
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -63,6 +67,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     commentQDeleteButtons.forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Show a confirmation dialog
+            const confirmation = confirm('Are you sure you want to delete this comment?');
+            if (confirmation) {
+                const deleteForm = button.closest('form');
+                const url = deleteForm.getAttribute('action');
+                const method = deleteForm.getAttribute('method');
+
+                const xhr = new XMLHttpRequest();
+                xhr.open(method, url, true);
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Handle the success response, e.g., redirect or update the UI
+                        window.location.reload();
+                    } else {
+                        // Handle the error, e.g., display an error message
+                        console.error('Error:', xhr.statusText);
+                    }
+                };
+
+                xhr.onerror = function () {
+                    // Handle the error, e.g., display an error message
+                    console.error('Network error occurred');
+                };
+
+                xhr.send(new FormData(deleteForm));
+            }
+        });
+    });
+
+    commentADeleteButtons.forEach(function (button) {
         button.addEventListener('click', function (e) {
             e.preventDefault();
 
@@ -189,6 +227,68 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(commentId);
             document.getElementById(`commentQ_view_${commentId}`).style.display = 'block';
             document.getElementById(`commentQ_edit_${commentId}`).style.display = 'none';
+        });
+    });
+
+    commentAEditButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            const commentId = e.currentTarget.getAttribute('data-commentA-id');
+            document.getElementById(`commentA_view_${commentId}`).style.display = 'none';
+            document.getElementById(`commentA_edit_${commentId}`).style.display = 'block';
+        });
+    });
+
+    commentAApplyButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const updateCommentConfirmation = confirm('Are you sure you want to update this comment?');
+            if (updateCommentConfirmation) {
+                const updateForm = button.closest('form');
+                const url = updateForm.getAttribute('action');
+                const method = updateForm.getAttribute('method');
+                const xhr = new XMLHttpRequest();
+                xhr.open(method, url, true);
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const response = xhr.responseText;
+
+                        try {
+                            const jsonResponse = JSON.parse(response);
+
+                            // Handle the success JSON response, e.g., redirect or update the UI
+                            window.location.reload();
+                        } catch (jsonParseError) {
+                            console.log("am i here?");
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(response, 'text/html');
+                            const editTextField = document.getElementById('commentA_edit_text_body');
+                            const textField = doc.getElementById('commentA_edit_text_body')
+                            editTextField.innerHTML = textField.innerHTML;
+                        }
+                    } else {
+                        // Handle the error, e.g., display an error message
+                        console.error('Error:', xhr.statusText);
+                    }
+                };
+
+                xhr.onerror = function () {
+                    // Handle the error, e.g., display an error message
+                    console.error('Network error occurred');
+                };
+
+                xhr.send(new FormData(updateForm));
+            }
+        });
+    });
+
+    commentACancelButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            const commentId = e.currentTarget.getAttribute('data-commentA-id');
+            console.log(commentId);
+            document.getElementById(`commentA_view_${commentId}`).style.display = 'block';
+            document.getElementById(`commentA_edit_${commentId}`).style.display = 'none';
         });
     });
 
