@@ -47,4 +47,13 @@ class TagController extends Controller {
 
         return redirect()->route('tags');
     }
+
+    public function delete($name) {
+        $tag = Tag::find($name);
+        //$this->authorize('delete', $tag);
+
+        $tag->delete();
+
+        return redirect()->route('tags');
+    }
 }

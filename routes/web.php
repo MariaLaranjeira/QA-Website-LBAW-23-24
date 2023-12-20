@@ -102,5 +102,6 @@ Route::controller(TagController::class)->group(function () {
     Route::get('/tags', 'list')->name('tags');
     Route::post('/tag/{name}', 'edit')->name('editTag');
     Route::post('/tags', 'create')->name('createTag');
+    Route::post('/tag/delete/{name}', 'delete')->name('deleteTag');
 });
 

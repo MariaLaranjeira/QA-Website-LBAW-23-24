@@ -2,7 +2,10 @@
     <label for="{{ $tag->name }}">
         {{ $tag->name }}
         <button class="edit_tag_button" onclick="editExistingTag('{{ $tag->name }}')">Edit</button>
-        <button class="delete_tag_button" onclick="">Delete</button>
+        <form action="{{ route('deleteTag', ['name' => $tag->name]) }}" method="POST">
+            {{ csrf_field() }}
+            <button class="delete_tag_button">Delete</button>
+        </form>
     </label>
 </section>
 
