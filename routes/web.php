@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserAnswerRatingController;
 use App\Http\Controllers\UserQuestionRatingController;
 use App\Http\Controllers\CommentController;
@@ -95,5 +96,10 @@ Route::controller(UserQuestionRatingController::class)->group(function () {
 Route::controller(UserAnswerRatingController::class)->group(function () {
     Route::post('/answer/{id}/upvote', 'upVote')->name('upvoteanswer');
     Route::post('/answer/{id}/downvote', 'downVote')->name('downvoteanswer');
+});
+
+Route::controller(TagController::class)->group(function () {
+    Route::get('/tags', 'list')->name('tags');
+    Route::post('/tag/{name}', 'edit')->name('editTag');
 });
 
