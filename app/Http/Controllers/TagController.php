@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
-use http\Env\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TagController extends Controller {
 
@@ -28,5 +29,22 @@ class TagController extends Controller {
         $tag->questions = $tag->question()->get();
 
         return view('tag', ['tag' => $tag]);
+    }
+
+    public function list() {
+        if (!Auth::check()) return redirect('/login');
+
+        $tags = Tag::all();
+        return view('pages.tags', ['tags' => $tags]);
+    }
+
+    public function edit(Request $request, $name) {
+        $tag = Tag::find($name);
+        //$this->authorize('edit', $tag);
+
+        $tag->name = $request->input('name');
+        $tag->save();
+
+        return redirect()->route('tags');
     }
 }
