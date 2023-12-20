@@ -18,6 +18,10 @@
     @auth
     @if (Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin)
     <button class="answer_edit_button" data-answer-id="{{ $answer->answer_id }}">&#9998;</button>
+    <form action ="{{ route('deleteanswer', ['id' => $answer->answer_id]) }}" method = "POST">
+        {{ csrf_field() }}
+        <button type="submit" class="answer_delete">&#10761;</button>
+    </form>
     @endif
     @if (Auth::user()->getAuthIdentifier() != $answer->id_user)
     <h4>Post your comment</h4>

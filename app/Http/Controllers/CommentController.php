@@ -43,6 +43,29 @@ class CommentController extends Controller {
         return response()->json(['message' => 'Posted comment successfully.'], 200);
     }
 
+    public function deleteComment(Request $request, $id) {
+        $comment = Comment::findOrFail($id);
+        //$this->authorize('delete', $comment);
+
+        $comment->delete();
+
+        return response()->json(['message' => 'Deleted comment successfully.'], 200);
+    }
+
+    public function editComment(Request $request, $id) {
+        $comment = Comment::findOrFail($id);
+        //$this->authorize('edit', $comment);
+
+        $request->validate([
+            'commentQ_body' => 'required|string|max:4000|min:1'
+        ]);
+
+        $comment->text_body = $request->input('commentQ_body');
+        $comment->save();
+
+        return response()->json(['message' => 'Edited comment successfully.'], 200);
+    }
+
     public function __construct() {
 
     }
