@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserAnswerRatingController;
+use App\Http\Controllers\UserQuestionFollowController;
 use App\Http\Controllers\UserQuestionRatingController;
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
@@ -97,3 +98,7 @@ Route::controller(UserAnswerRatingController::class)->group(function () {
     Route::post('/answer/{id}/downvote', 'downVote')->name('downvoteanswer');
 });
 
+//Question Follow
+Route::controller(UserQuestionFollowController::class)->group(function () {
+    Route::post('/question/{id}/follow', 'follow')->name('followquestion');
+});

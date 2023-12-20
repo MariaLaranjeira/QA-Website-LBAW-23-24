@@ -26,11 +26,11 @@
         @if (Auth::user()->getAuthIdentifier() != $question->id_user)
             <div id="vote_section" class="vote">
                 <div id="upVoteButton" class="upvote">&#8593;</div>
-                @if ($question->rating >= 0)
-                    <span id="rating"> {{ $question->rating }} </span>
-                @else
-                    <span id="rating"> 0 </span>
-                @endif
+            @if ($question->rating >= 0)
+                <span id="rating"> {{ $question->rating }} </span>
+            @else
+                <span id="rating"> 0 </span>
+            @endif
                 <div id="downVoteButton" class="downvote">&#8595;</div>
             </div>
         @endif
@@ -52,6 +52,13 @@
     @auth
         @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
          <a class="button" href="{{ url('/edit_question_picture', ['id' => $question->question_id]) }}"> Add picture </a>
+        @endif
+        @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+        @if (\App\Models\UserQuestionFollow::where('id_user', Auth::user()->getAuthIdentifier())->where('id_question', $question->question_id)->exists())
+        	<div id="followQuestion" class="follow" data-question_id="{{ $question->question_id }}"> Unfollow </div>
+        @else
+            <div id="followQuestion" class="follow" data-question_id="{{ $question->question_id }}"> Follow </div>
+        @endif
         @endif
     @endauth
     
