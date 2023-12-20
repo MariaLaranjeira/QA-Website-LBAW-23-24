@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class AnswerController extends Controller
 {
@@ -56,26 +61,27 @@ class AnswerController extends Controller
     }
 
     public function __construct() {
-        
+
     }
 
+    public function uploadAnswerPicture(Request $request) {
+        $id = $request->id;
+        $answer = Answer::findOrFail($request->id);
+        $question = Question::findOrFail($answer->id_question);
+        if($request->file('answerPic')){
+            if ($answer->media_address != 'default.jpg'){
+              $deletepath = public_path().'/images/answer/'.$answer->media_address;
+              File::delete($deletepath);
+            }
+            $filename = Str::slug(Carbon::now(), '_').'.jpg';
+
+            $request->file('answerPic')->move(public_path('images/answer'), $filename);
+            $answer->media_address = $filename;
+            $answer->save();
+        }
+
+        $answer->save();
+        return redirect('/question/'.$answer->id_question, 302, ['question' => $question, 'id' => $answer->id_question])->withSuccess('Uploaded Media Succesfully.');
+      }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -12,6 +12,28 @@
     </div>
     @endif
     @endauth
+
+    @if ($answer -> media_address != 'default.jpg')
+        <div id="answerPic">
+            <img src="/images/answer/{{ $answer->media_address }}" alt="Answer Picture">
+        </div>
+    @endif
+
+    @auth
+        @if (Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin)
+        <form action="{{ route('upload_answer_picture', ['id' => $answer->answer_id], ['id_question' => $answer->question_id]) }}" id="edit_answer_picture" class="edit_answer_picture" enctype="multipart/form-data" method="POST">
+            {{ csrf_field() }}
+            <label for="answerPic">Choose picture to upload:</label>
+
+            <input type="file" id="answerPic" name="answerPic">
+
+            <button type="submit">
+                Save
+            </button>
+        </form>
+        @endif
+    @endauth
+
     <h3 id="answer_text_body_display">
         {{ $answer->text_body }}
     </h3>

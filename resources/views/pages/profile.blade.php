@@ -32,6 +32,7 @@
 
   @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
   <a class="button" href="{{ url('/users') }}"> Administration Page </a>
+  <a class="button" href="{{ url('/tags') }}"> Tag Management </a>
 
   @endif
 

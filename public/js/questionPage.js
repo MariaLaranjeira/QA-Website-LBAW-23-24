@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const commentQButton = document.getElementById('postCommentQ');
     const commentAButtons = document.querySelectorAll('.post-comment-btn');
+    const followQuestionButton = document.getElementById('followQuestion');
 
     const commentQEditButtons = document.querySelectorAll('.edit_commentQ');
     const commentQApplyButtons = document.querySelectorAll('.applyCommentQButton');
@@ -31,6 +32,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+    if (followQuestionButton) {
+        followQuestionButton.addEventListener('click', function (e) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/question/' + window.questionID + '/follow', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            xhr.send();
+            xhr.onload = function () {
+                switch (xhr.status) {
+                    case 200:
+                        followQuestionButton.innerHTML = 'Unfollow';
+                        break;
+                    case 201:
+                        followQuestionButton.innerHTML = 'Follow';
+                        break;
+                    default:
+                        console.error('Error:', xhr.statusText);
+                        break;
+                }
+            };
+        });
+    }
 
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function (e) {

@@ -156,6 +156,7 @@ class QuestionController extends Controller {
     public function editQuestionPicture($id)
     {
             $question = Question::findOrFail($id);
+            $this->authorize('edit', $question);
             $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
             return view('pages/editQuestionPicture', [
                 'question' => $question,
@@ -180,16 +181,6 @@ class QuestionController extends Controller {
 
         $question->save();
         return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Uploaded Media Succesfully.');
-      }
-    public function deletePicture(){
-        $user = Auth::user();
-        if ($user->picture != 'default.jpg'){
-          $deletepath = public_path().'images/question/'.$question->media_address;
-          File::delete($deletepath);
-          $question->media_address = 'default.jpg';
-          $question->save();
-        }
-        return redirect()->back();
       }
 
 
