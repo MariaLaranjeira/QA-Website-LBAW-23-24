@@ -26,7 +26,7 @@ class Question extends Model {
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'question_tag', 'id_question', 'id_tag');
+        return $this->belongsToMany(Tag::class, 'question_tag', 'id_question', 'id_tag')->orderBy('name', 'asc');
     }
 
     public function comments() {
