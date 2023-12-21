@@ -1,7 +1,6 @@
-<section id="view{{ $tag->name }}Mode">
+<section id="view{{ $tag->name }}Mode" class="viewTag">
     <label for="{{ $tag->name }}">
         <a href="{{ route('showTag', ['name' => $tag->name]) }}">{{ $tag->name }}</a>
-
         @auth
             @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
                 <button class="edit_tag_button" data-name="{{ $tag->name }}">Edit</button>

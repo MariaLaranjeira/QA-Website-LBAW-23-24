@@ -30,16 +30,16 @@
 
     @auth
     @if ($followedQuestions->count() > 0)
-        <h2>Followed Questions</h2>
+        <h2 class="topic_headers">Followed Questions</h2>
         @each('partials.question', $followedQuestions, 'question')
     @endif
     @if ($followedTagsQuestions->count() > 0)
-        <h2>Followed Tags' Questions</h2>
+        <h2 class="topic_headers">Followed Tags' Questions</h2>
         @each('partials.question', $followedTagsQuestions, 'question')
     @endif
     @endauth
 
-    <h2>Recent Questions</h2>
+    <h2 class="topic_headers">Recent Questions</h2>
 
     @each('partials.question', $questions, 'question')
 </section>

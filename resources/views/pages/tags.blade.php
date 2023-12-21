@@ -2,6 +2,10 @@
 
 @section('title', 'Tags')
 
+@section('styles')
+<link href="{{ url('css/tags.css') }}" rel="stylesheet">
+@endsection
+
 @section('scripts')
 <script type="text/javascript" src={{ url('js/manageTags.js') }} defer> </script>
 @endsection

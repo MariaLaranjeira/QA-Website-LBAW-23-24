@@ -1,0 +1,22 @@
+#search_tags {
+    margin-top: 5rem;
+}
+
+.viewTag {
+    display: flex;
+    flex-direction: row;
+}
+
+.viewTag > label {
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.viewTag > label > a {
+    margin-right: 1rem;
+}
+
+.viewTag > label > form {
+    margin: 0;
+}

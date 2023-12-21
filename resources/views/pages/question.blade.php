@@ -4,7 +4,6 @@
 
 @section('styles')
 <link href="{{ url('css/question.css') }}" rel="stylesheet">
-<link href="{{ url('css/font-awesome.css') }}" rel="stylesheet">
 @endsection
 
 @section('scripts')
@@ -15,26 +14,30 @@
 @section('content')
 <section id="question">
     @auth
-        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists() || \App\Models\Moderator::where('mod_id', Auth::user()->getAuthIdentifier())->exists())
-            <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
-                {{ csrf_field() }}
-                <button type="submit" class="delete">&#10761;</button>
-            </form>
-
-            <button type="submit" class="edit" id="question_edit_button">&#9998;</button>
+    @if (Auth::user()->getAuthIdentifier() != $question->id_user && !Auth::user()->is_blocked)
+    <div id="vote_section" class="vote">
+        <div id="upVoteButton" class="upvote">&#8593;</div>
+        @if ($question->rating >= 0)
+        <span id="rating"> {{ $question->rating }} </span>
+        @else
+        <span id="rating"> 0 </span>
         @endif
-        @if (Auth::user()->getAuthIdentifier() != $question->id_user && !Auth::user()->is_blocked)
-            <div id="vote_section" class="vote">
-                <div id="upVoteButton" class="upvote">&#8593;</div>
-            @if ($question->rating >= 0)
-                <span id="rating"> {{ $question->rating }} </span>
-            @else
-                <span id="rating"> 0 </span>
-            @endif
-                <div id="downVoteButton" class="downvote">&#8595;</div>
-            </div>
-        @endif
+        <div id="downVoteButton" class="downvote">&#8595;</div>
+    </div>
+    @endif
     @endauth
+    <span id="question_buttons">
+    @auth
+    @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists() || \App\Models\Moderator::where('mod_id', Auth::user()->getAuthIdentifier())->exists())
+        <form action ="{{ route('deletequestion', ['id' => $question->question_id]) }}" method = "POST">
+            {{ csrf_field() }}
+            <button type="submit" class="delete">&#10761;</button>
+        </form>
+
+        <button type="submit" class="edit" id="question_edit_button">&#9998;</button>
+    @endif
+    @endauth
+    </span>
     <h2 id="title_display">
         <div id="question_title">
             {{ $question->title }}

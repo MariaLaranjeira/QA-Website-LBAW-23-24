@@ -1,5 +1,6 @@
 <div id="commentQ_view_{{ $commentQ->comment_id }}">
     <article class="comment" data-comment-id="{{ $commentQ->comment_id }}">
+        <span id="comment_buttons">
         @auth
         @if ((Auth::user()->getAuthIdentifier() == $commentQ->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists() || \App\Models\Moderator::where('mod_id', Auth::user()->getAuthIdentifier())->exists()) && !Auth::user()->is_blocked)
         <form action ="{{ route('deletecomment', ['id' => $commentQ->comment_id]) }}" method = "POST">
@@ -10,6 +11,7 @@
         <button type="submit" class="edit_commentQ" data-comment-id="{{ $commentQ->comment_id }}">&#9998;</button>
         @endif
         @endauth
+        </span>
         <header>
             <h4>{{ $commentQ->text_body }}</h4>
         </header>

@@ -54,15 +54,12 @@
             <section id="content">
                 <div class="row">
                     <div class="sidebar">
-                        <!-- Include your sidebar here -->
                         @yield('sidebarleft')
                     </div>
                     <div class="main-content">
-                        <!-- This will contain the content from your 'search' page -->
                         @yield('content')
                     </div>
                     <div class="sidebar">
-                        <!-- Include your sidebar here -->
                         @yield('sidebarright')
                     </div>
                 </div>
