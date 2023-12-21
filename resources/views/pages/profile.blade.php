@@ -19,16 +19,22 @@
   <div id="info">
     <p>Name: {{ $user->name }}</p><br>
     <p>Username: {{ $user->username }}</p><br>
-    <p>email: {{ $user->email }}</p><br>
-
+      @auth
+      @if (Auth::user()->getAuthIdentifier() == $user->user_id)
+      <p>email: {{ $user->email }}</p><br>
+      @endif
+      @endauth
   </div>
 
   <div id="profilePic">
   <img src="/images/profile/{{ $user->picture }}" alt="Profile picture" width="240" height="240">
 </div>
-
+  @auth
+  @if (Auth::user()->getAuthIdentifier() == $user->user_id)
   <a class="button" href="{{ url('/edit_user') }}"> Edit Profile </a>
   <a class="button" href="{{ url('/edit_profile_picture') }}"> Change Picture </a>
+  @endif
+  @endauth
 
   @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
   <a class="button" href="{{ url('/users') }}"> Administration Page </a>

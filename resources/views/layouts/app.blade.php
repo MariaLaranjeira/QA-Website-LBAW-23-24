@@ -43,7 +43,7 @@
                 <section id="user_buttons">
                     @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a>
-                    <a class="button" href="{{ url('/profile') }}"> {{ Auth::user()->username }} </a>
+                    <a class="button" href="{{ route('profile', ['id' => Auth::user()->getAuthIdentifier()] )}}"> {{ Auth::user()->username }} </a>
                     @endif
                     @if (!Auth::check())
                     <a class="button" href="{{ url('/login') }}"> Login </a>
