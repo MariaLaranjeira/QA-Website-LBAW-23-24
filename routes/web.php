@@ -131,6 +131,7 @@ Route::controller(TagController::class)->group(function () {
     Route::post('/tags', 'create')->name('createTag');
     Route::post('/tag/delete/{name}', 'delete')->name('deleteTag');
     Route::get('/search_tags','search')->name('search_tags');
+    Route::get('/tag/{name}/search_questions', 'searchQuestions')->name('search_questions');
 });
 
 // Question Follow

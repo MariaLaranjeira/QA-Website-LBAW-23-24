@@ -168,10 +168,10 @@ class UserController extends Controller {
         ]);
 
         if ($request->input('search') == '') {
-            $users = User::where('email', 'NOT LIKE', '%@deleted.com')->get();
+            $users = User::where('email', 'NOT LIKE', '%@deleted.com')->limit(10)->get();
         } else {
             $searchTerm = $request->input('search');
-            $users = User::whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm])->where('email', 'NOT LIKE', '%@deleted.com')->get();
+            $users = User::whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm])->where('email', 'NOT LIKE', '%@deleted.com')->limit(20)->get();
         }
         return view('pages.users',['users' => $users, 'search_user' => $searchTerm])->render();
     }

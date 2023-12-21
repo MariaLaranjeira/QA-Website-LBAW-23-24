@@ -66,11 +66,11 @@
         {{ $question->text_body }}
     </div>
     <div id="post_info">
-        <div id="tags">Tags: |
+        <span id="tags">Tags: |
             @foreach ($question->tags as $tag)
-                <span class="tag">{{ $tag->name }} |</span>
+                <a href="/tag/{{ $tag->name }}" class="tag">{{ $tag->name }} |</a>
             @endforeach
-        </div>
+        </span>
         <div id="author">
             <a class="indigo" href="{{ route('profile', ['id' => \App\Models\User::where('user_id', $question->id_user)->first()->user_id]) }}" methods="GET"> {{ \App\Models\User::where('user_id', $question->id_user)->first()->username }} </a>
         </div>

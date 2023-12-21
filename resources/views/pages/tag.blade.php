@@ -12,22 +12,23 @@
 
 @section('content')
     <section id="tag_info">
-        <h2>{{ $tag->name }}</h2>
+        <h2><a href="/tag/{{ $tag->name }}">{{ $tag->name }}</a></h2>
         <span>There are </span>
         <span id="follow_count">{{ \App\Models\UserTagFollow::query()->where('id_tag', $tag->name)->count() }}</span>
         <span> users who follow this Tag</span>
         @auth
-            @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
-            <div class="button" id="edit_tag">Edit</div>
-            <div class="button" id="delete_tag">Delete</div>
-            @endif
-            @if(!Auth::user()->is_blocked)
-            @if (\App\Models\UserTagFollow::where('id_user', Auth::user()->getAuthIdentifier())->where('id_tag', $tag->name)->exists())
-            <div class="button" id="follow_tag">Unfollow</div>
-            @else
-            <div class="button" id="follow_tag">Follow</div>
-            @endif
-            @endif
+        @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
+        <br>
+        <div class="button" id="edit_tag">Edit</div>
+        <div class="button" id="delete_tag">Delete</div>
+        @endif
+        @if(!Auth::user()->is_blocked)
+        @if (\App\Models\UserTagFollow::where('id_user', Auth::user()->getAuthIdentifier())->where('id_tag', $tag->name)->exists())
+        <div class="button" id="follow_tag">Unfollow</div>
+        @else
+        <div class="button" id="follow_tag">Follow</div>
+        @endif
+        @endif
         @endauth
     </section>
 
@@ -48,7 +49,16 @@
     @endif
     @endauth
 
-    <h2>Questions tagged</h2>
-    @each('partials.question', $tag->questions, 'question')
-
+    <section id="questions_tagged">
+        <h2>Questions tagged</h2>
+        <form method="GET" action="{{ route('search_questions', ['name' => $tag->name]) }}">
+            @isset($search_question)
+            <input type="text" name="search" id="search" value="{{ $search_question }}" placeholder="Search question..">
+            @endisset
+            @empty($search_question)
+            <input type="text" name="search" id="search" placeholder="Search question..">
+            @endempty
+        </form>
+        @each('partials.question', $tag->questions, 'question')
+    </section>
 @endsection

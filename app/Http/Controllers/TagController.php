@@ -55,7 +55,7 @@ class TagController extends Controller {
     }
 
     public function show($id) {
-        $tag = Tag::with('questions')->findOrFail($id);
+        $tag = Tag::with('questions')->limit(10)->findOrFail($id);
         //$this->authorize('view', $tag);
         return view('pages/tag', [
             'tag' => $tag
@@ -69,11 +69,28 @@ class TagController extends Controller {
         ]);
 
         if ($request->input('search') == '') {
-            $tags = Tag::all();
+            $tags = Tag::all()->limit(10);
         } else {
             $searchTerm = $request->input('search');
             $tags = Tag::whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm])->get();
         }
         return view('pages.tags',['tags' => $tags, 'search_tags' => $searchTerm])->render();
+    }
+
+    public function searchQuestions(Request $request, $name)
+    {
+        $tag = Tag::find($name);
+        $request->validate([
+            'search' => 'required|string',
+        ]);
+
+        if ($request->input('search') == '') {
+            $questions = $tag->questions()->limit(10)->get();
+        } else {
+            $searchTerm = $request->input('search');
+            $questions = $tag->questions()->whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm])->get();
+            $tag->questions = $questions;
+        }
+        return view('pages.tag',['tag' => $tag, 'search_question' => $searchTerm])->render();
     }
 }
