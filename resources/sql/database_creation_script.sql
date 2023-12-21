@@ -55,7 +55,8 @@ CREATE TABLE users (
   password TEXT NOT NULL,
   picture TEXT DEFAULT 'default.jpg' NOT NULL,
   remember_token TEXT,
-  profileURL TEXT
+  profileURL TEXT,
+  ts_search TSVECTOR
 );
 
 CREATE TABLE moderator (
@@ -76,6 +77,7 @@ CREATE TABLE question (
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   rating INTEGER NOT NULL DEFAULT 0,
   id_user INTEGER NOT NULL,
+  ts_search TSVECTOR,
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE
 );
 
@@ -87,12 +89,14 @@ CREATE TABLE answer (
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   id_user INTEGER NOT NULL,
   id_question INTEGER NOT NULL,
+  ts_search TSVECTOR,
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE,
   FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE tag (
-  name TEXT PRIMARY KEY
+  name TEXT PRIMARY KEY,
+  ts_search TSVECTOR
 );
 
 CREATE TABLE question_tag (
@@ -111,6 +115,7 @@ CREATE TABLE comment (
   id_question INTEGER,
   id_answer INTEGER,
   comment_type comment_type NOT NULL,
+  ts_search TSVECTOR,
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE,
   FOREIGN KEY (id_question) REFERENCES question(question_id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (id_answer) REFERENCES answer(answer_id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -190,7 +195,131 @@ CREATE INDEX answer_tsvector_index ON answer USING GIST(to_tsvector('english', t
 
 CREATE INDEX tag_tsvector_index ON tag USING GIN(to_tsvector('english', name));
 
+--Trigger01
+CREATE FUNCTION user_tsvector() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.username <> NEW.username OR OLD.email <> NEW.email OR
+           OLD.name <> NEW.name THEN
+            NEW.ts_search =
+                    setweight(to_tsvector('english',
+                                          coalesce(NEW.username,'')), 'A') ||
+                    setweight(to_tsvector('english',
+                                          coalesce(NEW.email,'')), 'B') ||
+                    setweight(to_tsvector('english',
+                                          coalesce(NEW.name,'')), 'C');
+        END IF;
+    END IF;
+    IF TG_OP = 'INSERT' THEN
+        NEW.ts_search =
+                setweight(to_tsvector('english',
+                                      coalesce(NEW.username,'')), 'A') ||
+                setweight(to_tsvector('english', coalesce(NEW.email,'')),
+                          'B') ||
+                setweight(to_tsvector('english', coalesce(NEW.name,'')),
+                          'C');
+    END IF;
+    RETURN NEW;
+END
+$BODY$
+LANGUAGE plpgsql;
 
+CREATE TRIGGER user_tsvector
+    BEFORE INSERT OR UPDATE ON users
+    FOR EACH ROW
+EXECUTE PROCEDURE user_tsvector();
+
+--Trigger02
+
+CREATE FUNCTION question_tsvector() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.title = NEW.title AND OLD.text_body = NEW.text_body THEN
+            RETURN NEW;
+        END IF;
+    END IF;
+    NEW.ts_search =
+            setweight(to_tsvector('english', coalesce(NEW.title,'')),
+                      'A') ||
+            setweight(to_tsvector('english', coalesce(NEW.text_body,'')),
+                      'B');
+    RETURN NEW;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER question_tsvector
+    BEFORE INSERT OR UPDATE ON question
+    FOR EACH ROW
+EXECUTE PROCEDURE question_tsvector();
+
+--Trigger03
+
+CREATE FUNCTION comment_tsvector() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.text_body = NEW.text_body THEN
+            RETURN NEW;
+        END IF;
+    END IF;
+    NEW.ts_search = setweight(to_tsvector('english',
+                                          coalesce(NEW.text_body,'')), 'A');
+    RETURN NEW;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER comment_tsvector
+    BEFORE INSERT OR UPDATE ON comment
+    FOR EACH ROW
+EXECUTE PROCEDURE comment_tsvector();
+
+--Trigger04
+
+CREATE FUNCTION answer_tsvector() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.text_body = NEW.text_body THEN
+            RETURN NEW;
+        END IF;
+    END IF;
+    NEW.ts_search = setweight(to_tsvector('english',
+                                          coalesce(NEW.text_body,'')), 'A');
+    RETURN NEW;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER answer_tsvector
+    BEFORE INSERT OR UPDATE ON answer
+    FOR EACH ROW
+EXECUTE PROCEDURE answer_tsvector();
+
+--Trigger05
+
+CREATE FUNCTION tag_tsvector() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF TG_OP = 'UPDATE' THEN
+        IF OLD.name = NEW.name THEN
+            RETURN NEW;
+        END IF;
+    END IF;
+    NEW.ts_search = setweight(to_tsvector('english',
+                                          coalesce(NEW.name,'')), 'A');
+    RETURN NEW;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tag_tsvector
+    BEFORE INSERT OR UPDATE ON tag
+    FOR EACH ROW
+EXECUTE PROCEDURE tag_tsvector();
 
 
 --Trigger06

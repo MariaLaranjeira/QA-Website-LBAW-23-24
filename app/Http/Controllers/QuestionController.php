@@ -199,13 +199,11 @@ class QuestionController extends Controller {
             'search' => 'required|string|min:1',
         ]);
 
-        $input = $request->get('search') ? $request->get('search') : "*";
-        $lower = strtolower($input);
-        $upper = strtoupper($input);
+        $searchTerm = $request->input('search');
 
-        $questions = Question::whereRaw("(lower(title) like ? or upper(title) like ?)", ["%$lower%", "%$upper%"])
+        $questions = Question::whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm])
             ->get();
 
-        return view('pages.searchquestion',['questions' => $questions, 'search' => $input])->render();
+        return view('pages.searchquestion',['questions' => $questions, 'search' => $searchTerm])->render();
     }
 }
