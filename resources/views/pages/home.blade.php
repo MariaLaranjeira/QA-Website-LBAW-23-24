@@ -27,6 +27,18 @@
         </form>
         @endif
     @endauth
+
+    @auth
+    @if ($followedQuestions->count() > 0)
+        <h2>Followed Questions</h2>
+        @each('partials.question', $followedQuestions, 'question')
+    @endif
+    @if ($followedTagsQuestions->count() > 0)
+        <h2>Followed Tags' Questions</h2>
+        @each('partials.question', $followedTagsQuestions, 'question')
+    @endif
+    @endauth
+
     <h2>Recent Questions</h2>
 
     @each('partials.question', $questions, 'question')

@@ -537,7 +537,6 @@ document.addEventListener("DOMContentLoaded", function () {
     answerUpVoteButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             console.log('upvote');
-            const xhr = new XMLHttpRequest();
             const voteSection = this.closest('.vote');
             const span = voteSection.querySelector('span#rating');
             const id = span.dataset.id;
@@ -569,14 +568,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     answerDownVoteButtons.forEach(function (button) {
         button.addEventListener('click', function () {
-            const xhr = new XMLHttpRequest();
             const voteSection = this.closest('.vote');
             const span = voteSection.querySelector('span#rating');
             const id = span.dataset.id;
             sendAjaxRequest('POST', '/answer/' + id + '/downvote', null, function () {
                 const previous = span.innerHTML;
                 let newRating;
-                switch (xhr.status) {
+                switch (this.status) {
                     case 201:
                         newRating = parseInt(previous) - 1;
                         break;
@@ -590,7 +588,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         alert("You cannot perform this action!");
                         break;
                     default:
-                        console.error('Error:', xhr.statusText);
+                        console.error('Error:', this.statusText);
                         newRating = parseInt(previous);
                         break;
                 }
