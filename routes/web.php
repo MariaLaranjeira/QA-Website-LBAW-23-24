@@ -44,7 +44,7 @@ Route::controller(HomeController::class)->group(function () {
 
 //Profile
 Route::controller(UserController::class)->group(function () {
-    Route::get('/profile', 'profile');
+    Route::get('/profile/{id}', 'profile')->name('profile');
     Route::get('/edit_user', 'editUser')->name('edit_user');
     Route::get('/edit_profile_picture', 'editProfilePicture')->name('edit_profile_picture');
     Route::get('/delete_picture', 'deletePic')->name('delete_picture');

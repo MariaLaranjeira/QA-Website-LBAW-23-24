@@ -31,8 +31,6 @@ class TagController extends Controller {
     }
 
     public function list() {
-        if (!Auth::check()) return redirect('/login');
-
         $tags = Tag::all()->sortBy('name');
         return view('pages.tags', ['tags' => $tags]);
     }

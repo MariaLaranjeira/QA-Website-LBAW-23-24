@@ -9,7 +9,7 @@
     <form action="{{ route('delete_profile')}}" method="POST">
             {{ csrf_field() }}
             <input type="hidden" name="user_id" value="{{ $user->user_id}}">
-            <button type="submit">
+            <button type="submit" class="delete_profile_button">
                 Delete This Profile
             </button>
         </form>

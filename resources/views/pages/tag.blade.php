@@ -13,9 +13,9 @@
 @section('content')
     <section id="tag_info">
         <h2>{{ $tag->name }}</h2>
-        <div>There are </div>
-        <div id="follow_count">{{ \App\Models\UserTagFollow::query()->where('id_tag', $tag->name)->count() }}</div>
-        <div> users who follow this Tag</div>
+        <span>There are </span>
+        <span id="follow_count">{{ \App\Models\UserTagFollow::query()->where('id_tag', $tag->name)->count() }}</span>
+        <span> users who follow this Tag</span>
         @auth
             @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
             <div class="button" id="edit_tag">Edit</div>
@@ -30,6 +30,7 @@
     </section>
 
     @auth
+    @if (\App\Models\UserTagFollow::where('id_user', Auth::user()->getAuthIdentifier())->where('id_tag', $tag->name)->exists())
     <section id="edit_tag_section" style="display: none">
         <form action="{{ route('editTag', ['name' => $tag->name]) }}" method="POST">
             @csrf
@@ -42,6 +43,7 @@
             </button>
         </form>
     </section>
+    @endif
     @endauth
 
     <h2>Questions tagged</h2>

@@ -45,13 +45,13 @@ class UserController extends Controller {
     /**
      * Shows the profile for authenticated user.
      */
-    public function profile(){
+    public function profile($id){
         if (!Auth::check()) return redirect('/login');
-        $user_id=Auth::user()->user_id;
-        $user = User::find($user_id);
+        $user = User::findOrFail($id);
         //$this->authorize('profile', $user);
         return view('pages.profile', ['user' => $user]);
     }
+
 
     public function updateUser(Request $request)
     {
@@ -73,7 +73,7 @@ class UserController extends Controller {
     {
       if (!Auth::check()) return redirect('/login');
 
-      $users = User::all();
+      $users = User::query()->where('email', 'NOT LIKE', '%@deleted.com')->get();
       //$this->authorize('list', User::Class);
       return view('pages.users', ['users' => $users]);
     }

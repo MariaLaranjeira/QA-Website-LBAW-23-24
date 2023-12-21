@@ -160,13 +160,13 @@ class QuestionController extends Controller {
 
     public function editQuestionPicture($id)
     {
-            $question = Question::findOrFail($id);
-            $this->authorize('edit', $question);
-            $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
-            return view('pages/editQuestionPicture', [
-                'question' => $question,
-                'answers' => $answers
-            ]);
+        $question = Question::findOrFail($id);
+        $this->authorize('edit', $question);
+        $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+        return view('pages/editQuestionPicture', [
+            'question' => $question,
+            'answers' => $answers
+        ]);
     }
 
     public function uploadQuestionPicture(Request $request) {
@@ -199,13 +199,28 @@ class QuestionController extends Controller {
             'search' => 'required|string|min:1',
         ]);
 
-        $input = $request->get('search') ? $request->get('search') : "*";
-        $lower = strtolower($input);
-        $upper = strtoupper($input);
+        $query = Question::query();
 
-        $questions = Question::whereRaw("(lower(title) like ? or upper(title) like ?)", ["%$lower%", "%$upper%"])
-            ->get();
+        // Basic search term
+        if ($searchTerm = $request->input('search')) {
+            $query->whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm]);
+        }
 
-        return view('pages.searchquestion',['questions' => $questions, 'search' => $input])->render();
+        // Date range filter
+        if ($startDate = $request->input('start_date')) {
+            $query->where('creation_date', '>=', $startDate);
+        }
+        if ($endDate = $request->input('end_date')) {
+            $query->where('creation_date', '<=', $endDate);
+        }
+
+        // Rating filter
+        if ($minRating = $request->input('min_rating')) {
+            $query->where('rating', '>=', $minRating);
+        }
+
+        $questions = $query->get();
+
+        return view('pages.searchquestion',['questions' => $questions, 'search' => $searchTerm])->render();
     }
 }
