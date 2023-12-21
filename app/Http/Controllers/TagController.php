@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class TagController extends Controller {
 
     public function create(Request $request) {
-        //$this->authorize('create', Tag::class);
+        $this->authorize('create', Tag::class);
 
         $request->validate([
             'name' => 'required|unique:tag|max:255', //Mudar valor de max se necessario
@@ -24,7 +24,6 @@ class TagController extends Controller {
 
     public function view(Request $request) {
         $tag = Tag::find($request->id);
-        $this->authorize('view', $tag);
 
         $tag->questions = $tag->question()->get();
 
@@ -40,7 +39,7 @@ class TagController extends Controller {
 
     public function edit(Request $request, $name) {
         $tag = Tag::find($name);
-        //$this->authorize('edit', $tag);
+        $this->authorize('edit', $tag);
 
         $tag->name = $request->input('name');
         $tag->save();
@@ -50,7 +49,7 @@ class TagController extends Controller {
 
     public function delete($name) {
         $tag = Tag::find($name);
-        //$this->authorize('delete', $tag);
+        $this->authorize('delete', $tag);
 
         $tag->delete();
 

@@ -59,11 +59,13 @@ class QuestionController extends Controller {
         $id = $question->question_id;
 
         $tags = $request->input('tags');
-        foreach ($tags as $tag) {
-            DB::table('question_tag')->insert([
-                'id_question' => $id,
-                'id_tag' => $tag,
-            ]);
+        if ($tags != null) {
+            foreach ($tags as $tag) {
+                DB::table('question_tag')->insert([
+                    'id_question' => $id,
+                    'id_tag' => $tag,
+                ]);
+            }
         }
 
         return redirect('/question/'.$id, 302, ['question' => $question, 'id' => $id])->withSuccess('Created a question successfully.');
@@ -89,12 +91,15 @@ class QuestionController extends Controller {
 
         QuestionTag::where('id_question', '=', $id)->delete();
 
-        foreach ($tags as $tag) {
-            DB::table('question_tag')->insert([
-                'id_question' => $id,
-                'id_tag' => $tag,
-            ]);
+        if ($tags != null) {
+            foreach ($tags as $tag) {
+                DB::table('question_tag')->insert([
+                    'id_question' => $id,
+                    'id_tag' => $tag,
+                ]);
+            }
         }
+
 
         $question->title = $request->input('title');
         $question->text_body = $request->input('text_body');
