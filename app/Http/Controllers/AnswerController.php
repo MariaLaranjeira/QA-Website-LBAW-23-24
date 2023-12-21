@@ -55,6 +55,12 @@ class AnswerController extends Controller
 
         $this->authorize('delete', $answer);
 
+        $question = Question::findOrFail($answer->id_question);
+        if ($question->id_best_answer == $answer->answer_id) {
+            $question->id_best_answer = null;
+            $question->save();
+        }
+
         $answer->delete();
 
         return response()->json(['message' => 'Deleted answer successfully.'], 200);
