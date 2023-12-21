@@ -1,7 +1,6 @@
 <section id="view{{ $tag->name }}Mode">
     <label for="{{ $tag->name }}">
         <a href="{{ route('showTag', ['name' => $tag->name]) }}">{{ $tag->name }}</a>
-        {{ $tag->name }}
         <button class="edit_tag_button" data-name="{{ $tag->name }}">Edit</button>
         <form action="{{ route('deleteTag', ['name' => $tag->name]) }}" method="POST">
             {{ csrf_field() }}

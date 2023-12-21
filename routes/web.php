@@ -5,6 +5,7 @@ use App\Http\Controllers\UserAnswerRatingController;
 use App\Http\Controllers\UserQuestionFollowController;
 use App\Http\Controllers\UserQuestionRatingController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserTagFollowController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
@@ -109,7 +110,12 @@ Route::controller(TagController::class)->group(function () {
     Route::post('/tag/delete/{name}', 'delete')->name('deleteTag');
 });
 
-//Question Follow
+// Question Follow
 Route::controller(UserQuestionFollowController::class)->group(function () {
     Route::post('/question/{id}/follow', 'follow')->name('followquestion');
+});
+
+// Tag Follow
+Route::controller(UserTagFollowController::class)->group(function () {
+    Route::post('/tag/{name}/follow', 'follow')->name('followtag');
 });
