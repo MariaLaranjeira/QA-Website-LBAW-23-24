@@ -7,6 +7,13 @@
 @endsection
 
 @section('content')
+<h3>{{ session('status') }}</h3>
+     <h4>{{ session('message') }}</h4>
+     @if(session('details'))
+         @foreach(session('details') as $detail)
+             <h5>{{ $detail }}</h5>
+         @endforeach
+     @endif
 
 <section id="home">
     @auth
