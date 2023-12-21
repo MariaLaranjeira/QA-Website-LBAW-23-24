@@ -47,6 +47,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     case 201:
                         followQuestionButton.innerHTML = 'Follow';
                         break;
+                    case 403:
+                        alert("You cannot perform this action!");
+                        break;
                     default:
                         console.error('Error:', xhr.statusText);
                         break;
@@ -73,7 +76,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (xhr.status === 200) {
                         // Handle the success response, e.g., redirect or update the UI
                         window.location.replace('/home'); // Redirect to the home page, replacing the current history entry
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -107,7 +114,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (xhr.status === 200) {
                         // Handle the success response, e.g., redirect or update the UI
                         window.location.reload();
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -141,7 +152,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (xhr.status === 200) {
                         // Handle the success response, e.g., redirect or update the UI
                         window.location.reload();
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -175,7 +190,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (xhr.status === 200) {
                         // Handle the success response, e.g., redirect or update the UI
                         window.location.reload();
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -228,7 +247,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             const textField = doc.getElementById('commentQ_edit_text_body')
                             editTextField.innerHTML = textField.innerHTML;
                         }
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -290,7 +313,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             const textField = doc.getElementById('commentA_edit_text_body')
                             editTextField.innerHTML = textField.innerHTML;
                         }
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -353,7 +380,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             const textField = doc.getElementById('answer_edit_text_body')
                             editTextField.innerHTML = textField.innerHTML;
                         }
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -424,7 +455,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             const textField = doc.getElementById('edit_text_body')
                             editTextField.innerHTML = textField.innerHTML;
                         }
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -469,7 +504,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         answerField.innerHTML = newAnswerField.innerHTML;
                         console.log(answerField.innerHTML);
                     }
-                } else {
+                }
+                else if (xhr.status === 403) {
+                    alert("You cannot perform this action!");
+                }
+                else {
                     console.error('Error:', xhr.statusText);
                 }
             };
@@ -501,6 +540,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     case 204:
                         newRating = parseInt(previous) + 2;
                         break;
+                    case 403:
+                        alert("You cannot perform this action!");
+                        break;
                     default:
                         console.error('Error:', xhr.statusText);
                         newRating = parseInt(previous);
@@ -528,6 +570,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         break;
                     case 205:
                         newRating = parseInt(previous) + 1;
+                        break;
+                    case 403:
+                        alert("You cannot perform this action!");
                         break;
                     default:
                         console.error('Error:', xhr.statusText);
@@ -563,6 +608,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     case 204:
                         newRating = parseInt(previous) + 2;
                         break;
+                    case 403:
+                        alert("You cannot perform this action!");
+                        break;
                     default:
                         console.error('Error:', xhr.statusText);
                         newRating = parseInt(previous);
@@ -595,6 +643,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         break;
                     case 205:
                         newRating = parseInt(previous) + 1;
+                        break;
+                    case 403:
+                        alert("You cannot perform this action!");
                         break;
                     default:
                         console.error('Error:', xhr.statusText);
@@ -635,7 +686,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log("did it do it?");
                         console.log(commentField.innerHTML);
                     }
-                } else {
+                }
+                else if (xhr.status === 403) {
+                    alert("You cannot perform this action!");
+                }
+                else {
                     // Handle the error, e.g., display an error message
                     console.error('Error:', xhr.statusText);
                 }
@@ -680,7 +735,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log("did it do it?");
                         console.log(commentField.innerHTML);
                     }
-                } else {
+                }
+                else if (xhr.status === 403) {
+                    alert("You cannot perform this action!");
+                }
+                else {
                     // Handle the error, e.g., display an error message
                     console.error('Error:', xhr.statusText);
                 }

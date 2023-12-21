@@ -34,7 +34,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         window.location.replace('/tags');
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         console.error('Error:', xhr.statusText);
                     }
                 };
@@ -80,7 +84,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         window.location.replace('/tag/' + newURL);
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         console.error('Error:', xhr.statusText);
                     }
                 };
@@ -112,6 +120,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     case 201:
                         followTagButton.innerHTML = 'Follow';
                         document.getElementById('follow_count').innerHTML = (followCount - 1).toString();
+                        break;
+                    case 403:
+                        alert("You cannot perform this action!");
                         break;
                     default:
                         console.error('Error:', xhr.statusText);

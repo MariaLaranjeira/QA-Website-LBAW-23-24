@@ -18,7 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         window.location.reload();
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         console.error('Error:', xhr.statusText);
                     }
                 };
@@ -48,7 +52,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         window.location.reload();
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         console.error('Error:', xhr.statusText);
                     }
                 };
