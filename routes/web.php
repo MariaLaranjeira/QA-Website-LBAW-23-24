@@ -100,9 +100,11 @@ Route::controller(UserAnswerRatingController::class)->group(function () {
     Route::post('/answer/{id}/downvote', 'downVote')->name('downvoteanswer');
 });
 
+// Tags
 Route::controller(TagController::class)->group(function () {
     Route::get('/tags', 'list')->name('tags');
     Route::post('/tag/{name}', 'edit')->name('editTag');
+    Route::get('/tag/{name}', 'show')->name('showTag');
     Route::post('/tags', 'create')->name('createTag');
     Route::post('/tag/delete/{name}', 'delete')->name('deleteTag');
 });
