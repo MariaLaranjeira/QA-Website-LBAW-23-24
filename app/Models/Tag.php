@@ -11,12 +11,18 @@ class Tag extends Model {
     public $incrementing = false;
     public $table = 'tag';
     public $primaryKey = 'name';
+    public $keyType = 'string';
     protected $fillable = [
         'name',
     ];
 
     public function questions(): BelongsToMany
     {
-        return $this->belongsToMany(Question::class, 'question_tag', 'id_tag', 'id_question');
+        return $this->belongsToMany(
+            Question::class,
+            'question_tag',
+            'id_tag',
+            'id_question'
+        );
     }
 }
