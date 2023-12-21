@@ -62,7 +62,7 @@ Route::controller(UserController::class)->group(function () {
 
 //Questions
 Route::controller(QuestionController::class)->group(function () {
-    Route::get('/question/{id}','show');
+    Route::get('/question/{id}','show')->name('question');
     Route::get('/newquestion', 'showNewQuestionForm')->name('newquestion');
     Route::get('/edit_question_picture/{id}', 'editQuestionPicture')->name('edit_question_picture');
     Route::post('/newquestion', 'create')->name('createnewquestion');
@@ -70,6 +70,8 @@ Route::controller(QuestionController::class)->group(function () {
     Route::post('/question/edit/{id}', 'edit')->name('editingquestion');
     Route::post('/upload_question_picture', 'uploadQuestionPicture')->name('upload_question_picture');
     Route::get('/search','search')->name('search');
+    Route::post('/markbestanswer/{answer_id}', 'markBestAnswer')->name('markbestanswer');
+    Route::post('/deletebestanswer/{answer_id}', 'deleteBestAnswer')->name('deletebestanswer');
 });
 
 //Answers

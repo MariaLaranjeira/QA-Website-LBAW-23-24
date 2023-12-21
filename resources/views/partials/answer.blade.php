@@ -20,7 +20,7 @@
     @endif
 
     @auth
-        @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin) && !Auth::user()->is_blocked)
+        @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())) && !Auth::user()->is_blocked)
         <form action="{{ route('upload_answer_picture', ['id' => $answer->answer_id], ['id_question' => $answer->question_id]) }}" id="edit_answer_picture" class="edit_answer_picture" enctype="multipart/form-data" method="POST">
             {{ csrf_field() }}
             <label for="answerPic">Choose picture to upload:</label>
@@ -38,13 +38,30 @@
         {{ $answer->text_body }}
     </h3>
     @auth
-    @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin) && !Auth::user()->is_blocked)
+    @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())) && !Auth::user()->is_blocked)
     <button class="answer_edit_button" data-answer-id="{{ $answer->answer_id }}">&#9998;</button>
     <form action ="{{ route('deleteanswer', ['id' => $answer->answer_id]) }}" method = "POST">
         {{ csrf_field() }}
         <button type="submit" class="answer_delete">&#10761;</button>
     </form>
     @endif
+
+    @if (Auth::user()->getAuthIdentifier() == \App\Models\Question::where('question_id', $answer->id_question)->first()->id_user && !Auth::user()->is_blocked && \App\Models\Question::where('question_id', $answer->id_question)->first()->id_best_answer == null)
+        <form action ="{{ route('markbestanswer', ['answer_id' => $answer->answer_id]) }}" method = "POST">
+            {{ csrf_field() }}
+            <button type="submit" class="mark_best_answer">Mark as Best Answer</button>
+        </form>
+    @elseif (\App\Models\Question::where('question_id', $answer->id_question)->first()->id_best_answer == $answer->answer_id)
+        <p>Best Answer</p>
+    @endif
+
+    @if (Auth::user()->getAuthIdentifier() == \App\Models\Question::where('question_id', $answer->id_question)->first()->id_user && !Auth::user()->is_blocked && \App\Models\Question::where('question_id', $answer->id_question)->first()->id_best_answer == $answer->answer_id)
+        <form action ="{{ route('deletebestanswer', ['answer_id' => $answer->answer_id]) }}" method = "POST">
+            {{ csrf_field() }}
+            <button type="submit" class="delete_best_answer">Unmark Best Answer</button>
+        </form>
+    @endif
+
     @if (Auth::user()->getAuthIdentifier() != $answer->id_user && !Auth::user()->is_blocked)
     <h4>Post your comment</h4>
     <form action="{{ route('newcomment', ['id' => $answer->answer_id, 'type' => 'AnswerComment']) }}" method="POST">

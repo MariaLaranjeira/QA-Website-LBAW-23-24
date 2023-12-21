@@ -46,4 +46,13 @@ class QuestionPolicy {
         return $user->user_id === $question->id_user || Admin::where('admin_id', $user->user_id)->exists() || Moderator::where('mod_id', $user->user_id)->exists();
     }
 
+    public function markBestAnswer(User $user, Question $question): bool
+    {
+        return $user->user_id === $question->id_user;
+    }
+
+    public function deleteBestAnswer(User $user, Question $question): bool
+    {
+        return $user->user_id === $question->id_user;
+    }
 }

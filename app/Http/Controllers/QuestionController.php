@@ -223,4 +223,28 @@ class QuestionController extends Controller {
 
         return view('pages.searchquestion',['questions' => $questions, 'search' => $searchTerm])->render();
     }
+
+    public function markBestAnswer($answer_id) {
+        $answer = Answer::findOrFail($answer_id);
+        $question = Question::findOrFail($answer->id_question);
+
+        $this->authorize('markBestAnswer', $question);
+
+        $question->id_best_answer = $answer_id;
+        $question->save();
+
+        return redirect()->route('question', ['id' => $answer->id_question]);
+    }
+
+    public function deleteBestAnswer($answer_id){
+        $answer = Answer::findOrFail($answer_id);
+        $question = Question::findOrFail($answer->id_question);
+
+        $this->authorize('deleteBestAnswer', $question);
+
+        $question->id_best_answer = null;
+        $question->save();
+
+        return redirect()->route('question', ['id' => $answer->id_question]);
+    }
 }
