@@ -27,6 +27,10 @@
         <main>
             <header>
                 <h1><a href="{{ url('/home') }}">CreativeHub</a></h1>
+                <section id="main_buttons">
+                    <a class="button" href="{{ url('/tags') }}"> Tags </a>
+                    <a class="button" href="{{ url('/users') }}"> Users </a>
+                </section>
                 <form method="POST" action="{{ route('search') }}">
                     {{ csrf_field() }}
                     <input type="text" name="search" id="search" value="{{ old('search') }}" placeholder="Search..">
@@ -45,12 +49,12 @@
                 @yield('content')
             </section>
 
-            <section id="footer">
+            <footer id="footer">
                 <a href="{{ url('/mainfeatures') }}"> Main Features </a>
                 <a href="{{ url('/aboutus') }}"> About Us </a>
                 <a href="{{ url('/contactus') }}"> Contact Us </a>
                 <p> CreativeHub &copy; 2023 </p>
-            </section>
+            </footer>
         </main>
     </body>
 </html>
