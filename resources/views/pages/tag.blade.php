@@ -30,6 +30,7 @@
     </section>
 
     @auth
+    @if (\App\Models\UserTagFollow::where('id_user', Auth::user()->getAuthIdentifier())->where('id_tag', $tag->name)->exists())
     <section id="edit_tag_section" style="display: none">
         <form action="{{ route('editTag', ['name' => $tag->name]) }}" method="POST">
             @csrf
@@ -42,6 +43,7 @@
             </button>
         </form>
     </section>
+    @endif
     @endauth
 
     <h2>Questions tagged</h2>

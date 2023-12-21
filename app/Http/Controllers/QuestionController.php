@@ -160,13 +160,13 @@ class QuestionController extends Controller {
 
     public function editQuestionPicture($id)
     {
-            $question = Question::findOrFail($id);
-            $this->authorize('edit', $question);
-            $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
-            return view('pages/editQuestionPicture', [
-                'question' => $question,
-                'answers' => $answers
-            ]);
+        $question = Question::findOrFail($id);
+        $this->authorize('edit', $question);
+        $answers = Answer::query()->where('id_question', '=', $id)->orderBy('creation_date', 'desc')->get();
+        return view('pages/editQuestionPicture', [
+            'question' => $question,
+            'answers' => $answers
+        ]);
     }
 
     public function uploadQuestionPicture(Request $request) {
