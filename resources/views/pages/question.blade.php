@@ -72,7 +72,7 @@
             @endforeach
         </div>
         <div id="author">
-            {{ \App\Models\User::where('user_id', $question->id_user)->first()->username }}
+            <a class="indigo" href="{{ route('profile', ['id' => \App\Models\User::where('user_id', $question->id_user)->first()->user_id]) }}" methods="GET"> {{ \App\Models\User::where('user_id', $question->id_user)->first()->username }} </a>
         </div>
         <div id="date">
             Posted on: {{ $question->creation_date }}
