@@ -1,23 +1,32 @@
-<article class="user" data-id="{{ $user->id }}">
+<article class="user" data-id="{{ $user->user_id }}">
 
-  <div id="info">
-    <p>Name: {{ $user->name }}</p><br>
-    <p>Username: {{ $user->username }}</p><br>
-    <p>email: {{ $user->email }}</p><br>
-
-    <div>
-    <form action="{{ route('delete_profile')}}" method="POST">
+    <div id="info">
+        <a href="/profile/{{ $user->user_id }}">Name: {{ $user->name }}</a><br>
+        <a href="/profile/{{ $user->user_id }}">Username: {{ $user->username }}</a><br>
+        <a href="/profile/{{ $user->user_id }}">email: {{ $user->email }}</a><br>
+        @auth
+        @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
+        <div>
+            <form action="{{ route('delete_profile')}}" method="POST">
             {{ csrf_field() }}
-            <input type="hidden" name="user_id" value="{{ $user->user_id}}">
-            <button type="submit" class="delete_profile_button">
-                Delete This Profile
+                <input type="hidden" name="user_id" value="{{ $user->user_id}}">
+                <button type="submit" class="delete_profile_button">
+                    Delete This Profile
+                </button>
+            </form>
+            @if ($user->blocked == 0)
+            <button class="block_user">
+                Block This User
             </button>
-        </form>
-
-  </div>
-    
-  </div>
-
-  <hr>
+            @else
+            <button class="block_user">
+                Unblock This User
+            </button>
+            @endif
+        </div>
+        @endif
+        @endauth
+    </div>
+    <hr>
 
 </article>

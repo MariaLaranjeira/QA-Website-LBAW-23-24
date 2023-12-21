@@ -48,6 +48,14 @@ body {
     justify-self: center;
   }
 
+  #search_area {
+    height: 36px;
+  }
+
+  #search {
+    background-color: white;
+  }
+
   .row {
     display: flex;
     justify-content: space-between;

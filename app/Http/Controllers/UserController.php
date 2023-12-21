@@ -46,7 +46,6 @@ class UserController extends Controller {
      * Shows the profile for authenticated user.
      */
     public function profile($id){
-        if (!Auth::check()) return redirect('/login');
         $user = User::findOrFail($id);
         //$this->authorize('profile', $user);
         return view('pages.profile', ['user' => $user]);
@@ -71,8 +70,6 @@ class UserController extends Controller {
 
     public function list()
     {
-      if (!Auth::check()) return redirect('/login');
-
       $users = User::query()->where('email', 'NOT LIKE', '%@deleted.com')->get();
       //$this->authorize('list', User::Class);
       return view('pages.users', ['users' => $users]);
@@ -88,62 +85,59 @@ class UserController extends Controller {
         $user = User::find($request->input('user_id'));
         $this->authorize('deleteProfile', $user);
 
-        $deleted_account=DB::transaction(function() use ($request)
+        DB::transaction(function() use ($request)
         {
+            $user = User::find($request->input('user_id'));
+            $dnumber=rand(1,1000000); //create random number to replace private information
+            $randpass= Str::random(24); //generate random password so account can't be accessed again by same user
+
+            //replace all emlements with deleted user + our generated random number
+            $user->name ="deleteduser".$dnumber;
+            $user->username = "deleteduser".$dnumber;
+            $user->email = "deleteduser".$dnumber."@deleted.com";
+            $user->password = bcrypt($randpass);
+
+            $user->save();
+
+            return $user;
+        });
+        return redirect()->route('users');
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        if (!Auth::check()) return redirect('/login');
+
         $user = User::find($request->input('user_id'));
-        $dnumber=rand(1,1000000); //create random number to replace private information
-        $randpass= Str::random(24); //generate random password so account can't be accessed again by same user
+        //$this->authorize('deleteAccount', $user);
 
-        //replace all emlements with deleted user + our generated random number
-        $user->name ="deleteduser".$dnumber;
-        $user->username = "deleteduser".$dnumber;
-        $user->email = "deleteduser".$dnumber."@deleted.com";
-        $user->password = bcrypt($randpass);
+        DB::transaction(function() use ($request) {
+            $user = User::find($request->input('user_id'));
+            $dnumber = rand(1, 1000000); //create random number to replace private information
+            $randpass = Str::random(24); //generate random password so account can't be accessed again by same user
 
-        $user->save();
+            //replace all emlements with deleted user + our generated random number
+            $user->name = "deleteduser" . $dnumber;
+            $user->username = "deleteduser" . $dnumber;
+            $user->email = "deleteduser" . $dnumber . "@deleted.com";
+            $user->password = bcrypt($randpass);
 
-        return $user;
+            $user->save();
 
-      });
+            return $user;
+        });
 
-      return redirect()->route('users');
+        Auth::logout();
 
-      }
+        return redirect()->route('home');
+    }
 
-      public function deleteAccount(Request $request)
-      {
-          if (!Auth::check()) return redirect('/login');
-
-          $user = User::find($request->input('user_id'));
-          //$this->authorize('deleteAccount', $user);
-
-          $deleted_account=DB::transaction(function() use ($request) {
-              $user = User::find($request->input('user_id'));
-              $dnumber = rand(1, 1000000); //create random number to replace private information
-              $randpass = Str::random(24); //generate random password so account can't be accessed again by same user
-
-              //replace all emlements with deleted user + our generated random number
-              $user->name = "deleteduser" . $dnumber;
-              $user->username = "deleteduser" . $dnumber;
-              $user->email = "deleteduser" . $dnumber . "@deleted.com";
-              $user->password = bcrypt($randpass);
-
-              $user->save();
-
-              return $user;
-          });
-
-          Auth::logout();
-
-          return redirect()->route('home');
-      }
-
-      public function uploadPicture(Request $request) {
+    public function uploadPicture(Request $request) {
         $user = Auth::user();
         if($request->file('avatar')){
             if ($user->picture != 'default.jpg'){
-              $deletepath = public_path().'/images/profile/'.$user->picture;
-              File::delete($deletepath);
+                $deletepath = public_path().'/images/profile/'.$user->picture;
+                File::delete($deletepath);
             }
             $filename = Str::slug(Carbon::now(), '_').'.jpg';
 
@@ -154,9 +148,9 @@ class UserController extends Controller {
 
         $user->save();
         return view('pages.profile', ['user' => $user]);
-      }
+    }
 
-      public function deletePicture(){
+    public function deletePicture(){
         $user = Auth::user();
         if ($user->picture != 'default.jpg'){
           $deletepath = public_path().'images/profile/'.$user->picture;
@@ -165,6 +159,35 @@ class UserController extends Controller {
           $user->save();
         }
         return redirect()->back();
-      }
+    }
 
+    public function search(Request $request)
+    {
+        $request->validate([
+            'search' => 'required|string',
+        ]);
+
+        if ($request->input('search') == '') {
+            $users = User::where('email', 'NOT LIKE', '%@deleted.com')->get();
+        } else {
+            $searchTerm = $request->input('search');
+            $users = User::whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm])->where('email', 'NOT LIKE', '%@deleted.com')->get();
+        }
+        return view('pages.users',['users' => $users, 'search_user' => $searchTerm])->render();
+    }
+
+    public function blockUser(Request $request, $id)
+    {
+        $user = User::find($id);
+        //$this->authorize('blockUser', $user);
+        if ($user->is_blocked == 0) {
+            $user->is_blocked = 1;
+            $status = 200;
+        } else {
+            $user->is_blocked = 0;
+            $status = 201;
+        }
+        $user->save();
+        return response()->json(['message' => 'Updated user blocked status successfully.'], $status);
+    }
 }

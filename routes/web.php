@@ -53,6 +53,8 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/delete_profile', 'deleteProfile')->name('delete_profile');
     Route::post('/upload_picture', 'uploadPicture')->name('upload_picture');
     Route::post('/delete_account', 'deleteAccount')->name('delete_account');
+    Route::get('/searchUsers','search')->name('search_users');
+    Route::post('/block_user/{id}', 'blockUser')->name('block_user');
 });
 
 //Questions
@@ -64,7 +66,7 @@ Route::controller(QuestionController::class)->group(function () {
     Route::post('/question/delete/{id}', 'delete')->name('deletequestion');
     Route::post('/question/edit/{id}', 'edit')->name('editingquestion');
     Route::post('/upload_question_picture', 'uploadQuestionPicture')->name('upload_question_picture');
-    Route::post('/search','search')->name('search');
+    Route::get('/search','search')->name('search');
 });
 
 //Answers
