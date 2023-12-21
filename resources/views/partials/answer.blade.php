@@ -1,6 +1,6 @@
 <div class="answer-view-mode" id="answer_view_{{ $answer->answer_id }}">
     @auth
-    @if (Auth::user()->getAuthIdentifier() != $answer->id_user)
+    @if (Auth::user()->getAuthIdentifier() != $answer->id_user && !Auth::user()->is_blocked)
     <div id="vote_section" class="vote">
         <div id="upVoteButton" class="answer_upvote">&#8593;</div>
         @if ($answer->rating >= 0)
@@ -20,7 +20,7 @@
     @endif
 
     @auth
-        @if (Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin)
+        @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin) && !Auth::user()->is_blocked)
         <form action="{{ route('upload_answer_picture', ['id' => $answer->answer_id], ['id_question' => $answer->question_id]) }}" id="edit_answer_picture" class="edit_answer_picture" enctype="multipart/form-data" method="POST">
             {{ csrf_field() }}
             <label for="answerPic">Choose picture to upload:</label>
@@ -38,14 +38,14 @@
         {{ $answer->text_body }}
     </h3>
     @auth
-    @if (Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin)
+    @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\User::where('user_id', Auth::user()->getAuthIdentifier())->first()->is_admin) && !Auth::user()->is_blocked)
     <button class="answer_edit_button" data-answer-id="{{ $answer->answer_id }}">&#9998;</button>
     <form action ="{{ route('deleteanswer', ['id' => $answer->answer_id]) }}" method = "POST">
         {{ csrf_field() }}
         <button type="submit" class="answer_delete">&#10761;</button>
     </form>
     @endif
-    @if (Auth::user()->getAuthIdentifier() != $answer->id_user)
+    @if (Auth::user()->getAuthIdentifier() != $answer->id_user && !Auth::user()->is_blocked)
     <h4>Post your comment</h4>
     <form action="{{ route('newcomment', ['id' => $answer->answer_id, 'type' => 'AnswerComment']) }}" method="POST">
         {{ csrf_field() }}
@@ -65,6 +65,8 @@
     <h4 class="comment_title">Comments</h4>
     @each('partials.answer_comment', $answer->comments, 'commentA')
 </div>
+
+@auth
 <section class="answer-edit-mode" id="answer_edit_{{ $answer->answer_id }}" style="display: none;">
 
     <form method = "POST" action = "{{ route('editinganswer', ['id' => $answer->answer_id]) }}" >
@@ -87,3 +89,4 @@
         </button>
     </form>
 </section>
+@endauth

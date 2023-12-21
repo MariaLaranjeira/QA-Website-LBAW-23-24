@@ -23,7 +23,7 @@
 
             <button type="submit" class="edit" id="question_edit_button">&#9998;</button>
         @endif
-        @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+        @if (Auth::user()->getAuthIdentifier() != $question->id_user && !Auth::user()->is_blocked)
             <div id="vote_section" class="vote">
                 <div id="upVoteButton" class="upvote">&#8593;</div>
             @if ($question->rating >= 0)
@@ -53,7 +53,7 @@
         @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
          <a class="button" href="{{ url('/edit_question_picture', ['id' => $question->question_id]) }}"> Add picture </a>
         @endif
-        @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+        @if (Auth::user()->getAuthIdentifier() != $question->id_user && !Auth::user()->is_blocked)
         @if (\App\Models\UserQuestionFollow::where('id_user', Auth::user()->getAuthIdentifier())->where('id_question', $question->question_id)->exists())
         	<div id="followQuestion" class="button" data-question_id="{{ $question->question_id }}"> Unfollow </div>
         @else
@@ -85,7 +85,7 @@
     <form method = "POST" action = "{{ route('editingquestion', ['id' => $question->question_id]) }}" >
         {{ csrf_field() }}
         
-        @if (Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
+        @if ((Auth::user()->getAuthIdentifier() == $question->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists()) && !Auth::user()->is_blocked)
 
         <h2 id="edit_title_display">
             <input type="text" name="title" id="question_title_edit" value="{{ $question->title }}"></input>
@@ -107,7 +107,7 @@
             @endif
         </h2>
 
-        @elseif (\App\Models\Moderator::where('mod_id', Auth::user()->getAuthIdentifier())->exists())
+        @elseif (\App\Models\Moderator::where('mod_id', Auth::user()->getAuthIdentifier())->exists() && !Auth::user()->is_blocked)
 
         <h2 id="edit_title_display">
             <input type="text" name="title" id="question_title_edit" value="{{ $question->title }}" readonly></input>
@@ -154,7 +154,7 @@
 
 <section id="question_comments">
     @auth
-    @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+    @if (Auth::user()->getAuthIdentifier() != $question->id_user && !Auth::user()->is_blocked)
     <h2>Post your comment</h2>
     <form action="{{ route('newcomment', ['id' => $question->question_id, 'type' => 'QuestionComment']) }}" method="POST">
         {{ csrf_field() }}
@@ -177,7 +177,7 @@
 
 <section id="answer_section">
     @auth
-    @if (Auth::user()->getAuthIdentifier() != $question->id_user)
+    @if (Auth::user()->getAuthIdentifier() != $question->id_user && !Auth::user()->is_blocked)
     <h2>Post your answer</h2>
     <form action="{{ route('newanswer', ['id' => $question->question_id]) }}" method="POST">
         {{ csrf_field() }}

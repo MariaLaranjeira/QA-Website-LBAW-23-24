@@ -7,6 +7,17 @@
 @endsection
 
 @section('content')
+
+    <section id="search_tags">
+        <form method="GET" action="{{ route('search_tags') }}">
+            @isset($search_tags)
+            <input type="text" name="search" id="search" value="{{ $search_tags }}" placeholder="Search tags..">
+            @endisset
+            @empty($search_tags)
+            <input type="text" name="search" id="search" placeholder="Search tags..">
+            @endempty
+        </form>
+    </section>
     <section id="tags_list">
         @each('partials.editTags', $tags, 'tag')
     </section>

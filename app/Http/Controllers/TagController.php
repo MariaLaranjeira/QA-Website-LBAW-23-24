@@ -61,4 +61,19 @@ class TagController extends Controller {
             'tag' => $tag
         ]);
     }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'search' => 'required|string',
+        ]);
+
+        if ($request->input('search') == '') {
+            $tags = Tag::all();
+        } else {
+            $searchTerm = $request->input('search');
+            $tags = Tag::whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm])->get();
+        }
+        return view('pages.tags',['tags' => $tags, 'search_tags' => $searchTerm])->render();
+    }
 }

@@ -29,7 +29,7 @@
         <p>Name: {{ $user->name }}</p><br>
         <p>Username: {{ $user->username }}</p><br>
         @auth
-        @if (Auth::user()->getAuthIdentifier() == $user->user_id)
+        @if (Auth::user()->getAuthIdentifier() == $user->user_id || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
         <p>email: {{ $user->email }}</p><br>
         @endif
         @endauth

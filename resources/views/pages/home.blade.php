@@ -17,6 +17,7 @@
 
 <section id="home">
     @auth
+        @if(!Auth::user()->is_blocked)
         <form action="{{ route('newquestion') }}">
             <button type="submit">
 
@@ -24,6 +25,7 @@
 
             </button>
         </form>
+        @endif
     @endauth
     <h2>Recent Questions</h2>
 
