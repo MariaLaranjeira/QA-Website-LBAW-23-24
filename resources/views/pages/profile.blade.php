@@ -34,13 +34,13 @@
   <a class="button" href="{{ url('/edit_user') }}"> Edit Profile </a>
   <a class="button" href="{{ url('/edit_profile_picture') }}"> Change Picture </a>
   @endif
-  @endauth
-
-  @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
+  @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists() && Auth::user()->getAuthIdentifier() == $user->user_id)
   <a class="button" href="{{ url('/users') }}"> Administration Page </a>
   <a class="button" href="{{ url('/tags') }}"> Tag Management </a>
-
   @endif
+  @endauth
+
+
 
 
 
