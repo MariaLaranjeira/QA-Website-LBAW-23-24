@@ -19,6 +19,12 @@
         </div>
     </h2>
 
+
+        <div id="profilePic">
+            <img src="/images/profile/{{ $user->picture }}" alt="Profile picture" width="240" height="240">
+        </div>
+
+
     <div id="info">
         <p>Name: {{ $user->name }}</p><br>
         <p>Username: {{ $user->username }}</p><br>
@@ -27,10 +33,6 @@
         <p>email: {{ $user->email }}</p><br>
         @endif
         @endauth
-    </div>
-
-    <div id="profilePic">
-        <img src="/images/profile/{{ $user->picture }}" alt="Profile picture" width="240" height="240">
     </div>
 
     @auth

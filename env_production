@@ -1,0 +1,32 @@
+APP_NAME=CreativeHub
+APP_ENV=production
+APP_KEY=base64:xWdLc4KY3iJKHCupluHuu1nDwvprk4OAqnsc6RRrGsA=
+APP_DEBUG=true
+APP_LOG_LEVEL=debug
+APP_URL=https://lbaw2336.lbaw.fe.up.pt
+ASSET_URL=https://lbaw2336.lbaw.fe.up.pt
+FORCE_HTTPS=true
+
+MAIL_MAILER= smtp
+MAIL_HOST= sandbox.smtp.mailtrap.io
+MAIL_PORT= 587
+MAIL_USERNAME= ac5311b49a0153
+MAIL_PASSWORD= d1f19f6a1ca701
+MAIL_ENCRYPTION= tls
+
+MAIL_FROM_ADDRESS= soffeup@gmail.com
+MAIL_FROM_NAME= CreativeHub
+
+DB_CONNECTION=pgsql
+DB_HOST=db.fe.up.pt
+DB_PORT=5432
+DB_SCHEMA=lbaw2336
+DB_DATABASE=lbaw2336
+DB_USERNAME=lbaw2336
+DB_PASSWORD=bEeeGoCN
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+QUEUE_DRIVER=sync

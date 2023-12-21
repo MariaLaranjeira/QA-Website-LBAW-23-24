@@ -36,4 +36,7 @@
         </p>
     @endif
 </form>
+
+    <hr>
+    <a href="{{ route('forgot_password_get') }}">Forgot Password?</a>
 @endsection
