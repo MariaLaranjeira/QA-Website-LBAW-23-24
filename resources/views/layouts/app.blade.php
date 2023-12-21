@@ -27,20 +27,21 @@
         <main>
             <header>
                 <h1><a href="{{ url('/home') }}">CreativeHub</a></h1>
-                <section id="main_buttons">
+                <span id="search_area">
+                    <form method="GET" action="{{ route('search') }}" id ="search_area">
+                        @isset($search)
+                        <input type="text" name="search" id="search" value="{{ $search }}" placeholder="Search..">
+                        @endisset
+                        @empty($search)
+                        <input type="text" name="search" id="search" placeholder="Search..">
+                        @endempty
+                    </form>
+                </span>
+                <span id="main_buttons">
                     <a class="button" href="{{ url('/tags') }}"> Tags </a>
                     <a class="button" href="{{ url('/users') }}"> Users </a>
-                </section>
-                <form method="POST" action="{{ route('search') }}">
-                    {{ csrf_field() }}
-                    @isset($search)
-                    <input type="text" name="search" id="search" value="{{ $search }}" placeholder="Search..">
-                    @endisset
-                    @empty($search)
-                    <input type="text" name="search" id="search" placeholder="Search..">
-                    @endempty
-                </form>
-                <section id="user_buttons">
+                </span>
+                <span id="user_buttons">
                     @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a>
                     <a class="button" href="{{ route('profile', ['id' => Auth::user()->getAuthIdentifier()] )}}"> {{ Auth::user()->username }} </a>
@@ -48,17 +49,21 @@
                     @if (!Auth::check())
                     <a class="button" href="{{ url('/login') }}"> Login </a>
                     @endif
-                </section>
+                </span>
             </header>
             <section id="content">
                 <div class="row">
                     <div class="sidebar">
                         <!-- Include your sidebar here -->
-                        @yield('sidebar')
+                        @yield('sidebarleft')
                     </div>
                     <div class="main-content">
                         <!-- This will contain the content from your 'search' page -->
                         @yield('content')
+                    </div>
+                    <div class="sidebar">
+                        <!-- Include your sidebar here -->
+                        @yield('sidebarright')
                     </div>
                 </div>
             </section>

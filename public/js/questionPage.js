@@ -34,24 +34,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (followQuestionButton) {
         followQuestionButton.addEventListener('click', function (e) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/question/' + window.questionID + '/follow', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-            xhr.send();
-            xhr.onload = function () {
-                switch (xhr.status) {
+            sendAjaxRequest('POST', '/question/' + window.questionID + '/follow', null, function () {
+                switch (this.status) {
                     case 200:
                         followQuestionButton.innerHTML = 'Unfollow';
                         break;
                     case 201:
                         followQuestionButton.innerHTML = 'Follow';
                         break;
+                    case 403:
+                        alert("You cannot perform this action!");
+                        break;
                     default:
-                        console.error('Error:', xhr.statusText);
+                        console.error('Error:', this.statusText);
                         break;
                 }
-            };
+            });
         });
     }
 
@@ -73,7 +71,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (xhr.status === 200) {
                         // Handle the success response, e.g., redirect or update the UI
                         window.location.replace('/home'); // Redirect to the home page, replacing the current history entry
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -107,7 +109,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (xhr.status === 200) {
                         // Handle the success response, e.g., redirect or update the UI
                         window.location.reload();
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -141,7 +147,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (xhr.status === 200) {
                         // Handle the success response, e.g., redirect or update the UI
                         window.location.reload();
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -175,7 +185,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (xhr.status === 200) {
                         // Handle the success response, e.g., redirect or update the UI
                         window.location.reload();
-                    } else {
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
@@ -217,28 +231,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         try {
                             const jsonResponse = JSON.parse(response);
-
-                            // Handle the success JSON response, e.g., redirect or update the UI
                             window.location.reload();
                         } catch (jsonParseError) {
-                            console.log("am i here?");
                             const parser = new DOMParser();
                             const doc = parser.parseFromString(response, 'text/html');
                             const editTextField = document.getElementById('commentQ_edit_text_body');
                             const textField = doc.getElementById('commentQ_edit_text_body')
                             editTextField.innerHTML = textField.innerHTML;
                         }
-                    } else {
-                        // Handle the error, e.g., display an error message
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         console.error('Error:', xhr.statusText);
                     }
                 };
-
                 xhr.onerror = function () {
-                    // Handle the error, e.g., display an error message
                     console.error('Network error occurred');
                 };
-
                 xhr.send(new FormData(updateForm));
             }
         });
@@ -276,31 +287,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         const response = xhr.responseText;
-
                         try {
                             const jsonResponse = JSON.parse(response);
-
-                            // Handle the success JSON response, e.g., redirect or update the UI
                             window.location.reload();
                         } catch (jsonParseError) {
-                            console.log("am i here?");
                             const parser = new DOMParser();
                             const doc = parser.parseFromString(response, 'text/html');
                             const editTextField = document.getElementById('commentA_edit_text_body');
                             const textField = doc.getElementById('commentA_edit_text_body')
                             editTextField.innerHTML = textField.innerHTML;
                         }
-                    } else {
-                        // Handle the error, e.g., display an error message
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         console.error('Error:', xhr.statusText);
                     }
                 };
-
                 xhr.onerror = function () {
-                    // Handle the error, e.g., display an error message
                     console.error('Network error occurred');
                 };
-
                 xhr.send(new FormData(updateForm));
             }
         });
@@ -335,35 +342,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 const method = updateForm.getAttribute('method');
                 const xhr = new XMLHttpRequest();
                 xhr.open(method, url, true);
-
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         const response = xhr.responseText;
 
                         try {
                             const jsonResponse = JSON.parse(response);
-
-                            // Handle the success JSON response, e.g., redirect or update the UI
                             window.location.reload();
                         } catch (jsonParseError) {
-                            console.log("am i here?");
                             const parser = new DOMParser();
                             const doc = parser.parseFromString(response, 'text/html');
                             const editTextField = document.getElementById('answer_edit_text_body');
                             const textField = doc.getElementById('answer_edit_text_body')
                             editTextField.innerHTML = textField.innerHTML;
                         }
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+
                     } else {
-                        // Handle the error, e.g., display an error message
                         console.error('Error:', xhr.statusText);
                     }
-                };
-
+                }
                 xhr.onerror = function () {
-                    // Handle the error, e.g., display an error message
                     console.error('Network error occurred');
-                };
-
+                }
                 xhr.send(new FormData(updateForm));
             }
         });
@@ -404,15 +407,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const xhr = new XMLHttpRequest();
                 xhr.open(method, url, true);
-
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         const response = xhr.responseText;
-
                         try {
                             const jsonResponse = JSON.parse(response);
-
-                            // Handle the success JSON response, e.g., redirect or update the UI
                             window.location.reload();
                         } catch (jsonParseError) {
                             const parser = new DOMParser();
@@ -424,23 +423,20 @@ document.addEventListener("DOMContentLoaded", function () {
                             const textField = doc.getElementById('edit_text_body')
                             editTextField.innerHTML = textField.innerHTML;
                         }
-                    } else {
-                        // Handle the error, e.g., display an error message
+                    }
+                    else if (xhr.status === 403) {
+                        alert("You cannot perform this action!");
+                    }
+                    else {
                         console.error('Error:', xhr.statusText);
                     }
                 };
-
                 xhr.onerror = function () {
-                    // Handle the error, e.g., display an error message
                     console.error('Network error occurred');
                 };
-
                 xhr.send(new FormData(updateForm));
             }
-
-
         });
-
         questionCancelButton.addEventListener('click', function () {
             questionViewModeSection.style.display = 'block';
             questionEditModeSection.style.display = 'none';
@@ -469,12 +465,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         answerField.innerHTML = newAnswerField.innerHTML;
                         console.log(answerField.innerHTML);
                     }
-                } else {
+                }
+                else if (xhr.status === 403) {
+                    alert("You cannot perform this action!");
+                }
+                else {
                     console.error('Error:', xhr.statusText);
                 }
             };
             xhr.onerror = function () {
-                // Handle the error, e.g., display an error message
                 console.error('Network error occurred');
             };
             xhr.send(new FormData(answerForm));
@@ -483,15 +482,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (upVoteButton && downVoteButton) {
         upVoteButton.addEventListener('click', function () {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/question/' + window.questionID + '/upvote', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-            xhr.send();
-            xhr.onload = function () {
+            sendAjaxRequest('POST', '/question/' + window.questionID + '/upvote', null, function () {
                 const previous = window.document.getElementById('rating').innerHTML
                 let newRating;
-                switch (xhr.status) {
+                switch (this.status) {
                     case 200:
                         newRating = parseInt(previous) + 1;
                         break;
@@ -501,25 +495,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     case 204:
                         newRating = parseInt(previous) + 2;
                         break;
+                    case 403:
+                        alert("You cannot perform this action!");
+                        break;
                     default:
-                        console.error('Error:', xhr.statusText);
+                        console.error('Error:', this.statusText);
                         newRating = parseInt(previous);
                         break;
                 }
                 window.document.getElementById('rating').innerHTML = newRating.toString();
-            };
+            });
         });
 
         downVoteButton.addEventListener('click', function () {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/question/' + window.questionID + '/downvote', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-            xhr.send();
-            xhr.onload = function () {
+            sendAjaxRequest('POST', '/question/' + window.questionID + '/downvote', null, function () {
                 const previous = window.document.getElementById('rating').innerHTML
                 let newRating;
-                switch (xhr.status) {
+                switch (this.status) {
                     case 201:
                         newRating = parseInt(previous) - 1;
                         break;
@@ -529,13 +521,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     case 205:
                         newRating = parseInt(previous) + 1;
                         break;
+                    case 403:
+                        alert("You cannot perform this action!");
+                        break;
                     default:
-                        console.error('Error:', xhr.statusText);
+                        console.error('Error:', this.statusText);
                         newRating = parseInt(previous);
                         break;
                 }
                 window.document.getElementById('rating').innerHTML = newRating.toString();
-            };
+            });
         });
     }
 
@@ -546,14 +541,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const voteSection = this.closest('.vote');
             const span = voteSection.querySelector('span#rating');
             const id = span.dataset.id;
-            xhr.open('POST', '/answer/' + id + '/upvote', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-            xhr.send();
-            xhr.onload = function () {
+            sendAjaxRequest('POST', '/answer/' + id + '/upvote', null, function () {
                 const previous = span.innerHTML;
                 let newRating;
-                switch (xhr.status) {
+                switch (this.status) {
                     case 200:
                         newRating = parseInt(previous) + 1;
                         break;
@@ -563,13 +554,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     case 204:
                         newRating = parseInt(previous) + 2;
                         break;
+                    case 403:
+                        alert("You cannot perform this action!");
+                        break;
                     default:
-                        console.error('Error:', xhr.statusText);
+                        console.error('Error:', this.statusText);
                         newRating = parseInt(previous);
                         break;
                 }
                 span.innerHTML = newRating.toString();
-            };
+            });
         });
     });
 
@@ -579,11 +573,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const voteSection = this.closest('.vote');
             const span = voteSection.querySelector('span#rating');
             const id = span.dataset.id;
-            xhr.open('POST', '/answer/' + id + '/downvote', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-            xhr.send();
-            xhr.onload = function () {
+            sendAjaxRequest('POST', '/answer/' + id + '/downvote', null, function () {
                 const previous = span.innerHTML;
                 let newRating;
                 switch (xhr.status) {
@@ -596,15 +586,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     case 205:
                         newRating = parseInt(previous) + 1;
                         break;
+                    case 403:
+                        alert("You cannot perform this action!");
+                        break;
                     default:
                         console.error('Error:', xhr.statusText);
                         newRating = parseInt(previous);
                         break;
                 }
                 span.innerHTML = newRating.toString();
-            }
+            });
         });
     });
+
     if(commentQButton){
         commentQButton.addEventListener('click', function (e) {
             e.preventDefault();
@@ -635,7 +629,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log("did it do it?");
                         console.log(commentField.innerHTML);
                     }
-                } else {
+                }
+                else if (xhr.status === 403) {
+                    alert("You cannot perform this action!");
+                }
+                else {
                     // Handle the error, e.g., display an error message
                     console.error('Error:', xhr.statusText);
                 }
@@ -680,7 +678,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log("did it do it?");
                         console.log(commentField.innerHTML);
                     }
-                } else {
+                }
+                else if (xhr.status === 403) {
+                    alert("You cannot perform this action!");
+                }
+                else {
                     // Handle the error, e.g., display an error message
                     console.error('Error:', xhr.statusText);
                 }

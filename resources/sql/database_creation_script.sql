@@ -56,6 +56,7 @@ CREATE TABLE users (
   picture TEXT DEFAULT 'default.jpg' NOT NULL,
   remember_token TEXT,
   profileURL TEXT,
+  is_blocked BOOLEAN DEFAULT FALSE,
   ts_search TSVECTOR
 );
 
