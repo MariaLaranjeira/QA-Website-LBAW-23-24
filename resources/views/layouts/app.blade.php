@@ -33,7 +33,12 @@
                 </section>
                 <form method="POST" action="{{ route('search') }}">
                     {{ csrf_field() }}
-                    <input type="text" name="search" id="search" value="{{ old('search') }}" placeholder="Search..">
+                    @isset($search)
+                    <input type="text" name="search" id="search" value="{{ $search }}" placeholder="Search..">
+                    @endisset
+                    @empty($search)
+                    <input type="text" name="search" id="search" placeholder="Search..">
+                    @endempty
                 </form>
                 <section id="user_buttons">
                     @if (Auth::check())
@@ -46,7 +51,16 @@
                 </section>
             </header>
             <section id="content">
-                @yield('content')
+                <div class="row">
+                    <div class="sidebar">
+                        <!-- Include your sidebar here -->
+                        @yield('sidebar')
+                    </div>
+                    <div class="main-content">
+                        <!-- This will contain the content from your 'search' page -->
+                        @yield('content')
+                    </div>
+                </div>
             </section>
 
             <footer id="footer">

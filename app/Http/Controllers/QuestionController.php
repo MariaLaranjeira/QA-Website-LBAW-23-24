@@ -199,10 +199,27 @@ class QuestionController extends Controller {
             'search' => 'required|string|min:1',
         ]);
 
-        $searchTerm = $request->input('search');
+        $query = Question::query();
 
-        $questions = Question::whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm])
-            ->get();
+        // Basic search term
+        if ($searchTerm = $request->input('search')) {
+            $query->whereRaw("ts_search @@ plainto_tsquery('english', ?)", [$searchTerm]);
+        }
+
+        // Date range filter
+        if ($startDate = $request->input('start_date')) {
+            $query->where('creation_date', '>=', $startDate);
+        }
+        if ($endDate = $request->input('end_date')) {
+            $query->where('creation_date', '<=', $endDate);
+        }
+
+        // Rating filter
+        if ($minRating = $request->input('min_rating')) {
+            $query->where('rating', '>=', $minRating);
+        }
+
+        $questions = $query->get();
 
         return view('pages.searchquestion',['questions' => $questions, 'search' => $searchTerm])->render();
     }

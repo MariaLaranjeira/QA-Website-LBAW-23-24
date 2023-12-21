@@ -48,6 +48,18 @@ body {
     justify-self: center;
   }
 
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+  .sidebar {
+    width: 0; /* or whatever width you prefer */
+    padding-right: 20px; /* Adjust spacing as needed */
+  }
+  .main-content {
+    width: 95%; /* Adjust based on sidebar width */
+  }
+
   #main_buttons {
     float: left;
   }
