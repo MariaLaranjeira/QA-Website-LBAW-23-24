@@ -8,6 +8,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserTagFollowController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\Auth\PasswordResetController;
+
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UserController;
@@ -90,6 +93,17 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('/login', 'authenticate');
     Route::get('/logout', 'logout')->name('logout');
 });
+
+//Password Reset
+ Route::controller(PasswordResetController::class)->group(function () {
+     Route::get('forgot-password', 'showForgetPasswordForm')->name('forgot_password_get');
+     Route::post('forgot-password', 'submitForgetPasswordForm')->name('forgot_password_post');
+ });
+
+ //Mail
+ Route::controller(MailController::class)->group(function () {
+     Route::post('/send', 'send')->name('send');
+ });
 
 // Registration
 Route::controller(RegisterController::class)->group(function () {
