@@ -73,6 +73,8 @@ Route::controller(AnswerController::class)->group(function () {
 //Comments
 Route::controller(CommentController::class)->group(function () {
     Route::post('/question/{id}/comment/{type}','createComment')->name('newcomment');
+    Route::post('/comment/delete/{id}', 'deleteComment')->name('deletecomment');
+    Route::post('/comment/edit/{id}', 'editComment')->name('editingcomment');
 });
 
 // Authentication

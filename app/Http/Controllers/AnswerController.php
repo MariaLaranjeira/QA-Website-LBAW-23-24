@@ -36,13 +36,14 @@ class AnswerController extends Controller
     }
 
     public function edit(Request $request, $id) {
-        //$this->authorize('edit', Answer::class);
+        $answer = Answer::findOrFail($id);
+
+        $this->authorize('edit', $answer);
 
         $request->validate([
             'answer_body' => 'required|string|max:4000|min:1',
         ]);
 
-        $answer = Answer::findOrFail($id);
         $answer->text_body = $request->input('answer_body');
         $answer->save();
 
@@ -50,9 +51,10 @@ class AnswerController extends Controller
     }
 
     public function delete(Request $request, $id) {
-        $this->authorize('delete', Answer::class);
+        $answer = Answer::findOrFail($id);
 
-        $answer = Answer::find($id);
+        $this->authorize('delete', $answer);
+
         $answer->delete();
 
         return response()->json(['message' => 'Deleted answer successfully.'], 200);
