@@ -28,4 +28,19 @@ class HomeController extends Controller
             'questions' => $questions
         ]);
     }
+
+    public function mainFeatures()
+    {
+        return view('pages/static/mainfeatures');
+    }
+
+    public function aboutUs()
+    {
+        return view('pages/static/aboutus');
+    }
+
+    public function contactUs()
+    {
+        return view('pages/static/contactus');
+    }
 }

@@ -44,6 +44,13 @@
             <section id="content">
                 @yield('content')
             </section>
+
+            <section id="footer">
+                <a href="{{ url('/mainfeatures') }}"> Main Features </a>
+                <a href="{{ url('/aboutus') }}"> About Us </a>
+                <a href="{{ url('/contactus') }}"> Contact Us </a>
+                <p> CreativeHub &copy; 2023 </p>
+            </section>
         </main>
     </body>
 </html>

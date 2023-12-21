@@ -36,6 +36,9 @@ Route::get('/', function () {
 // Home
 Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'index')->name('home');
+    Route::get('/mainfeatures', 'mainFeatures')->name('mainfeatures');
+    Route::get('/aboutus', 'aboutUs')->name('aboutus');
+    Route::get('/contactus', 'contactUs')->name('contactus');
 });
 
 //Profile
