@@ -8,7 +8,7 @@
 @endsection
 
 @section('scripts')
-<script>window.questionID = "{{ $question->question_id }}"</script>
+<script> window.questionID = "{{ $question->question_id }}"</script>
 <script type="text/javascript" src={{ url('js/questionPage.js') }} defer> </script>
 @endsection
 

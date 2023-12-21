@@ -1,6 +1,6 @@
 <section id="view{{ $tag->name }}Mode">
     <label for="{{ $tag->name }}">
-        {{ $tag->name }}
+        <a href="{{ route('showTag', ['name' => $tag->name]) }}">{{ $tag->name }}</a>
 
         @auth
             @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())

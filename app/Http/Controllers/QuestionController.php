@@ -91,7 +91,7 @@ class QuestionController extends Controller {
 
         QuestionTag::where('id_question', '=', $id)->delete();
 
-        if ($tags != null) {
+        if($tags != null) {
             foreach ($tags as $tag) {
                 DB::table('question_tag')->insert([
                     'id_question' => $id,

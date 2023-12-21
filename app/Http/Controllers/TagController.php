@@ -55,4 +55,12 @@ class TagController extends Controller {
 
         return redirect()->route('tags');
     }
+
+    public function show($id) {
+        $tag = Tag::with('questions')->findOrFail($id);
+        //$this->authorize('view', $tag);
+        return view('pages/tag', [
+            'tag' => $tag
+        ]);
+    }
 }

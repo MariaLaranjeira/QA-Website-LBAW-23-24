@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
@@ -24,16 +25,17 @@ class Question extends Model {
         return $this->belongsTo('App\Models\User');
     }
 
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'question_tag', 'id_question', 'id_tag')->orderBy('name', 'asc');
     }
 
-    public function comments() {
+    public function comments(): HasMany
+    {
         return $this->hasMany(Comment::class, 'id_question', 'question_id')->orderBy('creation_date', 'desc');
     }
 
-    public function answers()
+    public function answers(): HasMany
     {
         return $this->hasMany(Answer::class, 'id_question', 'question_id')
             ->orderBy('creation_date', 'desc');
