@@ -2,6 +2,10 @@
 
 @section('title', 'Users')
 
+@section('styles')
+    <link href="{{ url('css/users.css') }}" rel="stylesheet">
+@endsection
+
 @section('scripts')
     <script src="{{ asset('js/deleteAccount.js') }}" defer></script>
 @endsection
