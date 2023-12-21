@@ -78,6 +78,7 @@ CREATE TABLE question (
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   rating INTEGER NOT NULL DEFAULT 0,
   id_user INTEGER NOT NULL,
+  id_best_answer INTEGER,
   ts_search TSVECTOR,
   FOREIGN KEY (id_user) REFERENCES users(user_id) ON UPDATE CASCADE
 );
