@@ -11,13 +11,14 @@
         @each('partials.editTags', $tags, 'tag')
     </section>
 
-    <button id="new_tag_button" onclick="createNewTag()">Add new Tag</button>
+    <button id="new_tag_button">Add new Tag</button>
 
     <section id="new_tag" style="display: none">
         <form action="{{ route('createTag') }}" method="POST">
             {{ csrf_field() }}
             <input type="text" name="name" id="new_tag_name" placeholder="New Tag Name">
-            <button type="reset" class="cancel_new_tag_button" onclick="cancelCreateNewTag()">Cancel</button>
-            <button type="submit" class="new_tag_button">Add new Tag</button>
+            <button type="reset" id="cancel_new_tag_button">Cancel</button>
+            <button type="submit" id="new_tag_button">Add new Tag</button>
         </form>
+    </section>
 @endsection
