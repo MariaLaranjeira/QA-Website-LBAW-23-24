@@ -397,8 +397,8 @@ EXECUTE PROCEDURE check_answer_rating();
 
 INSERT INTO users (name, username, email, password, profileURL) VALUES
 ('John Doe', 'johndoe123', 'johndoe@example.com', '$2y$10$b5meAPjLa0.o2m.Jzf3Z1upaVTLytyL1Xy2aw/lotptbCNznMdmsS', 'https://example.com/johndoe'),
-('Alice Smith', 'alicesmith', 'alice@example.com', 'alicepass', 'https://example.com/alicesmith'),
-('Bob Johnson', 'bobjohnson', 'bob@example.com', 'bobpassword', 'https://example.com/bobjohnson'),
+('Alice Smith', 'alicesmith', 'alice@example.com', '$2y$10$b5meAPjLa0.o2m.Jzf3Z1upaVTLytyL1Xy2aw/lotptbCNznMdmsS', 'https://example.com/alicesmith'),
+('Bob Johnson', 'bobjohnson', 'bob@example.com', '$2y$10$b5meAPjLa0.o2m.Jzf3Z1upaVTLytyL1Xy2aw/lotptbCNznMdmsS', 'https://example.com/bobjohnson'),
 ('Eva Johnson', 'evaj', 'eva@example.com', 'evapass', 'https://example.com/evajohnson'),
 ('Michael White', 'michaelw', 'michael@example.com', 'michaelpass', 'https://example.com/michaelwhite'),
 ('John Admin', 'Admin', 'admin@example.com', '$2y$10$w7tQcOPURHIL3OaRyGRy1OUHAlPcjr.P1AyQr2L9n3hJ5wITbbifi', 'https://example.com/admin');
