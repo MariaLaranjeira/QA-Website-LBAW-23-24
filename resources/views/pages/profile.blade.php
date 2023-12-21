@@ -6,6 +6,10 @@
 <link href="{{ url('css/profile.css') }}" rel="stylesheet">
 @endsection
 
+@section('scripts')
+<script src="{{ url('js/deleteAccount.js') }}" defer></script>
+@endsection
+
 @section('content')
 <section id="profile">
 
@@ -29,6 +33,13 @@
 
   <a class="button" href="{{ url('/edit_user') }}"> Edit Profile </a>
   <a class="button" href="{{ url('/edit_profile_picture') }}"> Change Picture </a>
+    <form action="{{ route('delete_account')}}" method="POST">
+        {{ csrf_field() }}
+        <input type="hidden" name="user_id" value="{{ $user->user_id}}">
+        <button type="submit" id="delete_account_button">
+            Delete This Profile
+        </button>
+    </form>
 
   @if (\App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists())
   <a class="button" href="{{ url('/users') }}"> Administration Page </a>

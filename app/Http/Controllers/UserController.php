@@ -110,6 +110,34 @@ class UserController extends Controller {
 
       }
 
+      public function deleteAccount(Request $request)
+      {
+          if (!Auth::check()) return redirect('/login');
+
+          $user = User::find($request->input('user_id'));
+          //$this->authorize('deleteAccount', $user);
+
+          $deleted_account=DB::transaction(function() use ($request) {
+              $user = User::find($request->input('user_id'));
+              $dnumber = rand(1, 1000000); //create random number to replace private information
+              $randpass = Str::random(24); //generate random password so account can't be accessed again by same user
+
+              //replace all emlements with deleted user + our generated random number
+              $user->name = "deleteduser" . $dnumber;
+              $user->username = "deleteduser" . $dnumber;
+              $user->email = "deleteduser" . $dnumber . "@deleted.com";
+              $user->password = bcrypt($randpass);
+
+              $user->save();
+
+              return $user;
+          });
+
+          Auth::logout();
+
+          return redirect()->route('home');
+      }
+
       public function uploadPicture(Request $request) {
         $user = Auth::user();
         if($request->file('avatar')){

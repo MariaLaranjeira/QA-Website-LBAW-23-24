@@ -52,6 +52,7 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/users','list')->name('users');
     Route::post('/delete_profile', 'deleteProfile')->name('delete_profile');
     Route::post('/upload_picture', 'uploadPicture')->name('upload_picture');
+    Route::post('/delete_account', 'deleteAccount')->name('delete_account');
 });
 
 //Questions
