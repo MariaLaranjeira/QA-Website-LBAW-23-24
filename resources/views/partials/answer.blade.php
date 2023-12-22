@@ -23,7 +23,7 @@
         {{ $answer->text_body }}
     </h3>
     @auth
-    @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())) && !Auth::user()->is_blocked)
+    @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists()) && !Auth::user()->is_blocked)
     <form action="{{ route('upload_answer_picture', ['id' => $answer->answer_id], ['id_question' => $answer->question_id]) }}" id="edit_answer_picture" class="edit_answer_picture" enctype="multipart/form-data" method="POST">
         {{ csrf_field() }}
         <label for="answerPic">Choose picture to upload:</label>
@@ -35,9 +35,7 @@
         </button>
     </form>
     @endif
-    @endauth
-    @auth
-    @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())) && !Auth::user()->is_blocked)
+    @if ((Auth::user()->getAuthIdentifier() == $answer->id_user || \App\Models\Admin::where('admin_id', Auth::user()->getAuthIdentifier())->exists()) && !Auth::user()->is_blocked)
     <span id="answer_buttons">
         <form action ="{{ route('deleteanswer', ['id' => $answer->answer_id]) }}" method = "POST">
         {{ csrf_field() }}
